@@ -1,6 +1,9 @@
 {
   "name": "pinkyring",
   "private": true,
+  "scripts": {
+    "compile": "tsc -b"
+  },
   "workspaces": [
     "packages/*"
   ],
