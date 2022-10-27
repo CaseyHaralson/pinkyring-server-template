@@ -1,7 +1,7 @@
 {
   "name": "@pinkyring/core",
   "exports": {
-    "./*": "./bin/**/*.js"
+    "./*": "./bin/*.js"
   },
   "typesVersions": {
     "*": {

@@ -6,6 +6,7 @@
     "start": "node ."
   },
   "dependencies": {
+    "@pinkyring/core": "*",
     "express": "^4.18.2"
   },
   "devDependencies": {
