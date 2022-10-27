@@ -1,0 +1,17 @@
+{
+  "name": "@pinkyring/di-container",
+  "exports": {
+    "./*": "./bin/*.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*":[
+        "bin/*"
+      ]
+    }
+  },
+  "dependencies": {
+    "@pinkyring/core": "*",
+    "awilix": "^8.0.0"
+  }
+}
