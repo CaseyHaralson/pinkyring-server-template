@@ -2,12 +2,14 @@
   "name": "pinkyring",
   "private": true,
   "scripts": {
-    "compile": "tsc -b"
+    "build": "tsc -b"
   },
   "workspaces": [
-    "packages/*"
+    "packages/**/*"
   ],
   "devDependencies": {
+    "@pinkyring/core": "*",
+    "@pinkyring/public-api": "*",
     "typescript": "^4.8.4"
   }
 }

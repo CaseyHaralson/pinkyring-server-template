@@ -8,15 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src",
+    "outDir": "./bin"
   },
-  "references": [
-    {
-      "path": "./packages/core"
-    },
-    {
-      "path": "./packages/public/api"
-    }
-  ],
-  "files": []
 }
