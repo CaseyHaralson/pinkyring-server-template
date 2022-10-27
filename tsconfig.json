@@ -18,6 +18,9 @@
       "path": "./packages/di-container"
     },
     {
+      "path": "./packages/infra-implementations"
+    },
+    {
       "path": "./packages/public/api"
     }
   ],

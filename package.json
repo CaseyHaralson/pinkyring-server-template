@@ -10,6 +10,7 @@
   "devDependencies": {
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
+    "@pinkyring/infra-implementations": "*",
     "@pinkyring/public-api": "*",
     "typescript": "^4.8.4"
   }

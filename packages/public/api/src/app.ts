@@ -15,6 +15,11 @@ app.get('/test', (req, res) => {
   res.send('trying to test the service: ' + service.test('a message from the api'));
 });
 
+app.get('/test2', (req, res) => {
+  const service = container.resolveTestService();
+  res.send(service.getData());
+});
+
 app.listen(3000, () => {
   console.log('express app listening on port 3000');
 });
