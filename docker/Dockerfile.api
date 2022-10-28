@@ -1,0 +1,8 @@
+FROM node:16-alpine
+
+RUN npm install nodemon --global
+
+CMD nodemon --exec npm run start \
+  --watch bin \
+  --watch './../../core/bin/**/*' \
+  --watch './../../infra-implementations/bin/**/*'

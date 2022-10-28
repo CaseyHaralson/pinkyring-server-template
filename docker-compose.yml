@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  builder:
+    container_name: builder-container
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.builder
+    working_dir: /code
+    volumes:
+      - ./:/code
+
+  api:
+    container_name: api-container
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.api
+    ports:
+      - 3000:3000
+    working_dir: /code/packages/public/api
+    volumes:
+      - ./:/code
