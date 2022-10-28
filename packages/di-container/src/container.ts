@@ -24,6 +24,7 @@ const createLocalContainer = function() {
 
 class Container {
   private _container;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(container: AwilixContainer<any>) {
     this._container = container;
   }

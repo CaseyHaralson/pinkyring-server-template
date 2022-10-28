@@ -1,5 +1,4 @@
 import express from 'express';
-import TestService from '@pinkyring/core/services/testService';
 import container from '@pinkyring/di-container/container'
 
 const app = express();
