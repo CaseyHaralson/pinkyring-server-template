@@ -27,40 +27,10 @@ jobs:
         run: npm i -g npm@latest
 
       - name: '📦 install dependencies'
-        uses: bahmutov/npm-install@v1
+        run: npm install
 
-      - name: '📦 install package dependencies - core'
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
-          working-directory: ./packages/core
-
-      - name: '📦 install package dependencies - infra-implementations'
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
-          working-directory: ./packages/infra-implementations
-
-      - name: '📦 install package dependencies - di-container'
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
-          working-directory: ./packages/di-container
-
-      - name: '📦 install package dependencies - api'
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
-          working-directory: ./packages/public/api
-
-      - name: '📦 install package dependencies - tests'
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
-          working-directory: ./packages/tests
-
-      - name: '📦 build typescript'
-        run: npm run build
+      #- name: '📦 build typescript'
+      #  run: npm run build
 
       - name: '🔍 run tests'
         run: npm run test --if-present
