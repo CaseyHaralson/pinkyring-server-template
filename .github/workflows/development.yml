@@ -26,13 +26,13 @@ jobs:
       - name: '📦 install dependencies'
         run: npm install
 
+      - name: '📦 build typescript'
+        run: npm run build
+
       - name: 'directory structure'
         run: |
           cd node_modules/@pinkyring/core
           ls
-
-      #- name: '📦 build typescript'
-      #  run: npm run build
 
       - name: '🔍 run tests'
         run: npm run test --if-present
