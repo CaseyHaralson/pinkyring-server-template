@@ -10,7 +10,7 @@ on:
   workflow_call:
 
 jobs:
-  lint:
+  style:
     name: Code standards
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -33,4 +33,5 @@ jobs:
         run: npm run prettier:check --if-present
 
       - name: '🔍 lint code'
+        if: success() || failure()
         run: npm run lint --if-present
