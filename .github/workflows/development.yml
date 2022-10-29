@@ -21,16 +21,16 @@ jobs:
       - name: '🔧 setup node'
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: '📦 install dependencies'
         run: npm install
 
-      - name: 'directory structure'
-        run: cd ./node_modules/@pinkyring ls
+      #- name: 'directory structure'
+      #  run: cd ./node_modules/@pinkyring ls
 
-      - name: '📦 build typescript'
-        run: npm run build
+      #- name: '📦 build typescript'
+      #  run: npm run build
 
       - name: '🔍 run tests'
         run: npm run test --if-present
