@@ -12,5 +12,10 @@
     "isolatedModules": true,
     "rootDir": "./src",
     "outDir": "./bin"
-  }
+  },
+  "references": [
+    {
+      "path": "./../core"
+    }
+  ]
 }
