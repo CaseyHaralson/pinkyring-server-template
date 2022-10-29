@@ -23,11 +23,12 @@ jobs:
         with:
           node-version: 16
 
-      - name: '🔧 install npm@latest'
-        run: npm i -g npm@latest
+      #- name: '🔧 install npm@latest'
+      #  run: npm i -g npm@latest
 
       - name: '📦 install dependencies'
         run: npm install
+        run: ls
 
       - name: '📦 build typescript'
         run: npm run build
