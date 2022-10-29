@@ -28,7 +28,7 @@ jobs:
 
       - name: 'directory structure'
         run: |
-          cd node_modules/@pinkyring/core/bin/services
+          cd node_modules/@pinkyring/core
           ls
 
       #- name: '📦 build typescript'
