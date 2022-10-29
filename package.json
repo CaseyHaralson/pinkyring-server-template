@@ -3,10 +3,12 @@
   "private": true,
   "scripts": {
     "build": "tsc -b",
+    "build:watch": "tsc -b -w",
     "prettier": "npx prettier --write .",
     "prettier:check": "npx prettier --check .",
     "lint": "npx eslint . --report-unused-disable-directives --max-warnings=0",
-    "test": "npx jest"
+    "test": "npm run build && npx jest packages/tests/bin",
+    "test:watch": "npx jest packages/tests/src --config jest.config.ts.js --watch"
   },
   "workspaces": [
     "packages/**/*"
