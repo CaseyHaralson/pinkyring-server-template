@@ -1,0 +1,7 @@
+{
+  "name": "@pinkyring/tests",
+  "dependencies": {
+    "@pinkyring/core": "*",
+    "@pinkyring/infra-implementations": "*"
+  }
+}
