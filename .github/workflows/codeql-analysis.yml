@@ -30,6 +30,10 @@ jobs:
       matrix:
         language:
           - javascript
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
 
     steps:
       - name: '☁️ Checkout repository'
