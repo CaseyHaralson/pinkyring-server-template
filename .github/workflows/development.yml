@@ -24,15 +24,10 @@ jobs:
           node-version: 18
 
       - name: '📦 install dependencies'
-        run: npm install
+        uses: bahmutov/npm-install@v1
 
       - name: '📦 build typescript'
         run: npm run build
-
-      - name: 'directory structure'
-        run: |
-          cd node_modules/@pinkyring/core
-          ls
 
       - name: '🔍 run tests'
         run: npm run test --if-present
