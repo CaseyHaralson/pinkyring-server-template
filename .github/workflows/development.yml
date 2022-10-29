@@ -28,7 +28,7 @@ jobs:
 
       - name: 'directory structure'
         run: |
-          cd ./node_modules/@pinkyring \
+          cd node_modules/@pinkyring \
           ls
 
       #- name: '📦 build typescript'
