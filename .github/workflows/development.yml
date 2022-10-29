@@ -10,7 +10,7 @@ on:
   workflow_call:
 
 jobs:
-  style:
+  style-and-lint:
     name: Code standards
     runs-on: ubuntu-latest
     timeout-minutes: 10
