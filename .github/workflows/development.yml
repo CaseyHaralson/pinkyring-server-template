@@ -25,8 +25,8 @@ jobs:
 
       - name: '📦 install dependencies'
         run: npm install
-      
-      -name: 'directory structure'
+
+      - name: 'directory structure'
         run: ls
 
       - name: '📦 build typescript'
