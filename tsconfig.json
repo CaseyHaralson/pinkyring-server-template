@@ -23,6 +23,9 @@
     },
     {
       "path": "./packages/public/api"
+    },
+    {
+      "path": "./packages/tests"
     }
   ],
   "files": []

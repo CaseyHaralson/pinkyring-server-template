@@ -11,6 +11,15 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "rootDir": "./src",
-    "outDir": "./bin"
-  }
+    "outDir": "./bin",
+    "composite": true
+  },
+  "references": [
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../infra-implementations"
+    }
+  ]
 }

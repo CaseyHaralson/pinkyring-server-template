@@ -2,3 +2,5 @@ node_modules
 /**/bin/*
 
 *.md
+package.json
+package-lock.json

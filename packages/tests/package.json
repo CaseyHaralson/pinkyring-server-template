@@ -1,0 +1,6 @@
+{
+  "name": "@pinkyring/tests",
+  "dependencies": {
+    "@pinkyring/core": "*"
+  }
+}
