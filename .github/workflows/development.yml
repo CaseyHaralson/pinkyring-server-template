@@ -26,8 +26,10 @@ jobs:
       - name: '📦 install dependencies'
         run: npm install
 
-      #- name: 'directory structure'
-      #  run: cd ./node_modules/@pinkyring ls
+      - name: 'directory structure'
+        run: |
+          cd ./node_modules/@pinkyring \
+          ls
 
       #- name: '📦 build typescript'
       #  run: npm run build
