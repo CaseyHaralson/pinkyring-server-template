@@ -16,6 +16,7 @@
     "@pinkyring/di-container": "*",
     "@pinkyring/infra-implementations": "*",
     "@pinkyring/public-api": "*",
+    "@pinkyring/tests": "*",
     "@types/jest": "^29.2.0",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "eslint": "^8.26.0",
