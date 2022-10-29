@@ -1,26 +1,24 @@
-import { createContainer, asClass, AwilixContainer } from 'awilix';
+import {createContainer, asClass, AwilixContainer} from 'awilix';
 import TestService from '@pinkyring/core/services/testService';
 import TestRepositoryFake from '@pinkyring/infra-implementations/repositories/testRepositoryFake';
 
-const awilix_container = createContainer({ injectionMode: 'CLASSIC' });
+const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
-const loadContainer = function() {
+const loadContainer = function () {
   // can check for environment to load specific container type
 
   return createLocalContainer();
-}
+};
 
-const createLocalContainer = function() {
+const createLocalContainer = function () {
   awilix_container.register({
-    testService: asClass(TestService)
+    testService: asClass(TestService),
   });
   awilix_container.register({
-    testRepository: asClass(TestRepositoryFake)
+    testRepository: asClass(TestRepositoryFake),
   });
   return awilix_container;
-}
-
-
+};
 
 class Container {
   private _container;
@@ -32,10 +30,7 @@ class Container {
   resolveTestService() {
     return this._container.cradle.testService as TestService;
   }
-
 }
-
-
 
 loadContainer();
 const container = new Container(awilix_container);

@@ -1,5 +1,3 @@
-
-
 interface TestRepository {
   getTestData(): string[];
 }

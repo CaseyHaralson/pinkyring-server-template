@@ -1,30 +1,21 @@
 {
   "env": {
-      "browser": true,
-      "es2021": true,
-      "node": true
+    "browser": true,
+    "es2021": true,
+    "node": true
   },
-  "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended"
-  ],
-  "overrides": [
-  ],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-      "ecmaVersion": "latest"
+    "ecmaVersion": "latest"
   },
-  "plugins": [
-      "@typescript-eslint"
-  ],
-  "ignorePatterns":[
-    "node_modules",
-    "/**/bin/*"
-  ],
+  "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["node_modules", "/**/bin/*"],
   "rules": {
-      "@typescript-eslint/no-var-requires": 0
+    "@typescript-eslint/no-var-requires": 0
   },
   "globals": {
-      "require": true
+    "require": true
   }
 }

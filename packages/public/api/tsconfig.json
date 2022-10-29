@@ -12,5 +12,5 @@
     "isolatedModules": true,
     "rootDir": "./src",
     "outDir": "./bin"
-  },
+  }
 }
