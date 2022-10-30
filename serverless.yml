@@ -1,0 +1,12 @@
+service: aws-node
+
+provider:
+  name: aws
+
+functions:
+  test:
+    handler: handler.hello
+    events:
+      - httpApi:
+        path: /
+        method: get
