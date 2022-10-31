@@ -1,12 +1,12 @@
 {
   "name": "@pinkyring/di-container",
   "exports": {
-    "./*": "./bin/*.js"
+    "./*": "./build/*.js"
   },
   "typesVersions": {
     "*": {
       "*": [
-        "bin/*"
+        "build/*"
       ]
     }
   },

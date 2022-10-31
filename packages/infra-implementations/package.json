@@ -1,12 +1,12 @@
 {
   "name": "@pinkyring/infra-implementations",
   "exports": {
-    "./*": "./bin/*.js"
+    "./*": "./build/*.js"
   },
   "typesVersions": {
     "*": {
       "*": [
-        "bin/*"
+        "build/*"
       ]
     }
   },
