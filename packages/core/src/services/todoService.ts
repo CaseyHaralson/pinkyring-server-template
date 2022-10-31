@@ -1,3 +1,4 @@
+import {Todo} from '../dtos/todo';
 import TodoRepository from '../interfaces/todoRepository';
 
 class TodoService {
@@ -6,13 +7,20 @@ class TodoService {
     this._todoRepository = todoRepository;
   }
 
-  test(message: string) {
-    console.log('message from the TestService test function: ' + message);
-    return 'got the message: ' + message;
+  getTodos() {
+    return this._todoRepository.getTodos();
   }
 
-  getData() {
-    return this._todoRepository.getTestData();
+  createTodo(todo: Todo) {
+    return this._todoRepository.saveTodo(todo);
+  }
+
+  updateTodo(todo: Todo) {
+    return this._todoRepository.saveTodo(todo);
+  }
+
+  deleteTodo(id: string) {
+    return this._todoRepository.deleteTodo(id);
   }
 }
 
