@@ -1,6 +1,6 @@
-import TodoRepository from '@pinkyring/core/interfaces/todoRepository';
+import TestRepository from '@pinkyring/core/interfaces/testRepository';
 
-class TestRepositoryFake implements TodoRepository {
+class TestRepositoryFake implements TestRepository {
   getTestData(): string[] {
     return [
       'test value 1 from fake repo',

@@ -1,6 +1,6 @@
 import {expect, test} from '@jest/globals';
-import TestRepository from '@pinkyring/core/interfaces/todoRepository';
-import TestService from '@pinkyring/core/services/todoService';
+import TestRepository from '@pinkyring/core/interfaces/testRepository';
+import TestService from '@pinkyring/core/services/testService';
 
 test('returns a test messsage', () => {
   const s = new TestService(new Object() as TestRepository);
