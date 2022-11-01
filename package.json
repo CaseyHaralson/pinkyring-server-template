@@ -17,7 +17,7 @@
   "devDependencies": {
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
-    "@pinkyring/infra-implementations": "*",
+    "@pinkyring/interface-implementations": "*",
     "@pinkyring/public-api": "*",
     "@pinkyring/tests": "*",
     "@types/jest": "^29.2.0",

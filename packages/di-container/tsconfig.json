@@ -19,7 +19,7 @@
       "path": "../core"
     },
     {
-      "path": "../infra-implementations"
+      "path": "../interface-implementations"
     }
   ]
 }

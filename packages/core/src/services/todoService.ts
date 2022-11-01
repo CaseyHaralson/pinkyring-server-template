@@ -1,9 +1,9 @@
 import {Todo} from '../dtos/todo';
-import TodoRepository from '../interfaces/todoRepository';
+import ITodoRepository from '../interfaces/ITodoRepository';
 
 class TodoService {
   private _todoRepository;
-  constructor(todoRepository: TodoRepository) {
+  constructor(todoRepository: ITodoRepository) {
     this._todoRepository = todoRepository;
   }
 

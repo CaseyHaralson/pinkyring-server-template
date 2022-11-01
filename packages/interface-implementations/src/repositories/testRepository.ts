@@ -1,6 +1,6 @@
-import TestRepository from '@pinkyring/core/interfaces/testRepository';
+import ITestRepository from '@pinkyring/core/interfaces/ITestRepository';
 
-class TestRepositoryFake implements TestRepository {
+class TestRepositoryFake implements ITestRepository {
   getTestData(): string[] {
     return [
       'test value 1 from fake repo',

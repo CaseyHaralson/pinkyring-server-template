@@ -1,10 +1,10 @@
 import TodoService from '@pinkyring/core/services/todoService';
-import TodoRepository from '@pinkyring/core/interfaces/todoRepository';
+import ITodoRepository from '@pinkyring/core/interfaces/ITodoRepository';
 import {Todo} from '@pinkyring/core/dtos/todo';
 import {mock, mockReset} from 'jest-mock-extended';
 
 describe('todo service', () => {
-  const todoRepoMock = mock<TodoRepository>();
+  const todoRepoMock = mock<ITodoRepository>();
   const todoService = new TodoService(todoRepoMock);
 
   beforeEach(() => {
