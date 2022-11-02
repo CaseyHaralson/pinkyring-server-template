@@ -12,3 +12,6 @@ To make code changes:
 To watch test code changes, you will need to open two terminals:
 - run "npm run build:watch" in one
 - run "npm run test:watch" in the other
+
+Installing new npm packages to a workspace package:
+- run "npm install _package_ --save -w packages/_workspace_package_name_"

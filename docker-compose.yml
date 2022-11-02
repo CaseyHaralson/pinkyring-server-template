@@ -1,6 +1,25 @@
 version: '3.8'
 
 services:
+  mysql:
+    container_name: mysql
+    image: mysql:8.0.31
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+  mysql-adminer:
+    container_name: mysql-adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  dynamodb:
+  aws-cli:
+
   # builder:
   #   container_name: builder-container
   #   build:
@@ -45,7 +64,3 @@ services:
   #   working_dir: /code
   #   volumes:
   #     - ./:/code
-
-volumes:
-  dynamodb:
-  aws-cli:
