@@ -21,14 +21,6 @@ services:
   #   volumes:
   #     - ./:/code
 
-  wait-for-example:
-    container_name: wait-for-example
-    image: alpine:3.16.2
-    command: sh -c './wait-for.sh www.eficode.com:80 -- echo "Eficode site is up"'
-    working_dir: /code
-    volumes:
-      - ./:/code
-
   # dynamodb:
   #   container_name: dynamodb-local
   #   image: amazon/dynamodb-local:1.20.0
@@ -38,5 +30,22 @@ services:
   #   volumes:
   #     - dynamodb:/home/dynamodblocal
 
+  # dynamodb-admin:
+  #   container_name: dynamodb-admin
+  #   image: node:16-alpine
+  #   command: "sh -c 'npm install -g dynamodb-admin
+  #     && DYNAMO_ENDPOINT=http://localhost:8000 AWS_REGION=eu-west-1 AWS_ACCESS_KEY_ID=local AWS_SECRET_ACCESS_KEY=local dynamodb-admin'"
+  #   ports:
+  #     - 8001:8001
+
+  # wait-for-example:
+  #   container_name: wait-for-example
+  #   image: alpine:3.16.2
+  #   command: sh -c './wait-for.sh www.eficode.com:80 -- echo "Eficode site is up"'
+  #   working_dir: /code
+  #   volumes:
+  #     - ./:/code
+
 volumes:
   dynamodb:
+  aws-cli:
