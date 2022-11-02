@@ -1,22 +1,42 @@
 version: '3.8'
 
 services:
-  builder:
-    container_name: builder-container
-    build:
-      context: ./docker
-      dockerfile: Dockerfile.builder
+  # builder:
+  #   container_name: builder-container
+  #   build:
+  #     context: ./docker
+  #     dockerfile: Dockerfile.builder
+  #   working_dir: /code
+  #   volumes:
+  #     - ./:/code
+
+  # api:
+  #   container_name: api-container
+  #   build:
+  #     context: ./docker
+  #     dockerfile: Dockerfile.api
+  #   ports:
+  #     - 3000:3000
+  #   working_dir: /code/packages/public/api
+  #   volumes:
+  #     - ./:/code
+
+  wait-for-example:
+    container_name: wait-for-example
+    image: alpine:3.16.2
+    command: sh -c './wait-for.sh www.eficode.com:80 -- echo "Eficode site is up"'
     working_dir: /code
     volumes:
       - ./:/code
 
-  api:
-    container_name: api-container
-    build:
-      context: ./docker
-      dockerfile: Dockerfile.api
-    ports:
-      - 3000:3000
-    working_dir: /code/packages/public/api
-    volumes:
-      - ./:/code
+  # dynamodb:
+  #   container_name: dynamodb-local
+  #   image: amazon/dynamodb-local:1.20.0
+  #   command: -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal
+  #   ports:
+  #     - 8000:8000
+  #   volumes:
+  #     - dynamodb:/home/dynamodblocal
+
+volumes:
+  dynamodb:
