@@ -6,9 +6,11 @@ class TodoRepository implements ITodoRepository {
     throw new Error('Method not implemented.');
   }
   saveTodo(todo: Todo): string {
+    console.log(todo);
     throw new Error('Method not implemented.');
   }
   deleteTodo(id: string): boolean {
+    console.log(id);
     throw new Error('Method not implemented.');
   }
 }
