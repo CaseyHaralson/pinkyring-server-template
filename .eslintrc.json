@@ -11,7 +11,7 @@
     "ecmaVersion": "latest"
   },
   "plugins": ["@typescript-eslint"],
-  "ignorePatterns": ["node_modules", "/**/bin/*"],
+  "ignorePatterns": ["node_modules", "/**/build/*"],
   "rules": {
     "@typescript-eslint/no-var-requires": 0
   },

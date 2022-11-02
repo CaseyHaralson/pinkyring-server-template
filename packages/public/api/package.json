@@ -1,6 +1,6 @@
 {
   "name": "@pinkyring/public-api",
-  "main": "bin/app.js",
+  "main": "build/app.js",
   "scripts": {
     "build": "tsc -b",
     "start": "node ."

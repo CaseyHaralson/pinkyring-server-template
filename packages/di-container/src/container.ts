@@ -1,6 +1,6 @@
 import {createContainer, asClass, AwilixContainer} from 'awilix';
 import TestService from '@pinkyring/core/services/testService';
-import TestRepositoryFake from '@pinkyring/infra-implementations/repositories/testRepositoryFake';
+import TestRepository from '@pinkyring/interface-implementations/repositories/testRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -15,7 +15,7 @@ const createLocalContainer = function () {
     testService: asClass(TestService),
   });
   awilix_container.register({
-    testRepository: asClass(TestRepositoryFake),
+    testRepository: asClass(TestRepository),
   });
   return awilix_container;
 };

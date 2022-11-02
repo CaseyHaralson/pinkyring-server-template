@@ -1,8 +1,8 @@
-import TestRepository from '../interfaces/testRepository';
+import ITestRepository from '../interfaces/ITestRepository';
 
 class TestService {
   private _testRepository;
-  constructor(testRepository: TestRepository) {
+  constructor(testRepository: ITestRepository) {
     this._testRepository = testRepository;
   }
 

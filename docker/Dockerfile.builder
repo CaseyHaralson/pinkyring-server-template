@@ -5,4 +5,4 @@ RUN npm install nodemon --global
 CMD nodemon --exec npm run build \
   --ext ts \
   --watch './packages/**' \
-  --ignore './packages/**/bin/**'
+  --ignore './packages/**/build/**'
