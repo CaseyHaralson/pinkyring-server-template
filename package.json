@@ -8,8 +8,8 @@
     "prettier": "npx prettier --write .",
     "prettier:check": "npx prettier --check .",
     "lint": "npx eslint . --report-unused-disable-directives --max-warnings=0",
-    "test": "npm run build && npx jest packages/tests/build",
-    "test:watch": "npx jest packages/tests/src --config jest.config.ts.js --watch"
+    "test:unit": "npm run build && npx jest --config packages/tests/jest.config.unit.js",
+    "test:unit:watch": "npx jest --config packages/tests/jest.config.unit.ts.js --watch"
   },
   "workspaces": [
     "packages/**/*"
