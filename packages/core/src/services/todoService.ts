@@ -7,20 +7,26 @@ class TodoService {
     this._todoRepository = todoRepository;
   }
 
-  getTodos() {
-    return this._todoRepository.getTodos();
+  // add requestId, current user/principal
+
+  async getTodos() {
+    return await this._todoRepository.getTodos();
   }
 
-  createTodo(todo: Todo) {
-    return this._todoRepository.saveTodo(todo);
+  async createTodo(todo: Todo) {
+    return await this._todoRepository.saveTodo(todo);
   }
 
-  updateTodo(todo: Todo) {
-    return this._todoRepository.saveTodo(todo);
+  async updateTodo(todo: Todo) {
+    return await this._todoRepository.saveTodo(todo);
   }
 
-  deleteTodo(id: string) {
-    return this._todoRepository.deleteTodo(id);
+  async markTodoCompleted(todo: Todo) {
+    return await this._todoRepository.markTodoCompleted(todo);
+  }
+
+  async deleteTodo(id: string) {
+    return await this._todoRepository.deleteTodo(id);
   }
 }
 

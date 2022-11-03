@@ -15,3 +15,7 @@ To watch test code changes, you will need to open two terminals:
 
 Installing new npm packages to a workspace package:
 - run "npm install _package_ --save -w packages/_workspace_package_name_"
+
+For prisma:
+- need to make a .env file in the interface-implementations package
+- can copy the .env.example file and fill in the values
