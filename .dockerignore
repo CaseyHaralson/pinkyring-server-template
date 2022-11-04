@@ -11,3 +11,5 @@ README.md
 **/node_modules
 **/build
 **/tsconfig.tsbuildinfo
+
+**/.env

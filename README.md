@@ -14,7 +14,7 @@ To watch test code changes, you will need to open two terminals:
 - run "npm run test:watch" in the other
 
 Installing new npm packages to a workspace package:
-- run "npm install _package_ --save -w packages/_workspace_package_name_"
+- run "npm install _npm_package_ --save -w packages/_workspace_package_name_"
 
 For prisma:
 - need to make a .env file in the interface-implementations package
@@ -24,3 +24,5 @@ Removing docker volumes created during docker compose:
 - docker compose -f __composefile.yml__ up -d
 - docker compose -f __composefile.yml__ down -v
 
+Rebuilding container with compose (build and recreate after the up):
+- docker compose up --build --force-recreate -d

@@ -3,6 +3,9 @@ import container from '@pinkyring/di-container/container';
 describe('todo service integration tests', () => {
   const todoService = container.resolveTodoService();
 
+  // TODO: figure out how to mock the other service dependencies
+  // so you can run integration tests against one piece at a time
+
   let testTodoId: string;
   beforeEach(async () => {
     // delete any todos left in the database

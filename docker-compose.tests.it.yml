@@ -20,6 +20,17 @@ services:
       dockerfile: ./docker/Dockerfile.tests.it
     volumes:
       - temp:/code
+    depends_on:
+      - mysql
+    environment:
+      - DATABASE_URL=mysql://root:example@mysql:3306/pinkyring
+
+  mysql-adminer:
+    container_name: mysql-adminer
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
 volumes:
   mysql:
