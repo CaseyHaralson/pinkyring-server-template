@@ -60,6 +60,8 @@ jobs:
       - name: '🔧 setup prisma - migrate'
         working-directory: ./packages/interface-implementations
         run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: mysql://root:example@127.0.0.1:3306/pinkyring
 
       - name: '🔍 run integration tests'
         working-directory: ./
