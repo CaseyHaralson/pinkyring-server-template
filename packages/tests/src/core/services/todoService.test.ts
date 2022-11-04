@@ -3,7 +3,7 @@ import ITodoRepository from '@pinkyring/core/interfaces/ITodoRepository';
 import {Todo} from '@pinkyring/core/dtos/todo';
 import {mock, mockReset} from 'jest-mock-extended';
 
-describe('todo service', () => {
+describe('todo service unit tests', () => {
   const todoRepoMock = mock<ITodoRepository>();
   const todoService = new TodoService(todoRepoMock);
 
