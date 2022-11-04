@@ -1,0 +1,13 @@
+FROM node:16-alpine
+
+COPY ./ /code
+WORKDIR /code
+
+RUN npm install nodemon --global
+CMD nodemon --exec echo 'test'
+
+#RUN npm install
+
+#RUN npx prisma generate
+
+#CMD ./docker/wait-for.sh localhost:3306 -- npm run test:it

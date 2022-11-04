@@ -19,3 +19,8 @@ Installing new npm packages to a workspace package:
 For prisma:
 - need to make a .env file in the interface-implementations package
 - can copy the .env.example file and fill in the values
+
+Removing docker volumes created during docker compose:
+- docker compose -f __composefile.yml__ up -d
+- docker compose -f __composefile.yml__ down -v
+
