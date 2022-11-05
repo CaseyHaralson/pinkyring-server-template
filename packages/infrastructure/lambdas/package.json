@@ -1,0 +1,16 @@
+{
+  "name": "@pinkyring/infrastructure_lambdas",
+  "exports": {
+    "./*": "./build/*.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "build/*"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.108"
+  }
+}

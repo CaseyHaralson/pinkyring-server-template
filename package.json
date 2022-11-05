@@ -19,6 +19,7 @@
   "devDependencies": {
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
+    "@pinkyring/infrastructure_lambdas": "*",
     "@pinkyring/infrastructure_repositories": "*",
     "@pinkyring/public-api": "*",
     "@pinkyring/tests": "*",
