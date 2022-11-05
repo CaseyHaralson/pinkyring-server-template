@@ -53,11 +53,11 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: '🔧 setup prisma - generate'
-        working-directory: ./packages/interface-implementations
+        working-directory: ./packages/infrastructure/repositories
         run: npx prisma generate
 
       - name: '🔧 setup prisma - migrate'
-        working-directory: ./packages/interface-implementations
+        working-directory: ./packages/infrastructure/repositories
         run: npx prisma migrate deploy
         env:
           DATABASE_URL: mysql://root:example@127.0.0.1:3306/pinkyring

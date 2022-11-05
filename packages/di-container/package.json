@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@pinkyring/core": "*",
-    "@pinkyring/interface-implementations": "*",
+    "@pinkyring/infrastructure_repositories": "*",
     "awilix": "^8.0.0"
   }
 }

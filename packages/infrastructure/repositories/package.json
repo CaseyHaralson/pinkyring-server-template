@@ -1,5 +1,5 @@
 {
-  "name": "@pinkyring/interface-implementations",
+  "name": "@pinkyring/infrastructure_repositories",
   "exports": {
     "./*": "./build/*.js"
   },
