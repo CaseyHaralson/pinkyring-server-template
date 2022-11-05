@@ -4,9 +4,15 @@ provider:
   name: aws
 
 functions:
-  test:
-    handler: handler.hello
+  test-test:
+    handler: ./packages/infrastructure/lambdas/build/test/test.handler
     events:
       - httpApi:
           path: /
+          method: GET
+  test-getData:
+    handler: ./packages/infrastructure/lambdas/build/test/getData.handler
+    events:
+      - httpApi:
+          path: /getData
           method: GET

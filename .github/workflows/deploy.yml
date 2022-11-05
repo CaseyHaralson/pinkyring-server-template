@@ -22,6 +22,9 @@ jobs:
       - name: '📦 install dependencies'
         uses: bahmutov/npm-install@v1
 
+      - name: '📦 build project'
+        run: npm run build
+
       - name: '📦 install serverless'
         run: npm i -g serverless
 

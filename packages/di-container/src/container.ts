@@ -1,9 +1,9 @@
 import {createContainer, asClass, AwilixContainer, asFunction} from 'awilix';
 import TestService from '@pinkyring/core/services/testService';
-import TestRepository from '@pinkyring/interface-implementations/repositories/testRepository';
+import TestRepository from '@pinkyring/infrastructure_repositories/testRepository';
 import TodoService from '@pinkyring/core/services/todoService';
-import TodoRepository from '@pinkyring/interface-implementations/repositories/todoRepository';
-import {prisma} from '@pinkyring/interface-implementations/util/db';
+import TodoRepository from '@pinkyring/infrastructure_repositories/todoRepository';
+import {prisma} from '@pinkyring/infrastructure_repositories/util/db';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 

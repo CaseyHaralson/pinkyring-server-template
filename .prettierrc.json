@@ -8,5 +8,5 @@
   "bracketSameLine": false,
   "tabWidth": 2,
   "useTabs": false,
-  "endOfLine": "lf"
+  "endOfLine": "auto"
 }

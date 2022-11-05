@@ -1,5 +1,5 @@
 {
-  "name": "@pinkyring/di-container",
+  "name": "@pinkyring/infrastructure_lambdas",
   "exports": {
     "./*": "./build/*.js"
   },
@@ -11,8 +11,9 @@
     }
   },
   "dependencies": {
-    "@pinkyring/core": "*",
-    "@pinkyring/infrastructure_repositories": "*",
-    "awilix": "^8.0.0"
+    "@pinkyring/di-container": "*"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.108"
   }
 }

@@ -2,6 +2,7 @@
   "name": "pinkyring",
   "private": true,
   "scripts": {
+    "merge-check": "npm run lint && npm run prettier:check && npm run test:unit && npm run test:it",
     "build:clean": "npx rimraf ./packages/**/build/* && npx rimraf ./packages/**/tsconfig.tsbuildinfo",
     "build": "tsc -b",
     "build:watch": "tsc -b -w",
@@ -11,7 +12,7 @@
     "test:unit": "npm run build && npx jest --config packages/tests/jest.config.unit.js",
     "test:unit:watch": "npx jest --config packages/tests/jest.config.unit.ts.js --watch",
     "test:it": "npm run build && npx jest --config packages/tests/jest.config.it.js",
-    "prisma": "cd packages/interface-implementations && npx prisma generate && npx prisma migrate deploy && cd ../../ && npm run test:it"
+    "prisma": "cd packages/infrastructure/repositories && npx prisma generate && npx prisma migrate deploy && cd ../../ && npm run test:it"
   },
   "workspaces": [
     "packages/**/*"
@@ -19,7 +20,8 @@
   "devDependencies": {
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
-    "@pinkyring/interface-implementations": "*",
+    "@pinkyring/infrastructure_lambdas": "*",
+    "@pinkyring/infrastructure_repositories": "*",
     "@pinkyring/public-api": "*",
     "@pinkyring/tests": "*",
     "@types/jest": "^29.2.0",

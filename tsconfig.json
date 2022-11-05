@@ -19,7 +19,10 @@
       "path": "./packages/di-container"
     },
     {
-      "path": "./packages/interface-implementations"
+      "path": "./packages/infrastructure/lambdas"
+    },
+    {
+      "path": "./packages/infrastructure/repositories"
     },
     {
       "path": "./packages/public/api"
