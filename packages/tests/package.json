@@ -1,6 +1,7 @@
 {
   "name": "@pinkyring/tests",
   "dependencies": {
-    "@pinkyring/core": "*"
+    "@pinkyring/core": "*",
+    "@pinkyring/di-container": "*"
   }
 }

@@ -1,0 +1,25 @@
+FROM node:16-alpine
+
+COPY ./ /code
+WORKDIR /code
+
+#RUN echo ${DATABASE_URL} > packages/interface-implementations/.env
+
+# use this to hault the container so you can run commands in the container terminal
+#RUN npm install nodemon --global
+#CMD nodemon --exec echo 'test'
+
+RUN npm install
+
+#WORKDIR /code/packages/interface-implementations
+#RUN npx prisma generate
+#RUN npx prisma migrate deploy
+
+#WORKDIR /code
+#CMD ./docker/wait-for.sh mysql:3306 -- npm run test:it
+
+#CMD ../../docker/wait-for.sh mysql:3306 -- npx prisma generate \
+#  && npx prisma migrate deploy \
+#  && cd ../../ && npm run test:it
+
+CMD ./docker/wait-for.sh mysql:3306 -- npm run prisma

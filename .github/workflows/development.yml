@@ -10,8 +10,8 @@ on:
   workflow_call:
 
 jobs:
-  test:
-    name: Test application
+  unit-test:
+    name: Unit test application
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -26,8 +26,47 @@ jobs:
       - name: '📦 install dependencies'
         uses: bahmutov/npm-install@v1
 
-      - name: '🔍 run tests'
-        run: npm run test --if-present
+      - name: '🔍 run unit tests'
+        run: npm run test:unit --if-present
+
+  integration-test:
+    name: Integration test application
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: example
+        ports:
+          - 3306:3306
+    steps:
+      - name: '☁️ checkout repository'
+        uses: actions/checkout@v3
+
+      - name: '🔧 setup node'
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: '📦 install dependencies'
+        uses: bahmutov/npm-install@v1
+
+      - name: '🔧 setup prisma - generate'
+        working-directory: ./packages/interface-implementations
+        run: npx prisma generate
+
+      - name: '🔧 setup prisma - migrate'
+        working-directory: ./packages/interface-implementations
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: mysql://root:example@127.0.0.1:3306/pinkyring
+
+      - name: '🔍 run integration tests'
+        working-directory: ./
+        run: npm run test:it --if-present
+        env:
+          DATABASE_URL: mysql://root:example@127.0.0.1:3306/pinkyring
 
   style-and-lint:
     name: Code standards
