@@ -5,7 +5,7 @@ provider:
 
 functions:
   test:
-    handler: handler.hello
+    handler: ./packages/infrastructure/lambdas/build/test/test.handler
     events:
       - httpApi:
           path: /

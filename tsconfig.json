@@ -19,6 +19,9 @@
       "path": "./packages/di-container"
     },
     {
+      "path": "./packages/infrastructure/lambdas"
+    },
+    {
       "path": "./packages/infrastructure/repositories"
     },
     {
