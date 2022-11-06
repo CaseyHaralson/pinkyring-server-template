@@ -1,7 +1,26 @@
-service: aws-node
+service: pinkyring
 
 provider:
   name: aws
+  region: us-east-1
+  stage: dev
+  stackName: ${self:provider.stage}-${self:service.name}
+
+custom:
+  DB_USERNAME: root
+  DB_PASSWORD: example
+  DB_DATABASE_NAME: pinkyring
+  DB_AUTOPAUSE: true
+  DB_CAPACITY_MIN: 1
+  DB_CAPACITY_MAX: 4
+  DBClusterARN:
+    Fn::Join:
+      - ':'
+      - - 'arn:aws:rds'
+        - Ref: 'AWS::Region'
+        - Ref: 'AWS::AccountId'
+        - 'cluster'
+        - !Ref AuroraDBCluster
 
 functions:
   test-test:
@@ -16,3 +35,8 @@ functions:
       - httpApi:
           path: /getData
           method: GET
+
+resources:
+  - ${file(serverless/resources/vpc.yml)}
+  - ${file(serverless/resources/rds.yml)}
+  - ${file(serverless/resources/custom/dbmigration.yml)}
