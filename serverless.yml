@@ -29,11 +29,26 @@ functions:
       - httpApi:
           path: /
           method: GET
+
   test-getData:
     handler: ./packages/infrastructure/lambdas/build/test/getData.handler
     events:
       - httpApi:
           path: /getData
+          method: GET
+  
+  todo-getTodos:
+    handler: ./packages/infrastructure/lambdas/build/todo/getTodos.handler
+    events:
+      - httpApi:
+          path: /todo/getTodos
+          method: GET
+  
+  todo-createTodo:
+    handler: ./packages/infrastructure/lambdas/build/todo/createTodo.handler
+    events:
+      - httpApi:
+          path: /todo/createTodo
           method: GET
 
 resources:
