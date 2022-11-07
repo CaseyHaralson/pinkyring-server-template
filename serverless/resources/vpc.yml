@@ -59,7 +59,7 @@ Resources:
       RouteTableId: !Ref SubnetRouteTable
       SubnetId: !Ref SubnetAPrivate
 
-  SubnetARouteTableAssociation:
+  SubnetBRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties: 
       RouteTableId: !Ref SubnetRouteTable
