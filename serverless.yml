@@ -1,11 +1,10 @@
-service: 
-  name: pinkyring
+service: pinkyring
 
 provider:
   name: aws
   region: us-east-1
   stage: dev
-  stackName: ${self:provider.stage}-${self:service.name}
+  stackName: ${self:provider.stage}-${self:service}
 
 custom:
   DB_USERNAME: root
