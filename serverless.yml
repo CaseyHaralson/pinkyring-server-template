@@ -50,6 +50,9 @@ functions:
       - httpApi:
           path: /todo/createTodo
           method: GET
+  
+  DBMigrationLambdaFunction:
+    handler: ./packages/infrastructure/repositories/migrate.lambda.handler
 
 resources:
   - ${file(serverless/resources/vpc.yml)}
