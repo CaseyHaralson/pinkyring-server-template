@@ -24,7 +24,7 @@ Resources:
       DatabaseName: ${self:custom.DB_DATABASE_NAME}
       Engine: aurora-mysql
       EngineMode: serverless
-      EngineVersion: "2.07.1"
+      EngineVersion: '2.08.3'
       DBSubnetGroupName: !Ref DBSubnetGroup
       VpcSecurityGroupIds:
       - !Ref DBClusterSecurityGroup  
