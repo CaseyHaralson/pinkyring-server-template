@@ -5,6 +5,12 @@ provider:
   region: us-east-1
   stage: dev
   stackName: ${self:provider.stage}-${self:service}
+  vpc:
+    securityGroupIds:
+      - DBClusterSecurityGroup
+    subnetIds:
+      - SubnetAPrivate
+      - SubnetBPrivate
 
 custom:
   DB_USERNAME: root
@@ -51,11 +57,11 @@ functions:
           path: /todo/createTodo
           method: GET
   
-  DBMigration:
-    handler: ./packages/infrastructure/repositories/migrate.lambda.handler
-    role: DBMigrationRole
+  # DBMigration:
+  #   handler: ./packages/infrastructure/repositories/migrate.lambda.handler
+  #   role: DBMigrationRole
 
 resources:
   - ${file(serverless/resources/vpc.yml)}
   - ${file(serverless/resources/rds.yml)}
-  - ${file(serverless/resources/custom/dbmigration.yml)}
+  #- ${file(serverless/resources/custom/dbmigration.yml)}
