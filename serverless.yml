@@ -1,4 +1,5 @@
-service: pinkyring
+service: 
+  name: pinkyring
 
 provider:
   name: aws
