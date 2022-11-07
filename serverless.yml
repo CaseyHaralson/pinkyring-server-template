@@ -8,7 +8,7 @@ provider:
 
 custom:
   DB_USERNAME: root
-  DB_PASSWORD: example
+  DB_PASSWORD: example!
   DB_DATABASE_NAME: pinkyring
   DB_AUTOPAUSE: true
   DB_CAPACITY_MIN: 1
