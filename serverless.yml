@@ -51,8 +51,9 @@ functions:
           path: /todo/createTodo
           method: GET
   
-  DBMigrationLambdaFunction:
+  DBMigration:
     handler: ./packages/infrastructure/repositories/migrate.lambda.handler
+    role: DBMigrationRole
 
 resources:
   - ${file(serverless/resources/vpc.yml)}
