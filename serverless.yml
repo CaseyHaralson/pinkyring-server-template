@@ -7,10 +7,10 @@ provider:
   stackName: ${self:provider.stage}-${self:service}
   vpc:
     securityGroupIds:
-      - DBClusterSecurityGroup
+      - !Ref DBClusterSecurityGroup
     subnetIds:
-      - SubnetAPrivate
-      - SubnetBPrivate
+      - !Ref SubnetAPrivate
+      - !Ref SubnetBPrivate
 
 custom:
   DB_USERNAME: root
