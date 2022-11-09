@@ -21,11 +21,17 @@ jobs:
 
       - name: '📦 install dependencies'
         uses: bahmutov/npm-install@v1
-        env:
-          NODE_ENV: production
 
       - name: '📦 build project'
         run: npm run build
+      
+      - name: '🔧 setup prisma - generate'
+        working-directory: ./packages/infrastructure/repositories
+        run: npx prisma generate
+      
+      - name: '📦 remove dev dependencies'
+        working-directory: ./
+        run: 'npm prune --production'
 
       - name: '📦 install serverless'
         run: npm i -g serverless
@@ -33,10 +39,5 @@ jobs:
       - name: '🔧 setup serverless'
         run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: '🔧 setup prisma - generate'
-        working-directory: ./packages/infrastructure/repositories
-        run: npx prisma generate
-
       - name: '☁️ serverless deploy'
-        working-directory: ./
         run: serverless deploy
