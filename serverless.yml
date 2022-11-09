@@ -77,3 +77,16 @@ resources:
   - ${file(serverless/resources/vpc.yml)}
   - ${file(serverless/resources/rds.yml)}
   #- ${file(serverless/resources/custom/dbmigration.yml)}
+
+package:
+  patterns:
+    - '!node_modules/.prisma/client/libquery_engine-*'
+    - 'node_modules/.prisma/client/libquery_engine-rhel-*'
+    - '!node_modules/prisma/libquery_engine-*'
+    - '!node_modules/@prisma/engines/**'
+    - '!.github'
+    - '!docker'
+    - '!serverless'
+    - '!/packages/**/*.d.ts'
+    - '!/packages/**/*.js.map'
+    - '!/packages/**/src'
