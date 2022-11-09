@@ -31,5 +31,10 @@ jobs:
       - name: '🔧 setup serverless'
         run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: '🔧 setup prisma - generate'
+        working-directory: ./packages/infrastructure/repositories
+        run: npx prisma generate
+
       - name: '☁️ serverless deploy'
+        working-directory: ./
         run: serverless deploy
