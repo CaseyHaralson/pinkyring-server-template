@@ -87,6 +87,6 @@ package:
     - '!.github'
     - '!docker'
     - '!serverless'
-    - '!/packages/**'
-    - '/packages/**/build/**/*.js'
+    - '!packages/**'
+    - 'packages/**/build/**/*.js'
     - '!package-lock.json'
