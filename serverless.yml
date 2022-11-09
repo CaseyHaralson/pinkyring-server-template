@@ -11,6 +11,18 @@ provider:
     subnetIds:
       - !Ref SubnetAPrivate
       - !Ref SubnetBPrivate
+  environment:
+    DATABASE_URL:
+      Fn::Join:
+        - ''
+        - - 'mysql://'
+          - ${self:custom.DB_USERNAME}
+          - ':'
+          - ${self:custom.DB_PASSWORD}
+          - '@'
+          - !Ref AuroraDBCluster
+          - ':3306/'
+          - ${self:custom.DB_DATABASE_NAME}
 
 custom:
   DB_USERNAME: root
