@@ -1,0 +1,43 @@
+name: Deploy-Teardown
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-teardown:
+    name: Deploy-Teardown
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: '☁️ checkout repository'
+        uses: actions/checkout@v3
+
+      - name: '🔧 setup node'
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # - name: '📦 install dependencies'
+      #   uses: bahmutov/npm-install@v1
+
+      # - name: '📦 build project'
+      #   run: npm run build
+      
+      # - name: '🔧 setup prisma - generate'
+      #   working-directory: ./packages/infrastructure/repositories
+      #   run: npx prisma generate
+      
+      # - name: '📦 remove dev dependencies'
+      #   working-directory: ./
+      #   run: 'npm prune --production'
+
+      - name: '📦 install serverless'
+        run: npm i -g serverless
+
+      - name: '🔧 setup serverless'
+        run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: '☁️ serverless remove'
+        run: serverless remove
