@@ -6,3 +6,7 @@ export interface Todo {
   createdDt?: string;
   completedDt?: string;
 }
+
+//import {Todo as test} from '@prisma/client';
+
+//export interface Todo extends test {}

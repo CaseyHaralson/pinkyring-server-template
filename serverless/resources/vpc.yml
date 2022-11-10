@@ -1,0 +1,66 @@
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      InstanceTenancy: default
+      Tags:
+      - Key: Name
+        Value: ${self:provider.stackName}-VPC
+  
+  SubnetAPrivate:
+    DependsOn: VPC
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ${self:provider.region}a
+      CidrBlock: 10.0.0.0/24
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Join
+                 - '_'
+                 - - ${self:provider.stackName}
+                   - 'Private_SubnetA'
+      - Key: Reach
+        Value: private
+  
+  SubnetBPrivate:
+    DependsOn: VPC
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: ${self:provider.region}b
+      CidrBlock: 10.0.1.0/24
+      VpcId: !Ref VPC
+      Tags:
+      - Key: Name
+        Value: !Join
+                 - '_'
+                 - - ${self:provider.stackName}
+                   - 'Private_SubnetB'
+      - Key: Reach
+        Value: private
+  
+  SubnetRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags: 
+      - Key: Name
+        Value: !Join
+                  - '_'
+                  - - ${self:provider.stackName}
+                    - 'Private_Subnet_RouteTable'
+
+  SubnetARouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref SubnetRouteTable
+      SubnetId: !Ref SubnetAPrivate
+
+  SubnetBRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref SubnetRouteTable
+      SubnetId: !Ref SubnetBPrivate

@@ -1,7 +1,44 @@
-service: aws-node
+service: pinkyring
 
 provider:
   name: aws
+  region: us-east-1
+  stage: dev
+  stackName: ${self:provider.stage}-${self:service}
+  vpc:
+    securityGroupIds:
+      - !Ref DBClusterSecurityGroup
+    subnetIds:
+      - !Ref SubnetAPrivate
+      - !Ref SubnetBPrivate
+  environment:
+    DATABASE_URL:
+      Fn::Join:
+        - ''
+        - - 'mysql://'
+          - ${self:custom.DB_USERNAME}
+          - ':'
+          - ${self:custom.DB_PASSWORD}
+          - '@'
+          - Fn::GetAtt: [AuroraDBCluster, Endpoint.Address]
+          - ':3306/'
+          - ${self:custom.DB_DATABASE_NAME}
+
+custom:
+  DB_USERNAME: root
+  DB_PASSWORD: example!
+  DB_DATABASE_NAME: pinkyring
+  DB_AUTOPAUSE: true
+  DB_CAPACITY_MIN: 1
+  DB_CAPACITY_MAX: 4
+  DBClusterARN:
+    Fn::Join:
+      - ':'
+      - - 'arn:aws:rds'
+        - Ref: 'AWS::Region'
+        - Ref: 'AWS::AccountId'
+        - 'cluster'
+        - !Ref AuroraDBCluster
 
 functions:
   test-test:
@@ -10,9 +47,46 @@ functions:
       - httpApi:
           path: /
           method: GET
+
   test-getData:
     handler: ./packages/infrastructure/lambdas/build/test/getData.handler
     events:
       - httpApi:
           path: /getData
           method: GET
+  
+  todo-getTodos:
+    handler: ./packages/infrastructure/lambdas/build/todo/getTodos.handler
+    events:
+      - httpApi:
+          path: /todo/getTodos
+          method: GET
+  
+  todo-createTodo:
+    handler: ./packages/infrastructure/lambdas/build/todo/createTodo.handler
+    events:
+      - httpApi:
+          path: /todo/createTodo
+          method: GET
+  
+  # DBMigration:
+  #   handler: ./packages/infrastructure/repositories/migrate.lambda.handler
+  #   role: DBMigrationRole
+
+resources:
+  - ${file(serverless/resources/vpc.yml)}
+  - ${file(serverless/resources/rds.yml)}
+  #- ${file(serverless/resources/custom/dbmigration.yml)}
+
+package:
+  patterns:
+    - '!node_modules/.prisma/client/libquery_engine-*'
+    - 'node_modules/.prisma/client/libquery_engine-rhel-*'
+    - '!node_modules/prisma/libquery_engine-*'
+    - '!node_modules/@prisma/engines/**'
+    - '!.github'
+    - '!docker'
+    - '!serverless'
+    - '!packages/**'
+    - 'packages/**/build/**/*.js'
+    - '!package-lock.json'

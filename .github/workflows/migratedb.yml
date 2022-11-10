@@ -1,0 +1,45 @@
+name: MigrateDB
+
+on:
+  workflow_dispatch:
+
+jobs:
+  migrate:
+    name: MigrateDB
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: '☁️ checkout repository'
+        uses: actions/checkout@v3
+
+      - name: '🔧 setup node'
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: '📦 install dependencies'
+        uses: bahmutov/npm-install@v1
+
+      - name: '🔧 setup prisma - generate'
+        working-directory: ./packages/infrastructure/repositories
+        run: npx prisma generate
+
+      - name: '☁️ add public IP to AWS security group'
+        uses: sohelamin/aws-security-group-add-ip-action@master
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-east-1'
+          aws-security-group-id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
+          port: '3306'
+          to-port: '3306'
+          protocol: 'tcp'
+          description: 'GitHub Action'
+
+      - name: '🔧 setup prisma - migrate'
+        working-directory: ./packages/infrastructure/repositories
+        run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: ${{ secrets.AWS_AURORA_DB_CONNECTION_STRING }}

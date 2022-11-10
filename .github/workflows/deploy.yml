@@ -24,6 +24,14 @@ jobs:
 
       - name: '📦 build project'
         run: npm run build
+      
+      - name: '🔧 setup prisma - generate'
+        working-directory: ./packages/infrastructure/repositories
+        run: npx prisma generate
+      
+      - name: '📦 remove dev dependencies'
+        working-directory: ./
+        run: 'npm prune --production'
 
       - name: '📦 install serverless'
         run: npm i -g serverless
