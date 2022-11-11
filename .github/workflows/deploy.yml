@@ -25,6 +25,7 @@ jobs:
       - name: '📦 install package dependencies'
         uses: bahmutov/npm-install@v1
         with:
+          useLockFile: false
           working-directory: ./packages/infrastructure/repositories
 
       - name: '📦 build project'
