@@ -69,9 +69,9 @@ functions:
           path: /todo/createTodo
           method: GET
   
-  # DBMigration:
-  #   handler: ./packages/infrastructure/repositories/migrate.lambda.handler
-  #   role: DBMigrationRole
+  DBMigration:
+    handler: ./packages/infrastructure/repositories/migrate.lambda.handler
+    # role: DBMigrationRole
 
 resources:
   - ${file(serverless/resources/vpc.yml)}
@@ -90,3 +90,6 @@ package:
     - '!packages/**'
     - 'packages/**/build/**/*.js'
     - '!package-lock.json'
+    - 'packages/**/repositories/prisma/**'
+    - 'packages/**/repositories/migrate.lambda.js'
+    - 'packages/**/repositories/migrate.sh'

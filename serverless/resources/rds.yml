@@ -30,6 +30,7 @@ Resources:
       Engine: aurora-mysql
       EngineMode: serverless
       EngineVersion: '5.7'
+      EnableHttpEndpoint: true
       DBSubnetGroupName: !Ref DBSubnetGroup
       VpcSecurityGroupIds:
       - !Ref DBClusterSecurityGroup  
