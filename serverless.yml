@@ -70,7 +70,7 @@ functions:
           method: GET
   
   DBMigration:
-    handler: ./packages/infrastructure/repositories/build/util/migrate.lambda.handler
+    handler: ./packages/infrastructure/repositories/build/util/migrate_lambda.handler
     # role: DBMigrationRole
 
 resources:
