@@ -6,7 +6,7 @@ export async function handler() {
   //   preferLocal: true,
   //   stdio: 'inherit',
   // });
-  await execa(path.resolve(process.cwd(), './migrate.sh'), [
-    process.env.DATABASE_URL,
+  await execa(path.resolve(process.cwd(), './../../migrate.sh'), [
+    process.env.DATABASE_URL as string,
   ]);
 }

@@ -70,7 +70,7 @@ functions:
           method: GET
   
   DBMigration:
-    handler: ./packages/infrastructure/repositories/migrate.lambda.handler
+    handler: ./packages/infrastructure/repositories/build/util/migrate.lambda.handler
     # role: DBMigrationRole
 
 resources:
@@ -91,5 +91,5 @@ package:
     - 'packages/**/build/**/*.js'
     - '!package-lock.json'
     - 'packages/**/repositories/prisma/**'
-    - 'packages/**/repositories/migrate.lambda.js'
+    # - 'packages/**/repositories/migrate.lambda.js'
     - 'packages/**/repositories/migrate.sh'
