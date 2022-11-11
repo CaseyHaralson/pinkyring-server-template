@@ -14,7 +14,8 @@ import * as path from 'path';
 export const handler = async () => {
   const cwd = process.cwd();
   const scriptPath = path.resolve(cwd, './../../migrate.sh');
-  console.log(`cwd: ${cwd} ; scriptPath: ${scriptPath}`);
+  const dir = __dirname;
+  console.log(`cwd: ${cwd} ; scriptPath: ${scriptPath} ; dir: ${dir}`);
 
   await execa(path.resolve(process.cwd(), './../../migrate.sh'), [
     process.env.DATABASE_URL as string,
