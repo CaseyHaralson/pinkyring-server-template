@@ -17,7 +17,6 @@
   "workspaces": [
     "packages/**/*"
   ],
-  "type": "module",
   "dependencies": {
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
