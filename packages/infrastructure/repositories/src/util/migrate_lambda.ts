@@ -13,11 +13,11 @@ import * as path from 'path';
 
 export const handler = async () => {
   const cwd = process.cwd();
-  const scriptPath = path.resolve(cwd, './../../migrate.sh');
   const dir = __dirname;
+  const scriptPath = path.resolve(dir, './../../migrate.sh');
   console.log(`cwd: ${cwd} ; scriptPath: ${scriptPath} ; dir: ${dir}`);
 
-  await execa(path.resolve(process.cwd(), './../../migrate.sh'), [
+  await execa(path.resolve(dir, './../../migrate.sh'), [
     process.env.DATABASE_URL as string,
   ]);
 
