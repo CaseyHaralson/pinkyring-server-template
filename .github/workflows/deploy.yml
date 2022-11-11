@@ -22,9 +22,10 @@ jobs:
       - name: '📦 install dependencies'
         uses: bahmutov/npm-install@v1
       
-      - name: '📦 install dependencies - infrastructure - repositories'
-        working-directory: ./packages/infrastructure/repositories
+      - name: '📦 install package dependencies'
         uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ./packages/infrastructure/repositories
 
       - name: '📦 build project'
         run: npm run build
