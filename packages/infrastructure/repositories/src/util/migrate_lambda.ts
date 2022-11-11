@@ -1,4 +1,4 @@
-//import {execa} from 'execa';
+import {execa} from '@esm2cjs/execa';
 import * as path from 'path';
 
 // export async function handler() {
@@ -12,8 +12,6 @@ import * as path from 'path';
 // }
 
 export const handler = async () => {
-  const {execa} = await import('execa');
-
   await execa(path.resolve(process.cwd(), './../../migrate.sh'), [
     process.env.DATABASE_URL as string,
   ]);
