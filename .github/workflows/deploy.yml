@@ -21,6 +21,10 @@ jobs:
 
       - name: '📦 install dependencies'
         uses: bahmutov/npm-install@v1
+      
+      - name: '📦 install dependencies - infrastructure - repositories'
+        working-directory: ./packages/infrastructure/repositories
+        uses: bahmutov/npm-install@v1
 
       - name: '📦 build project'
         run: npm run build
@@ -30,7 +34,6 @@ jobs:
         run: npx prisma generate
       
       # - name: '📦 remove dev dependencies'
-      #   working-directory: ./
       #   run: 'npm prune --production'
 
       - name: '📦 install serverless'
