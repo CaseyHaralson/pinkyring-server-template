@@ -1,5 +1,6 @@
 {
   "name": "@pinkyring/infrastructure_repositories",
+  "type": "module",
   "exports": {
     "./*": "./build/*.js"
   },
