@@ -20,7 +20,7 @@ export const handler = async () => {
   //await execa(path.resolve(dir, './../../migrate.sh'), [
   //  process.env.DATABASE_URL as string,
   //]);
-  await execa('prisma', ['migrate', 'deploy']);
+  await execa('npx prisma migrate deploy');
 
   return true;
 };
