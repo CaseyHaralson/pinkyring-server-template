@@ -17,9 +17,10 @@ export const handler = async () => {
   const scriptPath = path.resolve(dir, './../../migrate.sh');
   console.log(`cwd: ${cwd} ; scriptPath: ${scriptPath} ; dir: ${dir}`);
 
-  await execa(path.resolve(dir, './../../migrate.sh'), [
-    process.env.DATABASE_URL as string,
-  ]);
+  //await execa(path.resolve(dir, './../../migrate.sh'), [
+  //  process.env.DATABASE_URL as string,
+  //]);
+  await execa('prisma', ['migrate', 'deploy']);
 
   return true;
 };
