@@ -29,9 +29,9 @@ jobs:
         working-directory: ./packages/infrastructure/repositories
         run: npx prisma generate
       
-      - name: '📦 remove dev dependencies'
-        working-directory: ./
-        run: 'npm prune --production'
+      # - name: '📦 remove dev dependencies'
+      #   working-directory: ./
+      #   run: 'npm prune --production'
 
       - name: '📦 install serverless'
         run: npm i -g serverless
