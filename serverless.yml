@@ -23,6 +23,10 @@ provider:
           - Fn::GetAtt: [AuroraDBCluster, Endpoint.Address]
           - ':3306/'
           - ${self:custom.DB_DATABASE_NAME}
+  ecr:
+    images:
+      db-migration-runner:
+        path: ./serverless/dbmigration/
 
 custom:
   DB_USERNAME: root
@@ -70,7 +74,9 @@ functions:
           method: GET
   
   DBMigration:
-    handler: ./packages/infrastructure/repositories/build/util/migrate_lambda.handler
+    image:
+      name: db-migration-runner
+    # handler: ./packages/infrastructure/repositories/build/util/migrate_lambda.handler
     # role: DBMigrationRole
 
 resources:

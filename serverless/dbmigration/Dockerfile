@@ -1,4 +1,5 @@
-FROM node:16-alpine as build
+# FROM node:16-alpine as build
+FROM public.ecr.aws/lambda/nodejs:18 as build
 WORKDIR /build
 COPY serverless/dbmigration/package-lock.json serverless/dbmigration/package.json ./
 RUN npm ci
@@ -9,16 +10,15 @@ COPY serverless/dbmigration/migration-runner.ts .
 RUN npx esbuild migration-runner.ts --bundle --outdir=dist --platform=node --external:aws-sdk --external:@prisma/client
 
 
-FROM node:16-alpine
-WORKDIR /lambdataskroot
+# FROM node:16-alpine
+# WORKDIR /lambdataskroot
+FROM public.ecr.aws/lambda/nodejs:18
+WORKDIR ${LAMBDA_TASK_ROOT}
 
 COPY serverless/dbmigration/package-lock.json serverless/dbmigration/package.json ./
 COPY packages/infrastructure/repositories/prisma ./prisma
 RUN npm ci --production
 COPY --from=build /build/dist .
 
-# RUN npm install nodemon --global
-
-# CMD nodemon --exec npm run build \
-#   --watch './build'
-CMD cat
+# CMD cat
+CMD ["migration-runner.handler"]
