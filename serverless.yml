@@ -26,6 +26,8 @@ provider:
   ecr:
     images:
       db-migration-runner:
+        # this relies on the prisma folder existing in the same directory
+        # the github deploy action includes a step that handles copying the prisma folder
         path: ./serverless/dbmigration/
 
 custom:
@@ -74,6 +76,7 @@ functions:
           method: GET
   
   DBMigration:
+    timeout: 60
     image:
       name: db-migration-runner
     # handler: ./packages/infrastructure/repositories/build/util/migrate_lambda.handler
@@ -96,7 +99,7 @@ package:
     - '!packages/**'
     - 'packages/**/build/**/*.js'
     - '!package-lock.json'
-    - 'packages/**/repositories/node_modules/**'
-    - 'packages/**/repositories/prisma/**'
+    # - 'packages/**/repositories/node_modules/**'
+    # - 'packages/**/repositories/prisma/**'
     # - 'packages/**/repositories/migrate.lambda.js'
-    - 'packages/**/repositories/migrate.sh'
+    #- 'packages/**/repositories/migrate.sh'
