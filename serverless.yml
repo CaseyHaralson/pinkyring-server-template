@@ -30,7 +30,7 @@ custom:
   DB_DATABASE_NAME: pinkyring
   DB_AUTOPAUSE: true
   DB_CAPACITY_MIN: 1
-  DB_CAPACITY_MAX: 4
+  DB_CAPACITY_MAX: 1
   DBClusterARN:
     Fn::Join:
       - ':'
