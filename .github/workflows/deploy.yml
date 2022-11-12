@@ -21,12 +21,6 @@ jobs:
 
       - name: '📦 install dependencies'
         uses: bahmutov/npm-install@v1
-      
-      # - name: '📦 install package dependencies'
-      #   uses: bahmutov/npm-install@v1
-      #   with:
-      #     useLockFile: false
-      #     working-directory: ./packages/infrastructure/repositories
 
       - name: '📦 build project'
         run: npm run build
@@ -49,3 +43,6 @@ jobs:
 
       - name: '☁️ serverless deploy'
         run: serverless deploy
+
+      - name: '🔧 migrate database'
+        run: serverless invoke --function DBMigration
