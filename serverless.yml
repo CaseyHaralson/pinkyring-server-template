@@ -5,6 +5,7 @@ provider:
   region: us-east-1
   stage: dev
   stackName: ${self:provider.stage}-${self:service}
+  timeout: 60
   vpc:
     subnetIds:
       - !Ref SubnetAPublic
@@ -21,6 +22,8 @@ provider:
           - Fn::GetAtt: [AuroraDBCluster, Endpoint.Address]
           - ':3306/'
           - ${self:custom.DB_DATABASE_NAME}
+          - '?connection_limit=1'
+          - '&pool_timeout=60'
   ecr:
     images:
       db-migration-runner:
@@ -74,7 +77,6 @@ functions:
           method: GET
   
   DBMigration:
-    timeout: 60
     image:
       name: db-migration-runner
     # role: DBMigrationRole
