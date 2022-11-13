@@ -53,7 +53,7 @@ jobs:
           FunctionName: ${{ env.DB_MIGRATION_FUNC_NAME }}
         
       - name: 'print response'
-        run: echo '${{ fromJSON(steps.foobar.outputs.response) }}'
+        run: echo '${{ fromJSON(steps.foobar.outputs.response).Payload }}'
         if: success() || failure()
 
       # - name: '☁️ serverless deploy'
