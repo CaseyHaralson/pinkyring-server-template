@@ -42,7 +42,7 @@ jobs:
         run: cp -r packages/infrastructure/repositories/prisma serverless/dbmigration/prisma
       
       - name: 'temp'
-        run: serverless print --path functions.DBMigration --format text
+        run: serverless print --path functions.DBMigration.name --format text
 
       # - name: '☁️ serverless deploy'
       #   run: serverless deploy
