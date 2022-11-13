@@ -45,17 +45,17 @@ jobs:
         run: serverless deploy
       
       - name: '... sleep for a few minutes to let the database wake up ...'
-        run: sleep 120s
+        run: sleep 240s
         shell: bash
 
       - name: '🔧 migrate database'
         run: serverless invoke --function DBMigration
 
-      - name: '... sleep for a few minutes to let the database wake up ...'
-        run: sleep 60s
-        shell: bash
-        if: success() || failure()
+      # - name: '... sleep for a few minutes to let the database wake up ...'
+      #   run: sleep 60s
+      #   shell: bash
+      #   if: success() || failure()
 
-      - name: '🔧 migrate database'
-        run: serverless invoke --function DBMigration
-        if: success() || failure()
+      # - name: '🔧 migrate database'
+      #   run: serverless invoke --function DBMigration
+      #   if: success() || failure()
