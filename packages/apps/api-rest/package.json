@@ -1,5 +1,5 @@
 {
-  "name": "@pinkyring/apps_api",
+  "name": "@pinkyring/apps_api-rest",
   "main": "build/app.js",
   "scripts": {
     "build": "tsc -b",
