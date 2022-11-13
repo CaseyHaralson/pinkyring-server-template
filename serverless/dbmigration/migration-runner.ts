@@ -20,23 +20,7 @@ export const handler: Handler = async (event) => {
   // As a workaround, we spawn migration script as a child process and wait for its completion.
   // Please also refer to the following GitHub issue: https://github.com/prisma/prisma/issues/4703
   try {
-    const exitCode = await new Promise((resolve) => {
-      execFile(
-        path.resolve('./node_modules/prisma/build/index.js'),
-        ['migrate', command].concat(options),
-        (error, stdout) => {
-          console.log(stdout);
-          if (error != null) {
-            console.log(
-              `prisma migrate ${command} exited with error ${error.message}`
-            );
-            resolve(error.code ?? 1);
-          } else {
-            resolve(0);
-          }
-        }
-      );
-    });
+    const exitCode = await prismaMigrateWithRetry(command, options, 5);
 
     if (exitCode != 0)
       throw Error(`command ${command} failed with exit code ${exitCode}`);
@@ -44,4 +28,40 @@ export const handler: Handler = async (event) => {
     console.log(e);
     throw e;
   }
+};
+
+const prismaMigrateWithRetry = async function (
+  command: string,
+  options: string[],
+  retryCount: number
+) {
+  let exitCode = await prismaMigrate(command, options);
+
+  if (exitCode == 1 && retryCount > 0) {
+    exitCode = prismaMigrateWithRetry(command, options, retryCount - 1);
+  }
+
+  return exitCode;
+};
+
+const prismaMigrate = async function (command: string, options: string[]) {
+  const exitCode = await new Promise((resolve) => {
+    execFile(
+      path.resolve('./node_modules/prisma/build/index.js'),
+      ['migrate', command].concat(options),
+      (error, stdout) => {
+        console.log(stdout);
+        if (error != null) {
+          console.log(
+            `prisma migrate ${command} exited with error ${error.message}`
+          );
+          resolve(error.code ?? 1);
+        } else {
+          resolve(0);
+        }
+      }
+    );
+  });
+
+  return exitCode;
 };
