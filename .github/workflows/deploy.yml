@@ -44,15 +44,27 @@ jobs:
       - name: '☁️ serverless deploy'
         run: serverless deploy
       
-      - name: '... sleep for a few minutes to let the database wake up ...'
-        run: sleep 120s
-        shell: bash
-      
       - name: '🔧 get db migration lambda name'
         run: echo "DB_MIGRATION_FUNC_NAME=$(serverless print --path functions.DBMigration.name --format text)" >> $GITHUB_ENV
       
-      - name: '☁️ call db migration lambda'
-        id: foobar
+      - name: '☁️ call db migration lambda - 1st time (db probably cold)'
+        id: db-migrate-1
+        uses: gagoar/invoke-aws-lambda@v3.3.1
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          FunctionName: ${{ env.DB_MIGRATION_FUNC_NAME }}
+        continue-on-error: true
+        
+      - name: '🔧 print db migration lambda call response'
+        run: echo '${{ fromJSON(steps.db-migrate-1.outputs.response).Payload }}'
+      
+      - name: '... sleep for a bit to let the database wake up ...'
+        run: sleep 30s
+        shell: bash
+      
+      - name: '☁️ call db migration lambda - 2nd time'
+        id: db-migrate-2
         uses: gagoar/invoke-aws-lambda@v3.3.1
         with:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -60,8 +72,8 @@ jobs:
           FunctionName: ${{ env.DB_MIGRATION_FUNC_NAME }}
         
       - name: '🔧 print db migration lambda call response'
-        run: echo '${{ fromJSON(steps.foobar.outputs.response).Payload }}'
-        if: success() || failure()
+        run: echo '${{ fromJSON(steps.db-migrate-2.outputs.response).Payload }}'
+        if: steps.db-migrate-2.outputs.status == 'failure'
 
       # - name: '🔧 migrate database'
       #   run: serverless invoke --function DBMigration
