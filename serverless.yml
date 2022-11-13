@@ -3,14 +3,15 @@ service: pinkyring
 provider:
   name: aws
   region: us-east-1
-  stage: dev
+  stage: test
   stackName: ${self:provider.stage}-${self:service}
+  timeout: 30
   vpc:
     securityGroupIds:
-      - !Ref DBClusterSecurityGroup
+      - !Ref PublicSecurityGroup
     subnetIds:
-      - !Ref SubnetAPrivate
-      - !Ref SubnetBPrivate
+      - !Ref SubnetAPublic
+      - !Ref SubnetBPublic
   environment:
     DATABASE_URL:
       Fn::Join:
@@ -23,6 +24,14 @@ provider:
           - Fn::GetAtt: [AuroraDBCluster, Endpoint.Address]
           - ':3306/'
           - ${self:custom.DB_DATABASE_NAME}
+          - '?connection_limit=1'
+          - '&pool_timeout=30'
+  ecr:
+    images:
+      db-migration-runner:
+        # this relies on the prisma folder existing in the same directory
+        # the github deploy action includes a step that handles copying the prisma folder
+        path: ./serverless/dbmigration/
 
 custom:
   DB_USERNAME: root
@@ -30,7 +39,7 @@ custom:
   DB_DATABASE_NAME: pinkyring
   DB_AUTOPAUSE: true
   DB_CAPACITY_MIN: 1
-  DB_CAPACITY_MAX: 4
+  DB_CAPACITY_MAX: 1
   DBClusterARN:
     Fn::Join:
       - ':'
@@ -69,9 +78,10 @@ functions:
           path: /todo/createTodo
           method: GET
   
-  # DBMigration:
-  #   handler: ./packages/infrastructure/repositories/migrate.lambda.handler
-  #   role: DBMigrationRole
+  DBMigration:
+    image:
+      name: db-migration-runner
+    # role: DBMigrationRole
 
 resources:
   - ${file(serverless/resources/vpc.yml)}

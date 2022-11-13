@@ -17,12 +17,14 @@
   "workspaces": [
     "packages/**/*"
   ],
-  "devDependencies": {
+  "dependencies": {
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
     "@pinkyring/infrastructure_lambdas": "*",
     "@pinkyring/infrastructure_repositories": "*",
-    "@pinkyring/public-api": "*",
+    "@pinkyring/public-api": "*"
+  },
+  "devDependencies": {
     "@pinkyring/tests": "*",
     "@types/jest": "^29.2.0",
     "@typescript-eslint/eslint-plugin": "^5.41.0",

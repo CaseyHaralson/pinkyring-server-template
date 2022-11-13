@@ -12,8 +12,9 @@
   },
   "dependencies": {
     "@pinkyring/core": "*",
-    "@prisma/client": "^4.5.0",
-    "execa": "^6.1.0",
+    "@prisma/client": "^4.5.0"
+  },
+  "devDependencies": {
     "prisma": "^4.5.0"
   }
 }

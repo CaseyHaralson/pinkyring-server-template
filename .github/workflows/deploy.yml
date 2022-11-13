@@ -29,9 +29,8 @@ jobs:
         working-directory: ./packages/infrastructure/repositories
         run: npx prisma generate
       
-      - name: '📦 remove dev dependencies'
-        working-directory: ./
-        run: 'npm prune --production'
+      # - name: '📦 remove dev dependencies'
+      #   run: 'npm prune --production'
 
       - name: '📦 install serverless'
         run: npm i -g serverless
@@ -39,5 +38,23 @@ jobs:
       - name: '🔧 setup serverless'
         run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: '🔧 pre serverless deploy - copy files'
+        run: cp -r packages/infrastructure/repositories/prisma serverless/dbmigration/prisma
+
       - name: '☁️ serverless deploy'
         run: serverless deploy
+      
+      - name: '☁️ db migration - call lambda (db might be asleep)'
+        id: db-migrate-1
+        run: serverless invoke --function DBMigration
+        continue-on-error: true
+      
+      - name: '🔧 db migration - sleep for a bit to let the database wake up'
+        if: steps.db-migrate-1.outcome != 'success'
+        run: sleep 30s
+        shell: bash
+      
+      - name: '☁️ db migration - call lambda 2nd time (db should be awake)'
+        id: db-migrate-2
+        if: steps.db-migrate-1.outcome != 'success'
+        run: serverless invoke --function DBMigration
