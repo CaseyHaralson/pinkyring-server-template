@@ -76,7 +76,7 @@ functions:
     events:
       - httpApi:
           path: /todo/createTodo
-          method: GET
+          method: POST
   
   DBMigration:
     image:
