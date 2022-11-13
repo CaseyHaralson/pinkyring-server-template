@@ -22,6 +22,9 @@
       "path": "./packages/di-container"
     },
     {
+      "path": "./packages/infrastructure/graphql"
+    },
+    {
       "path": "./packages/infrastructure/lambdas"
     },
     {
