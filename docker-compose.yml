@@ -19,26 +19,26 @@ services:
     restart: always
     ports:
       - 8080:8080
-  
-  api:
-    container_name: api-container
-    build:
-      context: ./docker
-      dockerfile: Dockerfile.api
-    ports:
-      - 3000:3000
-    working_dir: /code/packages/apps/api
-    volumes:
-      - ./:/code
-
-  # read-secrets:
-  #   image: centos:7
-  #   entrypoint: 'cat /run/secrets/test-secret'
-  #   secrets:
-  #     - test-secret
 
 volumes:
   mysql:
+
+# api:
+#   container_name: api-container
+#   build:
+#     context: ./docker
+#     dockerfile: Dockerfile.api
+#   ports:
+#     - 3000:3000
+#   working_dir: /code/packages/apps/api
+#   volumes:
+#     - ./:/code
+
+# read-secrets:
+#   image: centos:7
+#   entrypoint: 'cat /run/secrets/test-secret'
+#   secrets:
+#     - test-secret
 
 # secrets:
 #   test-secret:

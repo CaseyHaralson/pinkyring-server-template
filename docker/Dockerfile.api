@@ -5,4 +5,5 @@ RUN npm install nodemon --global
 CMD nodemon --exec npm run start \
   --watch bin \
   --watch './../../core/build/**/*' \
-  --watch './../../infrastructure/repositories/build/**/*'
+  --watch './../../infrastructure/repositories/build/**/*' \
+  --watch './build/**/*'

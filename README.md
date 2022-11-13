@@ -26,3 +26,12 @@ Removing docker volumes created during docker compose:
 
 Rebuilding container with compose (build and recreate after the up):
 - docker compose up --build --force-recreate -d
+
+VS Code typescript intellisense isn't working after some change:
+- when you have a typescript file open, open the command palette (ctrl + shift + p)
+- TypeScript: Restart TS server
+
+To run the api package:
+- change directory to the api package project
+- run "npm run start"
+

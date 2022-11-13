@@ -21,8 +21,9 @@ app.get('/test2', (req, res) => {
 });
 
 app.get('/todo', async (req, res) => {
+  const searchText = req.query.searchText;
   const service = container.resolveTodoService();
-  res.send(await service.getTodos());
+  res.send(await service.getTodos(searchText as string));
 });
 
 app.post('/todo/create', async (req, res) => {
