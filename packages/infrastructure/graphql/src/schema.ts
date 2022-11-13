@@ -1,6 +1,6 @@
 import container from '@pinkyring/di-container/container';
-import {makeExecutableSchema} from '@graphql-tools/schema';
-import {GraphQLObjectType, GraphQLSchema, GraphQLString} from 'graphql';
+//import {makeExecutableSchema} from '@graphql-tools/schema';
+//import {GraphQLObjectType, GraphQLSchema, GraphQLString} from 'graphql';
 
 export const typeDefs = `
   type Todo {
@@ -27,14 +27,14 @@ export const resolvers = {
 //   resolvers,
 // });
 
-export const schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: 'Query',
-    fields: {
-      hello: {
-        type: GraphQLString,
-        resolve: () => 'world',
-      },
-    },
-  }),
-});
+// export const schema = new GraphQLSchema({
+//   query: new GraphQLObjectType({
+//     name: 'Query',
+//     fields: {
+//       hello: {
+//         type: GraphQLString,
+//         resolve: () => 'world',
+//       },
+//     },
+//   }),
+// });

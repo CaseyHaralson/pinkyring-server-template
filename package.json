@@ -18,6 +18,7 @@
     "packages/**/*"
   ],
   "dependencies": {
+    "@pinkyring/apps_api-graphql": "*",
     "@pinkyring/apps_api-rest": "*",
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",

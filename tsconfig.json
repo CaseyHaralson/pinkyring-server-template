@@ -13,6 +13,9 @@
   },
   "references": [
     {
+      "path": "./packages/apps/api-graphql"
+    },
+    {
       "path": "./packages/apps/api-rest"
     },
     {
