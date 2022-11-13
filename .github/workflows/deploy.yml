@@ -47,7 +47,7 @@ jobs:
       # - name: '🔧 db migration - get lambda name'
       #   run: echo "DB_MIGRATION_FUNC_NAME=$(serverless print --path functions.DBMigration.name --format text)" >> $GITHUB_ENV
       
-      - name: '☁️ db migration - call lambda (db might be cold)'
+      - name: '☁️ db migration - call lambda (db might be asleep)'
         id: db-migrate-1
         run: serverless invoke --function DBMigration
         # uses: gagoar/invoke-aws-lambda@v3.3.1

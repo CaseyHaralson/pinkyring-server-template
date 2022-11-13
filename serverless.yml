@@ -3,7 +3,7 @@ service: pinkyring
 provider:
   name: aws
   region: us-east-1
-  stage: dev
+  stage: test
   stackName: ${self:provider.stage}-${self:service}
   timeout: 30
   vpc:
