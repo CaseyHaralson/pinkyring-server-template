@@ -5,8 +5,10 @@ provider:
   region: us-east-1
   stage: dev
   stackName: ${self:provider.stage}-${self:service}
-  timeout: 60
+  timeout: 30
   vpc:
+    securityGroupIds:
+      - !Ref PublicSecurityGroup
     subnetIds:
       - !Ref SubnetAPublic
       - !Ref SubnetBPublic
@@ -23,7 +25,7 @@ provider:
           - ':3306/'
           - ${self:custom.DB_DATABASE_NAME}
           - '?connection_limit=1'
-          - '&pool_timeout=60'
+          - '&pool_timeout=30'
   ecr:
     images:
       db-migration-runner:
