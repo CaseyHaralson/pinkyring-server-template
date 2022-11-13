@@ -44,6 +44,10 @@ jobs:
       - name: '☁️ serverless deploy'
         run: serverless deploy
       
+      - name: '... sleep for a few minutes to let the database wake up ...'
+        run: sleep 120s
+        shell: bash
+      
       - name: '🔧 get db migration lambda name'
         run: echo "DB_MIGRATION_FUNC_NAME=$(serverless print --path functions.DBMigration.name --format text)" >> $GITHUB_ENV
       
@@ -58,10 +62,6 @@ jobs:
       - name: '🔧 print db migration lambda call response'
         run: echo '${{ fromJSON(steps.foobar.outputs.response).Payload }}'
         if: success() || failure()
-      
-      # - name: '... sleep for a few minutes to let the database wake up ...'
-      #   run: sleep 240s
-      #   shell: bash
 
       # - name: '🔧 migrate database'
       #   run: serverless invoke --function DBMigration
