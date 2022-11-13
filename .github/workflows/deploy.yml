@@ -43,6 +43,10 @@ jobs:
 
       - name: '☁️ serverless deploy'
         run: serverless deploy
+      
+      - name: '... sleep for 1 minute to let the database wake up ...'
+        run: sleep 60s
+        shell: bash
 
       - name: '🔧 migrate database'
         run: serverless invoke --function DBMigration
