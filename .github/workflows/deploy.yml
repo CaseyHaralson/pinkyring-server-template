@@ -61,7 +61,7 @@ jobs:
       #   if: steps.db-migrate-1.outputs.status == 'failure'
       #   run: echo '${{ fromJSON(steps.db-migrate-1.outputs.response).Payload }}'
       
-      - name: '... sleep for a bit to let the database wake up ...'
+      - name: '🔧 db migration - sleep for a bit to let the database wake up'
         if: steps.db-migrate-1.outcome != 'success'
         run: sleep 30s
         shell: bash
