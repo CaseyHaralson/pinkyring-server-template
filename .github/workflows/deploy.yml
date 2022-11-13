@@ -40,11 +40,14 @@ jobs:
 
       - name: '🔧 copy files for serverless deploy'
         run: cp -r packages/infrastructure/repositories/prisma serverless/dbmigration/prisma
+
+      - name: '☁️ serverless deploy'
+        run: serverless deploy
       
-      - name: 'get db migration func name'
+      - name: '🔧 get db migration lambda name'
         run: echo "DB_MIGRATION_FUNC_NAME=$(serverless print --path functions.DBMigration.name --format text)" >> $GITHUB_ENV
       
-      - name: 'call lambda'
+      - name: '☁️ call db migration lambda'
         id: foobar
         uses: gagoar/invoke-aws-lambda@v3.3.1
         with:
@@ -52,12 +55,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           FunctionName: ${{ env.DB_MIGRATION_FUNC_NAME }}
         
-      - name: 'print response'
+      - name: '🔧 print db migration lambda call response'
         run: echo '${{ fromJSON(steps.foobar.outputs.response).Payload }}'
         if: success() || failure()
-
-      # - name: '☁️ serverless deploy'
-      #   run: serverless deploy
       
       # - name: '... sleep for a few minutes to let the database wake up ...'
       #   run: sleep 240s
