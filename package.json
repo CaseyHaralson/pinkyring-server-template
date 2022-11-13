@@ -18,11 +18,11 @@
     "packages/**/*"
   ],
   "dependencies": {
+    "@pinkyring/apps_api": "*",
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
     "@pinkyring/infrastructure_lambdas": "*",
-    "@pinkyring/infrastructure_repositories": "*",
-    "@pinkyring/public-api": "*"
+    "@pinkyring/infrastructure_repositories": "*"
   },
   "devDependencies": {
     "@pinkyring/tests": "*",

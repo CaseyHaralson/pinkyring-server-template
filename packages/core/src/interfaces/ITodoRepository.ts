@@ -1,7 +1,7 @@
 import {Todo} from '../dtos/todo';
 
 interface ITodoRepository {
-  getTodos(): Promise<Todo[]>;
+  getTodos(searchText?: string): Promise<Todo[]>;
   saveTodo(todo: Todo): Promise<string>;
   markTodoCompleted(todo: Todo): Promise<boolean>;
   deleteTodo(id: string): Promise<boolean>;

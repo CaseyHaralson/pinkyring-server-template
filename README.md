@@ -11,7 +11,7 @@ To make code changes:
 
 To watch test code changes, you will need to open two terminals:
 - run "npm run build:watch" in one
-- run "npm run test:watch" in the other
+- run "npm run test:unit:watch" in the other (this will only rerun tests after a test file changes)
 
 Installing new npm packages to a workspace package:
 - run "npm install _npm_package_ --save -w packages/_workspace_package_name_"
@@ -26,3 +26,12 @@ Removing docker volumes created during docker compose:
 
 Rebuilding container with compose (build and recreate after the up):
 - docker compose up --build --force-recreate -d
+
+VS Code typescript intellisense isn't working after some change:
+- when you have a typescript file open, open the command palette (ctrl + shift + p)
+- TypeScript: Restart TS server
+
+To run the api package:
+- change directory to the api package project
+- run "npm run start"
+

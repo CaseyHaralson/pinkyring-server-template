@@ -12,5 +12,10 @@
     "isolatedModules": true,
     "rootDir": "./src",
     "outDir": "./build"
-  }
+  },
+  "references": [
+    {
+      "path": "../../di-container"
+    }
+  ]
 }

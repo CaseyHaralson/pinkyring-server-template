@@ -28,6 +28,31 @@ describe('todo service integration tests', () => {
 
       expect(todos.length).toBe(1);
     });
+
+    test('should return todos matching pattern', async () => {
+      await todoService.createTodo({
+        text: 'the cat jumped over the dog',
+        completed: false,
+      });
+      await todoService.createTodo({
+        text: 'the cow jumped over the moon',
+        completed: false,
+      });
+
+      const searchResults1 = await todoService.getTodos('cat');
+      expect(searchResults1.length).toBe(1);
+      expect(searchResults1[0].text).toBe('the cat jumped over the dog');
+
+      const searchResults2 = await todoService.getTodos('moon');
+      expect(searchResults2.length).toBe(1);
+      expect(searchResults2[0].text).toBe('the cow jumped over the moon');
+
+      const searchResults3 = await todoService.getTodos('jump');
+      expect(searchResults3.length).toBe(0);
+
+      const searchResults4 = await todoService.getTodos('jump*');
+      expect(searchResults4.length).toBe(2);
+    });
   });
 
   describe('create todo function', () => {

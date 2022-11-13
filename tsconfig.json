@@ -13,6 +13,9 @@
   },
   "references": [
     {
+      "path": "./packages/apps/api"
+    },
+    {
       "path": "./packages/core"
     },
     {
@@ -23,9 +26,6 @@
     },
     {
       "path": "./packages/infrastructure/repositories"
-    },
-    {
-      "path": "./packages/public/api"
     },
     {
       "path": "./packages/tests"

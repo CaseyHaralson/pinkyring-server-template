@@ -63,7 +63,6 @@ jobs:
           DATABASE_URL: mysql://root:example@127.0.0.1:3306/pinkyring
 
       - name: '🔍 run integration tests'
-        working-directory: ./
         run: npm run test:it --if-present
         env:
           DATABASE_URL: mysql://root:example@127.0.0.1:3306/pinkyring

@@ -9,8 +9,8 @@ class TodoService {
 
   // add requestId, current user/principal
 
-  async getTodos() {
-    return await this._todoRepository.getTodos();
+  async getTodos(searchText?: string) {
+    return await this._todoRepository.getTodos(searchText);
   }
 
   async createTodo(todo: Todo) {

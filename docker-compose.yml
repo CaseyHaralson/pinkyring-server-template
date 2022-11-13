@@ -20,14 +20,26 @@ services:
     ports:
       - 8080:8080
 
-  # read-secrets:
-  #   image: centos:7
-  #   entrypoint: 'cat /run/secrets/test-secret'
-  #   secrets:
-  #     - test-secret
-
 volumes:
   mysql:
+
+# api:
+#   container_name: api-container
+#   build:
+#     context: ./docker
+#     dockerfile: Dockerfile.api
+#   ports:
+#     - 3000:3000
+#   working_dir: /code/packages/apps/api
+#   volumes:
+#     - ./:/code
+
+# read-secrets:
+#   image: centos:7
+#   entrypoint: 'cat /run/secrets/test-secret'
+#   secrets:
+#     - test-secret
+
 # secrets:
 #   test-secret:
 #     file: ./secrets.txt
@@ -38,17 +50,6 @@ volumes:
 #     context: ./docker
 #     dockerfile: Dockerfile.builder
 #   working_dir: /code
-#   volumes:
-#     - ./:/code
-
-# api:
-#   container_name: api-container
-#   build:
-#     context: ./docker
-#     dockerfile: Dockerfile.api
-#   ports:
-#     - 3000:3000
-#   working_dir: /code/packages/public/api
 #   volumes:
 #     - ./:/code
 
