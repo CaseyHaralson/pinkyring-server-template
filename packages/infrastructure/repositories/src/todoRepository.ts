@@ -8,8 +8,17 @@ class TodoRepository implements ITodoRepository {
     this._prismaClient = prismaClient;
   }
 
-  async getTodos(): Promise<Todo[]> {
-    const todos = await this._prismaClient.todo.findMany();
+  async getTodos(searchText?: string): Promise<Todo[]> {
+    const todos =
+      searchText === undefined
+        ? await this._prismaClient.todo.findMany()
+        : await this._prismaClient.todo.findMany({
+            where: {
+              text: {
+                search: searchText,
+              },
+            },
+          });
     return todos as unknown as Todo[];
   }
 
