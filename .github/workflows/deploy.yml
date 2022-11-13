@@ -40,16 +40,19 @@ jobs:
 
       - name: '🔧 copy files for serverless deploy'
         run: cp -r packages/infrastructure/repositories/prisma serverless/dbmigration/prisma
-
-      - name: '☁️ serverless deploy'
-        run: serverless deploy
       
-      - name: '... sleep for a few minutes to let the database wake up ...'
-        run: sleep 240s
-        shell: bash
+      -name: 'temp'
+        run: serverless print --path functions.DBMigration --format text
 
-      - name: '🔧 migrate database'
-        run: serverless invoke --function DBMigration
+      # - name: '☁️ serverless deploy'
+      #   run: serverless deploy
+      
+      # - name: '... sleep for a few minutes to let the database wake up ...'
+      #   run: sleep 240s
+      #   shell: bash
+
+      # - name: '🔧 migrate database'
+      #   run: serverless invoke --function DBMigration
 
       # - name: '... sleep for a few minutes to let the database wake up ...'
       #   run: sleep 60s
