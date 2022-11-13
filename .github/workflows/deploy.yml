@@ -45,11 +45,16 @@ jobs:
         run: echo "DB_MIGRATION_FUNC_NAME=$(serverless print --path functions.DBMigration.name --format text)" >> $GITHUB_ENV
       
       - name: 'call lambda'
+        id: foobar
         uses: gagoar/invoke-aws-lambda@v3.3.1
         with:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           FunctionName: ${{ env.DB_MIGRATION_FUNC_NAME }}
+        
+        - name: 'print response'
+          run: echo '${{ fromJSON(steps.foobar.outputs.response) }}'
+          if: success() || failure()
 
       # - name: '☁️ serverless deploy'
       #   run: serverless deploy
