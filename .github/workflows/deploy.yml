@@ -50,3 +50,12 @@ jobs:
 
       - name: '🔧 migrate database'
         run: serverless invoke --function DBMigration
+
+      - name: '... sleep for a few minutes to let the database wake up ...'
+        run: sleep 60s
+        shell: bash
+        if: success() || failure()
+
+      - name: '🔧 migrate database'
+        run: serverless invoke --function DBMigration
+        if: success() || failure()
