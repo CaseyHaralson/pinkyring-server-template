@@ -1,23 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import container from '@pinkyring/di-container/container';
 //import {makeExecutableSchema} from '@graphql-tools/schema';
 //import {GraphQLObjectType, GraphQLSchema, GraphQLString} from 'graphql';
 
-export const typeDefs = `
+export const typeDefs = `#graphql
   type Todo {
     id: String
     text: String
   }
 
   type Query {
-    todos: [Todo]
+    todos(searchText: String): [Todo]
   }
 `;
 
 export const resolvers = {
   Query: {
-    todos() {
+    todos(_: any, {searchText}: {searchText: string}) {
       const service = container.resolveTodoService();
-      return service.getTodos();
+      return service.getTodos(searchText);
     },
   },
 };

@@ -16,6 +16,9 @@
   },
   "references": [
     {
+      "path": "../../infrastructure/graphql"
+    },
+    {
       "path": "../../di-container"
     }
   ]

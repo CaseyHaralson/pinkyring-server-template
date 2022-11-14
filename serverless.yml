@@ -78,6 +78,16 @@ functions:
           path: /todo/createTodo
           method: POST
   
+  graphql:
+    handler: ./packages/infrastructure/lambdas/build/graphql/server.graphqlHandler
+    events:
+      - httpApi:
+          path: /graphql
+          method: GET
+      - httpApi:
+          path: /graphql
+          method: POST
+  
   DBMigration:
     image:
       name: db-migration-runner

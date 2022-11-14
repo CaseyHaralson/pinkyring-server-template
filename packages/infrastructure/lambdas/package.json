@@ -11,7 +11,11 @@
     }
   },
   "dependencies": {
-    "@pinkyring/di-container": "*"
+    "@apollo/server": "^4.1.1",
+    "@as-integrations/aws-lambda": "^1.0.1",
+    "@pinkyring/infrastructure_graphql": "*",
+    "@pinkyring/di-container": "*",
+    "graphql": "^16.6.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.108"
