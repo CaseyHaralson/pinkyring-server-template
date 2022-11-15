@@ -3,7 +3,7 @@ export interface BlogPost {
   title: string;
   text: string;
   createdAt: Date;
-  lastUpdatedAt: Date;
+  updatedAt: Date;
 
   authorId: string;
 }

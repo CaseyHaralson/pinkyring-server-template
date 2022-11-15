@@ -1,5 +1,8 @@
 {
   "name": "@pinkyring/infrastructure_repositories",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "exports": {
     "./*": "./build/*.js"
   },

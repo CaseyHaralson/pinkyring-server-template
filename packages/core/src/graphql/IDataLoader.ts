@@ -1,3 +1,3 @@
 export interface IDataLoader<T> {
-  load(id: string): T;
+  load(id: string): Promise<T>;
 }

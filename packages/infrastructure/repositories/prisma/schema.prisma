@@ -21,3 +21,23 @@ model Todo {
 
   @@fulltext([text])
 }
+
+model BlogPost {
+  id String @id @default(cuid())
+  title String
+  text String @db.Text
+  createdAt DateTime  @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId String
+  author Author @relation(fields: [authorId], references: [id])
+
+  @@unique([authorId, title])
+}
+
+model Author {
+  id String @id @default(cuid())
+  name String @unique
+
+  blogPosts BlogPost[]
+}

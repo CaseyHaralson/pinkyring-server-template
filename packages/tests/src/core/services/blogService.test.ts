@@ -1,5 +1,5 @@
 import BlogService from '@pinkyring/core/services/blogService';
-import {IBlogRepository} from '@pinkyring/core/interfaces/IBlogRepository';
+import IBlogRepository from '@pinkyring/core/interfaces/IBlogRepository';
 import {mock, mockReset} from 'jest-mock-extended';
 
 describe('blog service unit tests', () => {

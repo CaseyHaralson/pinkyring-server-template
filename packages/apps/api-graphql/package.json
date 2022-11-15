@@ -6,7 +6,10 @@
     "start": "node ."
   },
   "dependencies": {
+    "@pinkyring/core": "*",
+    "@pinkyring/di-container": "*",
     "@pinkyring/infrastructure_graphql": "*",
+    "dataloader": "^2.1.0",
     "graphql-yoga": "^3.0.0-next.12"
   }
 }

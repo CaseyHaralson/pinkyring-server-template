@@ -1,4 +1,4 @@
-import {IBlogRepository} from '../interfaces/IBlogRepository';
+import IBlogRepository from '../interfaces/IBlogRepository';
 
 export default class BlogService {
   private _blogRepository;

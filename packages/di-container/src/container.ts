@@ -4,6 +4,8 @@ import TestRepository from '@pinkyring/infrastructure_repositories/testRepositor
 import TodoService from '@pinkyring/core/services/todoService';
 import TodoRepository from '@pinkyring/infrastructure_repositories/todoRepository';
 import {prisma} from '@pinkyring/infrastructure_repositories/util/db';
+import BlogService from '@pinkyring/core/services/blogService';
+import BlogRepository from '@pinkyring/infrastructure_repositories/blogRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -21,6 +23,10 @@ const createLocalContainer = function () {
   awilix_container.register({
     todoService: asClass(TodoService),
     todoRepository: asClass(TodoRepository),
+  });
+  awilix_container.register({
+    blogService: asClass(BlogService),
+    blogRepository: asClass(BlogRepository),
   });
   awilix_container.register({
     prismaClient: asFunction(prisma).singleton(),
@@ -42,6 +48,10 @@ class Container {
 
   resolveTodoService() {
     return this._container.cradle.todoService as TodoService;
+  }
+
+  resolveBlogService() {
+    return this._container.cradle.blogService as BlogService;
   }
 }
 
