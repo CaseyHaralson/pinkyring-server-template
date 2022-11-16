@@ -11,8 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "rootDir": "./src",
-    "outDir": "./build",
-    "composite": true
+    "outDir": "./build"
   },
   "references": [
     {
