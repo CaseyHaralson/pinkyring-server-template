@@ -19,9 +19,6 @@
     },
     {
       "path": "../../di-container"
-    },
-    {
-      "path": "../../infrastructure/graphql"
     }
   ]
 }

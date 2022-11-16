@@ -22,7 +22,6 @@
     "@pinkyring/apps_api-rest": "*",
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
-    "@pinkyring/infrastructure_graphql": "*",
     "@pinkyring/infrastructure_lambdas": "*",
     "@pinkyring/infrastructure_repositories": "*"
   },
