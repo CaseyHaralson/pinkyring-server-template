@@ -15,4 +15,20 @@ export default class BlogService {
   async getAuthors({ids}: {ids?: string[]}) {
     return await this._blogRepository.getAuthors({ids});
   }
+
+  async addAuthor(name: string) {
+    return await this._blogRepository.addAuthor(name);
+  }
+
+  async addBlogPost({
+    authorId,
+    title,
+    text,
+  }: {
+    authorId: string;
+    title: string;
+    text: string;
+  }) {
+    return await this._blogRepository.addBlogPost({authorId, title, text});
+  }
 }

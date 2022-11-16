@@ -7,7 +7,6 @@ export default class BlogRepository implements IBlogRepository {
   constructor(prismaClient: PrismaClient) {
     this._prismaClient = prismaClient;
   }
-
   async getBlogPosts({ids}: {ids?: string[] | undefined}): Promise<BlogPost[]> {
     const blogPosts =
       ids === undefined
@@ -30,5 +29,33 @@ export default class BlogRepository implements IBlogRepository {
             },
           });
     return authors as unknown as Author[];
+  }
+
+  async addAuthor(name: string): Promise<Author> {
+    const author = await this._prismaClient.author.create({
+      data: {
+        name: name,
+      },
+    });
+    return author;
+  }
+
+  async addBlogPost({
+    authorId,
+    title,
+    text,
+  }: {
+    authorId: string;
+    title: string;
+    text: string;
+  }) {
+    const blogPost = await this._prismaClient.blogPost.create({
+      data: {
+        authorId: authorId,
+        title: title,
+        text: text,
+      },
+    });
+    return blogPost;
   }
 }

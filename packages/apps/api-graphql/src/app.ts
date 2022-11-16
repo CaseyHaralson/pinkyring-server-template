@@ -6,14 +6,14 @@ import {IContext} from '@pinkyring/core/graphql/IContext';
 import container from '@pinkyring/di-container/container';
 import DataLoader from 'dataloader';
 import {IDataLoader} from '@pinkyring/core/graphql/IDataLoader';
-import {Author} from '@pinkyring/core/dtos/blogPost';
+import {Author, BaseObject} from '@pinkyring/core/dtos/blogPost';
 
 const yoga = createYoga({
   schema: createSchema({
     typeDefs: typeDefs,
     resolvers: resolvers,
   }),
-  context: async ({request}) => {
+  context: async () => {
     return {
       blogService: container.resolveBlogService(),
       authorLoader: new DataLoader<string, Author>(async (keys) => {
@@ -21,17 +21,21 @@ const yoga = createYoga({
           .resolveBlogService()
           .getAuthors({ids: keys as string[]});
 
-        const req = request;
-        console.log(req);
-
-        const map: {[key: string]: Author} = {};
-        authors.forEach((item) => [(map[item.id] = item)]);
-
-        return keys.map((key) => map[key]);
+        return mapObjectsToKeys(keys, authors);
       }) as IDataLoader<Author>,
     } as IContext;
   },
 });
+
+function mapObjectsToKeys<T extends BaseObject>(
+  keys: readonly string[],
+  objs: T[]
+) {
+  const map: {[key: string]: T} = {};
+  objs.forEach((item) => [(map[item.id] = item)]);
+
+  return keys.map((key) => map[key]);
+}
 
 const server = createServer(yoga);
 

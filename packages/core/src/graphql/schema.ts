@@ -19,7 +19,16 @@ export const typeDefs = `#graphql
 
   type Query {
     blogPosts: [BlogPost]
-    authors(ids: [String]!): [Author]
+    authors: [Author]
+  }
+
+  type Mutation {
+    addAuthor(name: String!): Author
+    addBlogPost(
+      authorId: String, 
+      title: String,
+      text: String
+    ): BlogPost
   }
 `;
 
@@ -41,6 +50,16 @@ export const resolvers = {
       const dataLoader = context.authorLoader;
       const author = dataLoader.load(obj.authorId);
       return author;
+    },
+  },
+  Mutation: {
+    async addAuthor(_: any, args: any, context: IContext, info: any) {
+      const serivce = context.blogService;
+      const author = await serivce.addAuthor(args.name);
+      return author;
+    },
+    async addBlogPost(_: any, args: any, context: IContext, info: any) {
+      return await context.blogService.addBlogPost(args);
     },
   },
 };
