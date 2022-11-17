@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "merge-check": "npm run lint && npm run prettier:check && npm run test:unit && npm run test:it",
-    "build:clean": "npx rimraf ./packages/**/build/* && npx rimraf ./packages/**/tsconfig.tsbuildinfo",
+    "build:clean": "npx rimraf ./packages/**/build && npx rimraf ./packages/**/tsconfig.tsbuildinfo",
     "build": "tsc -b",
     "build:watch": "tsc -b -w",
     "prettier": "npx prettier --write .",

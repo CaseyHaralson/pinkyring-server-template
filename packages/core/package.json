@@ -9,8 +9,5 @@
         "build/*"
       ]
     }
-  },
-  "dependencies": {
-    "@pinkyring/infrastructure_repositories": "*"
   }
 }

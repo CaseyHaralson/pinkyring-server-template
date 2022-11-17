@@ -1,8 +1,11 @@
+import IBaseParams from '../interfaces/IBaseParams';
 import IBlogRepository from '../interfaces/IBlogRepository';
+import BaseService from './baseService';
 
-export default class BlogService {
+export default class BlogService extends BaseService {
   private _blogRepository;
-  constructor(blogRepository: IBlogRepository) {
+  constructor(bp: IBaseParams, blogRepository: IBlogRepository) {
+    super(bp);
     this._blogRepository = blogRepository;
   }
 
@@ -16,8 +19,10 @@ export default class BlogService {
     return await this._blogRepository.getAuthors({ids});
   }
 
-  async addAuthor(name: string) {
-    return await this._blogRepository.addAuthor(name);
+  addAuthor(requestId: string, {name}: {name: string}) {
+    return this.idempotentRequest(requestId, () => {
+      return this._blogRepository.addAuthor(name);
+    });
   }
 
   async addBlogPost({
