@@ -1,7 +1,9 @@
 import {Prisma, PrismaClient} from '@prisma/client';
-import {IRequestRepository} from '@pinkyring/core/interfaces/IBaseParams';
+import {IIdempotentRequestRepository} from '@pinkyring/core/interfaces/IBaseParams';
 
-export default class RequestRepository implements IRequestRepository {
+export default class IdempotentRequestRepository
+  implements IIdempotentRequestRepository
+{
   private _prismaClient;
   constructor(prismaClient: PrismaClient) {
     this._prismaClient = prismaClient;
@@ -9,7 +11,7 @@ export default class RequestRepository implements IRequestRepository {
 
   async createRequest(requestId: string): Promise<boolean> {
     try {
-      await this._prismaClient.request.create({
+      await this._prismaClient.idempotentRequest.create({
         data: {
           id: requestId,
         },
@@ -24,7 +26,7 @@ export default class RequestRepository implements IRequestRepository {
   }
 
   async saveRequestResult(requestId: string, result: string): Promise<void> {
-    await this._prismaClient.request.update({
+    await this._prismaClient.idempotentRequest.update({
       where: {
         id: requestId,
       },
@@ -37,7 +39,7 @@ export default class RequestRepository implements IRequestRepository {
   async getRequestResult(
     requestId: string
   ): Promise<string | null | undefined> {
-    const result = await this._prismaClient.request.findFirst({
+    const result = await this._prismaClient.idempotentRequest.findFirst({
       where: {
         id: requestId,
       },
@@ -46,7 +48,7 @@ export default class RequestRepository implements IRequestRepository {
   }
 
   async deleteRequest(requestId: string): Promise<void> {
-    await this._prismaClient.request.delete({
+    await this._prismaClient.idempotentRequest.delete({
       where: {
         id: requestId,
       },

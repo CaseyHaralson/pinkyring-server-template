@@ -1,8 +1,8 @@
 export default interface IBaseParams {
-  requestRepository: IRequestRepository;
+  idempotentRequestRepository: IIdempotentRequestRepository;
 }
 
-export interface IRequestRepository {
+export interface IIdempotentRequestRepository {
   createRequest(requestId: string): Promise<boolean>;
   saveRequestResult(requestId: string, result: string): Promise<void>;
   getRequestResult(requestId: string): Promise<string | null | undefined>;

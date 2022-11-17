@@ -6,9 +6,8 @@ import TodoRepository from '@pinkyring/infrastructure_repositories/todoRepositor
 import {prisma} from '@pinkyring/infrastructure_repositories/util/db';
 import BlogService from '@pinkyring/core/services/blogService';
 import BlogRepository from '@pinkyring/infrastructure_repositories/blogRepository';
-import IIdempotentRepository from '@pinkyring/core/interfaces/IIdempotentRepository';
 import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
-import RequestRepository from '@pinkyring/infrastructure_repositories/requestRepository';
+import IdempotentRequestRepository from '@pinkyring/infrastructure_repositories/idempotentRequestRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -32,10 +31,11 @@ const createLocalContainer = function () {
     blogRepository: asClass(BlogRepository),
   });
   awilix_container.register({
-    requestRepository: asClass(RequestRepository),
+    idempotentRequestRepository: asClass(IdempotentRequestRepository),
     baseParams: asFunction(() => {
       return {
-        requestRepository: awilix_container.cradle.requestRepository,
+        idempotentRequestRepository:
+          awilix_container.cradle.idempotentRequestRepository,
       } as IBaseParams;
     }),
   });
@@ -74,18 +74,18 @@ export default container;
 // shouldn't be putting anything below here or using this thing
 // unless you know what you are doing...not sure I do either
 
-class DecoratorContainer {
-  private _container;
+// class DecoratorContainer {
+//   private _container;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(container: AwilixContainer<any>) {
-    this._container = container;
-  }
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   constructor(container: AwilixContainer<any>) {
+//     this._container = container;
+//   }
 
-  resolveIdempotentRepository() {
-    return this._container.cradle.idempotentRepository as IIdempotentRepository;
-  }
-}
+//   resolveIdempotentRepository() {
+//     return this._container.cradle.idempotentRepository as IIdempotentRepository;
+//   }
+// }
 
-const decoratorContainer = new DecoratorContainer(awilix_container);
-export {decoratorContainer};
+// const decoratorContainer = new DecoratorContainer(awilix_container);
+// export {decoratorContainer};

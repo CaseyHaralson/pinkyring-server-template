@@ -11,7 +11,9 @@ export default class BaseService {
     requestFunc: () => Promise<T>
   ): Promise<T> {
     const requestCreated =
-      await this._baseParams.requestRepository.createRequest(requestId);
+      await this._baseParams.idempotentRequestRepository.createRequest(
+        requestId
+      );
 
     if (requestCreated) {
       let result;
@@ -20,11 +22,13 @@ export default class BaseService {
       } catch (e) {
         // something failed in the request handler
         // so delete the request record so the same request can be made again
-        await this._baseParams.requestRepository.deleteRequest(requestId);
+        await this._baseParams.idempotentRequestRepository.deleteRequest(
+          requestId
+        );
         throw e;
       }
 
-      await this._baseParams.requestRepository.saveRequestResult(
+      await this._baseParams.idempotentRequestRepository.saveRequestResult(
         requestId,
         JSON.stringify(result)
       );
@@ -41,9 +45,10 @@ export default class BaseService {
     requestFunc: () => Promise<T>,
     maxWaitCountMs: number
   ): Promise<T> {
-    const result = await this._baseParams.requestRepository.getRequestResult(
-      requestId
-    );
+    const result =
+      await this._baseParams.idempotentRequestRepository.getRequestResult(
+        requestId
+      );
     if (result) return JSON.parse(result) as T;
     if (result === undefined) {
       // something happened to the original request

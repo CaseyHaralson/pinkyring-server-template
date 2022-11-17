@@ -42,7 +42,7 @@ model Author {
   blogPosts BlogPost[]
 }
 
-model Request {
+model IdempotentRequest {
   id String @unique
   createdAt DateTime @default(now())
   result String? @db.Text
