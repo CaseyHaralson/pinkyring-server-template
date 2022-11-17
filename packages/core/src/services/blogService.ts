@@ -5,8 +5,8 @@ import BaseService from './baseService';
 
 export default class BlogService extends BaseService {
   private _blogRepository;
-  constructor(bp: IBaseParams, blogRepository: IBlogRepository) {
-    super(bp);
+  constructor(baseParams: IBaseParams, blogRepository: IBlogRepository) {
+    super(baseParams);
     this._blogRepository = blogRepository;
   }
 

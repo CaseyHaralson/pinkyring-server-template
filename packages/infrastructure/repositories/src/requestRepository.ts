@@ -34,12 +34,22 @@ export default class RequestRepository implements IRequestRepository {
     });
   }
 
-  async getRequestResult(requestId: string): Promise<string | null> {
+  async getRequestResult(
+    requestId: string
+  ): Promise<string | null | undefined> {
     const result = await this._prismaClient.request.findFirst({
       where: {
         id: requestId,
       },
     });
-    return result ? result.result : null;
+    return result ? result.result : undefined;
+  }
+
+  async deleteRequest(requestId: string): Promise<void> {
+    await this._prismaClient.request.delete({
+      where: {
+        id: requestId,
+      },
+    });
   }
 }

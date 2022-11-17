@@ -5,5 +5,6 @@ export default interface IBaseParams {
 export interface IRequestRepository {
   createRequest(requestId: string): Promise<boolean>;
   saveRequestResult(requestId: string, result: string): Promise<void>;
-  getRequestResult(requestId: string): Promise<string | null>;
+  getRequestResult(requestId: string): Promise<string | null | undefined>;
+  deleteRequest(requestId: string): Promise<void>;
 }

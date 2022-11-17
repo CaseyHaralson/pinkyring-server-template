@@ -33,7 +33,7 @@ const createLocalContainer = function () {
   });
   awilix_container.register({
     requestRepository: asClass(RequestRepository),
-    bp: asFunction(() => {
+    baseParams: asFunction(() => {
       return {
         requestRepository: awilix_container.cradle.requestRepository,
       } as IBaseParams;
