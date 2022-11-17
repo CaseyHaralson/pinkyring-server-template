@@ -14,20 +14,21 @@ export default class BaseService {
     // and try catch around the main func, so can delete request if it doesn't succeed
 
     const requestCreated =
-      await this._baseParams.requestRepostiory.createRequest(requestId);
+      await this._baseParams.requestRepository.createRequest(requestId);
 
     if (requestCreated) {
       const result = await func();
-      await this._baseParams.requestRepostiory.saveRequestResult(
+      await this._baseParams.requestRepository.saveRequestResult(
         requestId,
         JSON.stringify(result)
       );
       return result;
     } else {
-      const result = await this._baseParams.requestRepostiory.getRequestResult(
+      const result = await this._baseParams.requestRepository.getRequestResult(
         requestId
       );
-      return JSON.parse(result) as T;
+      if (result) return JSON.parse(result) as T;
+      throw new Error(`Can't find result for request ${requestId}`);
     }
   }
 }

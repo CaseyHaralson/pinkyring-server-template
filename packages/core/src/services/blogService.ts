@@ -1,3 +1,4 @@
+import {Author} from '../dtos/blogPost';
 import IBaseParams from '../interfaces/IBaseParams';
 import IBlogRepository from '../interfaces/IBlogRepository';
 import BaseService from './baseService';
@@ -19,9 +20,9 @@ export default class BlogService extends BaseService {
     return await this._blogRepository.getAuthors({ids});
   }
 
-  addAuthor(requestId: string, {name}: {name: string}) {
+  addAuthor(requestId: string, author: Author) {
     return this.idempotentRequest(requestId, () => {
-      return this._blogRepository.addAuthor(name);
+      return this._blogRepository.addAuthor(author.name);
     });
   }
 

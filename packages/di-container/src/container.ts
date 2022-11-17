@@ -7,6 +7,8 @@ import {prisma} from '@pinkyring/infrastructure_repositories/util/db';
 import BlogService from '@pinkyring/core/services/blogService';
 import BlogRepository from '@pinkyring/infrastructure_repositories/blogRepository';
 import IIdempotentRepository from '@pinkyring/core/interfaces/IIdempotentRepository';
+import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
+import RequestRepository from '@pinkyring/infrastructure_repositories/requestRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -28,6 +30,14 @@ const createLocalContainer = function () {
   awilix_container.register({
     blogService: asClass(BlogService),
     blogRepository: asClass(BlogRepository),
+  });
+  awilix_container.register({
+    requestRepository: asClass(RequestRepository),
+    bp: asFunction(() => {
+      return {
+        requestRepository: awilix_container.cradle.requestRepository,
+      } as IBaseParams;
+    }),
   });
   awilix_container.register({
     prismaClient: asFunction(prisma).singleton(),
