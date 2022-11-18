@@ -8,6 +8,7 @@ import BlogService from '@pinkyring/core/services/blogService';
 import BlogRepository from '@pinkyring/infrastructure_repositories/blogRepository';
 import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
 import IdempotentRequestRepository from '@pinkyring/infrastructure_repositories/idempotentRequestRepository';
+import Logger from '@pinkyring/core/interfaces/ILogger';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -31,9 +32,11 @@ const createLocalContainer = function () {
     blogRepository: asClass(BlogRepository),
   });
   awilix_container.register({
+    logger: asClass(Logger),
     idempotentRequestRepository: asClass(IdempotentRequestRepository),
     baseParams: asFunction(() => {
       return {
+        logger: awilix_container.cradle.logger,
         idempotentRequestRepository:
           awilix_container.cradle.idempotentRequestRepository,
       } as IBaseParams;

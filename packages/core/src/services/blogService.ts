@@ -1,13 +1,18 @@
 import {Author} from '../dtos/blogPost';
 import IBaseParams from '../interfaces/IBaseParams';
 import IBlogRepository from '../interfaces/IBlogRepository';
+import {ILoggableClass} from '../interfaces/ILogger';
 import BaseService from './baseService';
 
-export default class BlogService extends BaseService {
+export default class BlogService extends BaseService implements ILoggableClass {
   private _blogRepository;
   constructor(baseParams: IBaseParams, blogRepository: IBlogRepository) {
     super(baseParams);
     this._blogRepository = blogRepository;
+  }
+
+  _className(): string {
+    return 'BlogService';
   }
 
   // add requestId, current user/principal
@@ -17,10 +22,12 @@ export default class BlogService extends BaseService {
   }
 
   async getAuthors({ids}: {ids?: string[]}) {
+    this._logger.debug(this, 'get authors function');
     return await this._blogRepository.getAuthors({ids});
   }
 
   addAuthor(requestId: string, author: Author) {
+    this._logger.debug(this, 'add author function');
     return this.idempotentRequest(requestId, () => {
       return this._blogRepository.addAuthor(author.name);
     });
