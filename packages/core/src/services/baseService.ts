@@ -17,7 +17,8 @@ export default class BaseService implements ILoggableClass {
     requestId: string,
     requestFunc: () => Promise<T>
   ): Promise<T> {
-    this._logger.debug(this, `Idempotent Request - trying to create request`);
+    const sl = this._logger.newSubjectLogger(this, `Idempotent Request`);
+    sl.debug(`trying to create request`);
 
     const requestCreated =
       await this._baseParams.idempotentRequestRepository.createRequest(
@@ -25,27 +26,18 @@ export default class BaseService implements ILoggableClass {
       );
 
     if (requestCreated) {
-      this._logger.debug(this, `Idempotent Request - request created`);
+      sl.debug(`request created`);
 
       let result;
       try {
-        this._logger.debug(
-          this,
-          `Idempotent Request - calling the request fuction`
-        );
+        sl.debug(`calling the request fuction`);
 
         result = await requestFunc();
       } catch (e) {
         // something failed in the request handler
         // so delete the request record so the same request can be made again
-        this._logger.debug(
-          this,
-          `Idempotent Request - the request function failed with e: ${e}`
-        );
-        this._logger.debug(
-          this,
-          `Idempotent Request - deleteing the request record and then throwing the error`
-        );
+        sl.debug(`the request function failed with e: ${e}`);
+        sl.debug(`deleteing the request record and then throwing the error`);
 
         await this._baseParams.idempotentRequestRepository.deleteRequest(
           requestId
@@ -53,10 +45,7 @@ export default class BaseService implements ILoggableClass {
         throw e;
       }
 
-      this._logger.debug(
-        this,
-        `Idempotent Request - the request function succeeded so saving the result`
-      );
+      sl.debug(`the request function succeeded so saving the result`);
 
       await this._baseParams.idempotentRequestRepository.saveRequestResult(
         requestId,
@@ -66,10 +55,7 @@ export default class BaseService implements ILoggableClass {
     } else {
       // the request has already been made
       // so wait for the request to complete and return the result
-      this._logger.debug(
-        this,
-        `Idempotent Request - the request already exists`
-      );
+      sl.debug(`the request already exists`);
 
       return this.waitForIdempotentRequestToComplete(
         requestId,
@@ -84,46 +70,37 @@ export default class BaseService implements ILoggableClass {
     requestFunc: () => Promise<T>,
     maxWaitCountMs: number
   ): Promise<T> {
-    this._logger.debug(
+    const sl = this._logger.newSubjectLogger(
       this,
-      `Idempotent Request - checking for the original request result`
+      `Idempotent Request - Additional Request`
     );
+    sl.debug(`checking for the original request result`);
 
     const result =
       await this._baseParams.idempotentRequestRepository.getRequestResult(
         requestId
       );
     if (result) {
-      this._logger.debug(
-        this,
-        `Idempotent Request - the original request result was found so returning result`
-      );
+      sl.debug(`the original request result was found so returning result`);
 
       return JSON.parse(result) as T;
     }
     if (result === undefined) {
       // something happened to the original request
       // so we need to make the request again
-      this._logger.debug(
-        this,
-        `Idempotent Request - the original request had an issue so making the request again`
-      );
+      sl.debug(`the original request had an issue so making the request again`);
 
       return this.idempotentRequest(requestId, requestFunc);
     }
     if (result === null) {
       // the original request hasn't finished
       // so wait and check again
-      this._logger.debug(
-        this,
-        `Idempotent Request - the original request hasn't completed so waiting before checking on the result again`
+      sl.debug(
+        `the original request hasn't completed so waiting before checking on the result again`
       );
 
       if (maxWaitCountMs < 0) {
-        this._logger.debug(
-          this,
-          `Idempotent Request - the max wait time has elapsed so going to throw an error`
-        );
+        sl.debug(`the max wait time has elapsed so going to throw an error`);
 
         throw Error(
           `Request timeout - the max amount of time to wait for the request to complete has elapsed.`

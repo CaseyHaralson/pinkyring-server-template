@@ -9,6 +9,7 @@ import BlogRepository from '@pinkyring/infrastructure_repositories/blogRepositor
 import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
 import IdempotentRequestRepository from '@pinkyring/infrastructure_repositories/idempotentRequestRepository';
 import Logger from '@pinkyring/core/interfaces/ILogger';
+import WinstonLogger from '@pinkyring/infrastructure_logging/winstonLogger';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -33,6 +34,7 @@ const createLocalContainer = function () {
   });
   awilix_container.register({
     logger: asClass(Logger),
+    iLogHandler: asClass(WinstonLogger).singleton(),
     idempotentRequestRepository: asClass(IdempotentRequestRepository),
     baseParams: asFunction(() => {
       return {
