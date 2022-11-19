@@ -31,31 +31,36 @@ export default class BlogRepository implements IBlogRepository {
     return authors as unknown as Author[];
   }
 
-  async addAuthor(name: string): Promise<Author> {
-    const author = await this._prismaClient.author.create({
+  async addAuthor(author: Author): Promise<Author> {
+    const dbAuthor = await this._prismaClient.author.create({
       data: {
-        name: name,
+        name: author.name,
       },
     });
-    return author;
+    return dbAuthor;
   }
 
-  async addBlogPost({
-    authorId,
-    title,
-    text,
-  }: {
-    authorId: string;
-    title: string;
-    text: string;
-  }) {
-    const blogPost = await this._prismaClient.blogPost.create({
+  async addBlogPost(blogPost: BlogPost) {
+    const dbBlogPost = await this._prismaClient.blogPost.create({
       data: {
-        authorId: authorId,
-        title: title,
-        text: text,
+        authorId: blogPost.authorId,
+        title: blogPost.title,
+        text: blogPost.text,
       },
     });
-    return blogPost;
+    return dbBlogPost;
+  }
+
+  async updateBlogPost(blogPost: BlogPost) {
+    const dbBlogPost = await this._prismaClient.blogPost.update({
+      where: {
+        id: blogPost.id,
+      },
+      data: {
+        title: blogPost.title != null ? blogPost.title : undefined,
+        text: blogPost.text != null ? blogPost.text : undefined,
+      },
+    });
+    return dbBlogPost;
   }
 }

@@ -25,7 +25,14 @@ export const typeDefs = `#graphql
   type Mutation {
     addAuthor(requestId: String!, name: String!): Author
     addBlogPost(
-      authorId: String, 
+      requestId: String!,
+      authorId: String!, 
+      title: String!,
+      text: String!
+    ): BlogPost
+    updateBlogPost(
+      requestId: String!,
+      id: String!,
       title: String,
       text: String
     ): BlogPost
@@ -51,7 +58,10 @@ export const resolvers = {
       return context.blogService.addAuthor(args.requestId, args);
     },
     async addBlogPost(_: any, args: any, context: IContext, info: any) {
-      return await context.blogService.addBlogPost(args);
+      return await context.blogService.addBlogPost(args.requestId, args);
+    },
+    async updateBlogPost(_: any, args: any, context: IContext, info: any) {
+      return await context.blogService.updateBlogPost(args.requestId, args);
     },
   },
 };

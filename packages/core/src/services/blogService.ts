@@ -1,4 +1,4 @@
-import {Author} from '../dtos/blogPost';
+import {Author, BlogPost} from '../dtos/blogPost';
 import IBaseParams from '../interfaces/IBaseParams';
 import IBlogRepository from '../interfaces/IBlogRepository';
 import {ILoggableClass} from '../interfaces/ILogger';
@@ -30,19 +30,21 @@ export default class BlogService extends BaseService implements ILoggableClass {
   addAuthor(requestId: string, author: Author) {
     this._logger.info(this, 'add author function');
     return this.idempotentRequest(requestId, () => {
-      return this._blogRepository.addAuthor(author.name);
+      return this._blogRepository.addAuthor(author);
     });
   }
 
-  async addBlogPost({
-    authorId,
-    title,
-    text,
-  }: {
-    authorId: string;
-    title: string;
-    text: string;
-  }) {
-    return await this._blogRepository.addBlogPost({authorId, title, text});
+  async addBlogPost(requestId: string, blogPost: BlogPost) {
+    this._logger.info(this, 'add blog post function');
+    return this.idempotentRequest(requestId, () => {
+      return this._blogRepository.addBlogPost(blogPost);
+    });
+  }
+
+  async updateBlogPost(requestId: string, blogPost: BlogPost) {
+    this._logger.info(this, 'update blog post function');
+    return this.idempotentRequest(requestId, () => {
+      return this._blogRepository.updateBlogPost(blogPost);
+    });
   }
 }
