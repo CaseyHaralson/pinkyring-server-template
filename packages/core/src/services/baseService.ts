@@ -22,4 +22,8 @@ export default class BaseService implements ILoggableClass {
       requestFunc
     );
   }
+
+  protected specifyRequestId(functionName: string, requestId: string) {
+    return `${this._className()}.${functionName}.${requestId}`;
+  }
 }

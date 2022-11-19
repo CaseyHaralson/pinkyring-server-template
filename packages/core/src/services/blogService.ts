@@ -29,21 +29,27 @@ export default class BlogService extends BaseService implements ILoggableClass {
 
   addAuthor(requestId: string, author: Author) {
     this._logger.info(this, 'add author function');
-    return this.idempotentRequest(requestId, () => {
+    const specificRequestId = this.specifyRequestId('addAuthor', requestId);
+    return this.idempotentRequest(specificRequestId, () => {
       return this._blogRepository.addAuthor(author);
     });
   }
 
   async addBlogPost(requestId: string, blogPost: BlogPost) {
     this._logger.info(this, 'add blog post function');
-    return this.idempotentRequest(requestId, () => {
+    const specificRequestId = this.specifyRequestId('addBlogPost', requestId);
+    return this.idempotentRequest(specificRequestId, () => {
       return this._blogRepository.addBlogPost(blogPost);
     });
   }
 
   async updateBlogPost(requestId: string, blogPost: BlogPost) {
     this._logger.info(this, 'update blog post function');
-    return this.idempotentRequest(requestId, () => {
+    const specificRequestId = this.specifyRequestId(
+      'updateBlogPost',
+      requestId
+    );
+    return this.idempotentRequest(specificRequestId, () => {
       return this._blogRepository.updateBlogPost(blogPost);
     });
   }
