@@ -13,7 +13,7 @@ export default class BaseService implements ILoggableClass {
     return 'BaseService';
   }
 
-  async idempotentRequest<T>(
+  protected async idempotentRequest<T>(
     requestId: string,
     requestFunc: () => Promise<T>
   ): Promise<T> {
