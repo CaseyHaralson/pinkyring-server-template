@@ -9,7 +9,6 @@ import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotent
 describe('blog service unit tests', () => {
   const baseParams = mock<IBaseParams>();
   baseParams.logger = mock<Logger>();
-  // const idempotentRequestRepository = mock<IIdempotentRequestRepository>();
   const idempotentRequestHelper = new IdempotentRequestHelper(
     mock<IIdempotentRequestRepository>(),
     mock<Logger>()
@@ -29,10 +28,6 @@ describe('blog service unit tests', () => {
         return requestFunc();
       }
     );
-    // mockReset(idempotentRequestRepository);
-    // idempotentRequestRepository.createRequest = jest.fn(() => {
-    //   return Promise.resolve(true);
-    // }) as any;
     mockReset(blogRepoMock);
   });
 
@@ -88,6 +83,76 @@ describe('blog service unit tests', () => {
         name: 'test author',
       };
       await blogService.addAuthor(requestId, author);
+
+      expect(idempotentRequestHelper.handleIdempotentRequest).toBeCalledTimes(
+        1
+      );
+    });
+  });
+
+  describe('add blog post function', () => {
+    test('should call repository', async () => {
+      const requestId = 'test_request_1234';
+      const blogPost = {
+        id: '',
+        title: 'test title',
+        text: 'test text',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        authorId: 'authorId',
+      };
+      await blogService.addBlogPost(requestId, blogPost);
+
+      expect(blogRepoMock.addBlogPost).toBeCalledTimes(1);
+      expect(blogRepoMock.addBlogPost).toBeCalledWith(blogPost);
+    });
+
+    test('should be an idempotent request', async () => {
+      const requestId = 'test_request_1234';
+      const blogPost = {
+        id: '',
+        title: 'test title',
+        text: 'test text',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        authorId: 'authorId',
+      };
+      await blogService.addBlogPost(requestId, blogPost);
+
+      expect(idempotentRequestHelper.handleIdempotentRequest).toBeCalledTimes(
+        1
+      );
+    });
+  });
+
+  describe('update blog post function', () => {
+    test('should call repository', async () => {
+      const requestId = 'test_request_1234';
+      const blogPost = {
+        id: '',
+        title: 'test title',
+        text: 'test text',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        authorId: 'authorId',
+      };
+      await blogService.updateBlogPost(requestId, blogPost);
+
+      expect(blogRepoMock.updateBlogPost).toBeCalledTimes(1);
+      expect(blogRepoMock.updateBlogPost).toBeCalledWith(blogPost);
+    });
+
+    test('should be an idempotent request', async () => {
+      const requestId = 'test_request_1234';
+      const blogPost = {
+        id: '',
+        title: 'test title',
+        text: 'test text',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        authorId: 'authorId',
+      };
+      await blogService.updateBlogPost(requestId, blogPost);
 
       expect(idempotentRequestHelper.handleIdempotentRequest).toBeCalledTimes(
         1
