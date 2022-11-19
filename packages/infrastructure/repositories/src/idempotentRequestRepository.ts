@@ -1,5 +1,6 @@
-import {Prisma, PrismaClient} from '@prisma/client';
+import {PrismaClient} from '@prisma/client';
 import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
+import {PrismaClientKnownRequestError} from '@prisma/client/runtime';
 
 export default class IdempotentRequestRepository
   implements IIdempotentRequestRepository
@@ -18,7 +19,7 @@ export default class IdempotentRequestRepository
       });
       return true;
     } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e instanceof PrismaClientKnownRequestError) {
         return false;
       }
       throw e;
