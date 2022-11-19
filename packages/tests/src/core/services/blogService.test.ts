@@ -1,15 +1,20 @@
 import BlogService from '@pinkyring/core/services/blogService';
 import IBlogRepository from '@pinkyring/core/interfaces/IBlogRepository';
 import {mock, mockReset} from 'jest-mock-extended';
-import IBaseParams, {
-  IIdempotentRequestRepository,
-} from '@pinkyring/core/interfaces/IBaseParams';
+import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
 import Logger, {SubjectLogger} from '@pinkyring/core/interfaces/ILogger';
+import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
+import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
 
 describe('blog service unit tests', () => {
   const baseParams = mock<IBaseParams>();
   baseParams.logger = mock<Logger>();
-  baseParams.idempotentRequestRepository = mock<IIdempotentRequestRepository>();
+  // const idempotentRequestRepository = mock<IIdempotentRequestRepository>();
+  const idempotentRequestHelper = new IdempotentRequestHelper(
+    mock<IIdempotentRequestRepository>(),
+    mock<Logger>()
+  );
+  baseParams.idempotentRequestHelper = idempotentRequestHelper;
   const blogRepoMock = mock<IBlogRepository>();
   const blogService = new BlogService(baseParams, blogRepoMock);
 
@@ -18,10 +23,16 @@ describe('blog service unit tests', () => {
     baseParams.logger.newSubjectLogger = jest.fn(() => {
       return mock<SubjectLogger>();
     });
-    mockReset(baseParams.idempotentRequestRepository);
-    baseParams.idempotentRequestRepository.createRequest = jest.fn(() => {
-      return Promise.resolve(true);
-    });
+    idempotentRequestHelper.handleIdempotentRequest = jest.fn(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (_: string, requestFunc: any) => {
+        return requestFunc();
+      }
+    );
+    // mockReset(idempotentRequestRepository);
+    // idempotentRequestRepository.createRequest = jest.fn(() => {
+    //   return Promise.resolve(true);
+    // }) as any;
     mockReset(blogRepoMock);
   });
 
@@ -78,16 +89,9 @@ describe('blog service unit tests', () => {
       };
       await blogService.addAuthor(requestId, author);
 
-      expect(
-        baseParams.idempotentRequestRepository.createRequest
-      ).toBeCalledTimes(1);
-      expect(
-        baseParams.idempotentRequestRepository.createRequest
-      ).toBeCalledWith(requestId);
-      expect(
-        baseParams.idempotentRequestRepository.saveRequestResult
-      ).toBeCalledTimes(1);
-      //expect(blogService.idempotentRequest).toBeCalledWith(author);
+      expect(idempotentRequestHelper.handleIdempotentRequest).toBeCalledTimes(
+        1
+      );
     });
   });
 });

@@ -1,5 +1,5 @@
 import {Prisma, PrismaClient} from '@prisma/client';
-import {IIdempotentRequestRepository} from '@pinkyring/core/interfaces/IBaseParams';
+import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
 
 export default class IdempotentRequestRepository
   implements IIdempotentRequestRepository
