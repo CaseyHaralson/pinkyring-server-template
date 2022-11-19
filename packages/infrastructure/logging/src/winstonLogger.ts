@@ -5,9 +5,16 @@ import {
   LogLevel,
 } from '@pinkyring/core/interfaces/ILogger';
 
-const logFormat = format.printf(
-  (info) => `${info.timestamp} ${info.level} [${info.label}]: ${info.message}`
-);
+const logFormat = format.printf((info) => {
+  let s = '';
+  s = `${info.timestamp} ${info.level}`;
+  s += ' ';
+  s += info.metadata.class ? `[${info.metadata.class}]` : `[Unknown Class]`;
+  s += ': ';
+  s += info.metadata.subject ? `${info.metadata.subject} - ` : '';
+  s += `${info.message}`;
+  return s;
+});
 
 export default class WinstonLogger implements ILogHandler {
   private _logger;
@@ -15,9 +22,11 @@ export default class WinstonLogger implements ILogHandler {
     this._logger = winston.createLogger({
       level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
       format: format.combine(
-        format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'})
+        format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}),
         // Format the metadata object
-        //format.metadata({ fillExcept: ['message', 'level', 'timestamp', 'label'] })
+        format.metadata({
+          fillExcept: ['message', 'level', 'timestamp', 'label'],
+        })
       ),
       transports: [
         new transports.Console({
@@ -41,7 +50,7 @@ export default class WinstonLogger implements ILogHandler {
     subject?: string
   ): void {
     const meta = {
-      class: currentObj,
+      class: currentObj._className(),
       subject: subject,
     };
 

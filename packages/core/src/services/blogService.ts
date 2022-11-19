@@ -18,16 +18,17 @@ export default class BlogService extends BaseService implements ILoggableClass {
   // add requestId, current user/principal
 
   async getBlogPosts({ids}: {ids?: string[]}) {
+    this._logger.info(this, 'get blog posts function');
     return await this._blogRepository.getBlogPosts({ids});
   }
 
   async getAuthors({ids}: {ids?: string[]}) {
-    this._logger.debug(this, 'get authors function');
+    this._logger.info(this, 'get authors function');
     return await this._blogRepository.getAuthors({ids});
   }
 
   addAuthor(requestId: string, author: Author) {
-    this._logger.debug(this, 'add author function');
+    this._logger.info(this, 'add author function');
     return this.idempotentRequest(requestId, () => {
       return this._blogRepository.addAuthor(author.name);
     });
