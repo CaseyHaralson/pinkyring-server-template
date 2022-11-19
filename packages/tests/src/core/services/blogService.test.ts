@@ -2,9 +2,11 @@ import BlogService from '@pinkyring/core/services/blogService';
 import IBlogRepository from '@pinkyring/core/interfaces/IBlogRepository';
 import {mock, mockReset} from 'jest-mock-extended';
 import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
+import Logger from '@pinkyring/core/interfaces/ILogger';
 
 describe('blog service unit tests', () => {
   const baseParams = mock<IBaseParams>();
+  baseParams.logger = mock<Logger>();
   const blogRepoMock = mock<IBlogRepository>();
   const blogService = new BlogService(baseParams, blogRepoMock);
 

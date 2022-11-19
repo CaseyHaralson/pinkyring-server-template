@@ -15,7 +15,7 @@ export default class BlogService extends BaseService implements ILoggableClass {
     return 'BlogService';
   }
 
-  // add requestId, current user/principal
+  // add current user/principal
 
   async getBlogPosts({ids}: {ids?: string[]}) {
     this._logger.info(this, 'get blog posts function');
