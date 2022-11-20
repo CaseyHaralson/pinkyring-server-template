@@ -8,9 +8,9 @@ import BlogService from '@pinkyring/core/services/blogService';
 import BlogRepository from '@pinkyring/infrastructure_repositories/blogRepository';
 import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
 import IdempotentRequestRepository from '@pinkyring/infrastructure_repositories/idempotentRequestRepository';
-import Logger from '@pinkyring/core/interfaces/ILogger';
 import WinstonLogger from '@pinkyring/infrastructure_logging/winstonLogger';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
+import Logger from '@pinkyring/core/util/logger';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 

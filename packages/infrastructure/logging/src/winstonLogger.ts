@@ -1,9 +1,6 @@
 import winston, {format, transports} from 'winston';
-import {
-  ILoggableClass,
-  ILogHandler,
-  LogLevel,
-} from '@pinkyring/core/interfaces/ILogger';
+import {ILoggableClass, ILogHandler} from '@pinkyring/core/interfaces/ILog';
+import {LogLevel} from '@pinkyring/core/dtos/enums';
 
 const logFormat = format.printf((info) => {
   let s = '';

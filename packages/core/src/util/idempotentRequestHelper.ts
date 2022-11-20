@@ -1,5 +1,6 @@
 import IIdempotentRequestRepository from '../interfaces/IIdempotentRequestRepository';
-import Logger, {ILoggableClass} from '../interfaces/ILogger';
+import {ILoggableClass} from '../interfaces/ILog';
+import Logger from './logger';
 
 export default class IdempotentRequestHelper implements ILoggableClass {
   private _idempotentRequestRepository;

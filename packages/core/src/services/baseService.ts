@@ -1,5 +1,5 @@
 import IBaseParams from '../interfaces/IBaseParams';
-import {ILoggableClass} from '../interfaces/ILogger';
+import {ILoggableClass} from '../interfaces/ILog';
 
 export default class BaseService implements ILoggableClass {
   private _baseParams;

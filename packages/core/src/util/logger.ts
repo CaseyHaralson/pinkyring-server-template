@@ -1,3 +1,6 @@
+import {LogLevel} from '../dtos/enums';
+import {ILoggableClass, ILogHandler} from '../interfaces/ILog';
+
 export default class Logger {
   private _iLogHandler;
   constructor(iLogHandler: ILogHandler) {
@@ -74,35 +77,4 @@ export class SubjectLogger {
       this._subject
     );
   }
-}
-
-export interface ILoggableClass {
-  _className(): string;
-}
-
-export interface ILogHandler {
-  log(level: LogLevel, currentObj: ILoggableClass, message: string): void;
-  log(
-    level: LogLevel,
-    currentObj: ILoggableClass,
-    message: string,
-    subject: string
-  ): void;
-}
-
-// datetime
-// level
-// message
-// object
-// type
-//
-
-// it would be nice to know this info, but not sure how to do it without lots of weird code
-// graphql yoga -> core graphql -> blog service -> base service
-
-export enum LogLevel {
-  ERROR = 0,
-  WARN = 1,
-  INFO = 2,
-  DEBUG = 3,
 }

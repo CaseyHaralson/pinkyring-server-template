@@ -1,7 +1,7 @@
 import {Author, BlogPost} from '../dtos/blogPost';
 import IBaseParams from '../interfaces/IBaseParams';
 import IBlogRepository from '../interfaces/IBlogRepository';
-import {ILoggableClass} from '../interfaces/ILogger';
+import {ILoggableClass} from '../interfaces/ILog';
 import BaseService from './baseService';
 
 export default class BlogService extends BaseService implements ILoggableClass {

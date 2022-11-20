@@ -1,5 +1,5 @@
 import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
-import Logger, {SubjectLogger} from '@pinkyring/core/interfaces/ILogger';
+import Logger, {SubjectLogger} from '@pinkyring/core/util/logger';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
 import {mock, mockReset} from 'jest-mock-extended';
 
