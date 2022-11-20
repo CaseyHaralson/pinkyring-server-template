@@ -69,7 +69,7 @@ export default class IdempotentRequestHelper implements ILoggableClass {
     }
   }
 
-  async waitForIdempotentRequestToComplete<T>(
+  private async waitForIdempotentRequestToComplete<T>(
     requestId: string,
     requestFunc: () => Promise<T>,
     maxWaitCountMs: number
