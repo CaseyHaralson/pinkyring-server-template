@@ -11,6 +11,7 @@ import IdempotentRequestRepository from '@pinkyring/infrastructure_repositories/
 import WinstonLogger from '@pinkyring/infrastructure_logging/winstonLogger';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
 import Logger from '@pinkyring/core/util/logger';
+import PrincipalResolver from '@pinkyring/core/util/principalResolver';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -28,6 +29,9 @@ const createLocalContainer = function () {
   awilix_container.register({
     todoService: asClass(TodoService),
     todoRepository: asClass(TodoRepository),
+  });
+  awilix_container.register({
+    principalResolver: asClass(PrincipalResolver),
   });
   awilix_container.register({
     blogService: asClass(BlogService),
@@ -58,6 +62,10 @@ class Container {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(container: AwilixContainer<any>) {
     this._container = container;
+  }
+
+  resolvePrincipalResolver() {
+    return this._container.cradle.principalResolver as PrincipalResolver;
   }
 
   resolveTestService() {

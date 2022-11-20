@@ -14,12 +14,16 @@ const server = new ApolloServer<IContext>({
 
 export const graphqlHandler = startServerAndCreateLambdaHandler(server, {
   context: async () => {
+    // can resolve principal with header or something here
+    const principal = container.resolvePrincipalResolver().resolve();
+
     return {
+      principal: principal,
       blogService: container.resolveBlogService(),
       authorLoader: new DataLoader<string, Author>(async (keys) => {
         const authors = await container
           .resolveBlogService()
-          .getAuthors({ids: keys as string[]});
+          .getAuthors(principal, {ids: keys as string[]});
 
         return mapObjectsToKeys(keys, authors);
       }),

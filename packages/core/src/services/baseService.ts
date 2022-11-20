@@ -1,3 +1,4 @@
+import Principal from '../dtos/principal';
 import IBaseParams from '../interfaces/IBaseParams';
 import {ILoggableClass} from '../interfaces/ILog';
 
@@ -23,7 +24,13 @@ export default class BaseService implements ILoggableClass {
     );
   }
 
-  protected specifyRequestId(functionName: string, requestId: string) {
-    return `${this._className()}.${functionName}.${requestId}`;
+  protected specifyRequestId(
+    principal: Principal,
+    functionName: string,
+    requestId: string
+  ) {
+    return `${
+      principal.identity.id
+    }.${this._className()}.${functionName}.${requestId}`;
   }
 }
