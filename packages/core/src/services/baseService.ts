@@ -15,22 +15,17 @@ export default class BaseService implements ILoggableClass {
   }
 
   protected async idempotentRequest<T>(
+    principal: Principal,
+    methodName: string,
     requestId: string,
     requestFunc: () => Promise<T>
   ): Promise<T> {
     return this._baseParams.idempotentRequestHelper.handleIdempotentRequest(
+      principal,
+      this._className(),
+      methodName,
       requestId,
       requestFunc
     );
-  }
-
-  protected specifyRequestId(
-    principal: Principal,
-    functionName: string,
-    requestId: string
-  ) {
-    return `${
-      principal.identity.id
-    }.${this._className()}.${functionName}.${requestId}`;
   }
 }

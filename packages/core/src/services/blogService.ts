@@ -17,23 +17,43 @@ export default class BlogService extends BaseService implements ILoggableClass {
   }
 
   async getBlogPosts(principal: Principal, {ids}: {ids?: string[]}) {
-    this._logger.info(this, 'get blog posts function');
+    this._logger.info(
+      {
+        principal: principal,
+        currentObj: this,
+        methodName: 'getBlogPosts',
+      },
+      'entering the get blog posts function'
+    );
+
     return await this._blogRepository.getBlogPosts({ids});
   }
 
   async getAuthors(principal: Principal, {ids}: {ids?: string[]}) {
-    this._logger.info(this, 'get authors function');
+    this._logger.info(
+      {
+        principal: principal,
+        currentObj: this,
+        methodName: 'getAuthors',
+      },
+      'entering the get authors function'
+    );
+
     return await this._blogRepository.getAuthors({ids});
   }
 
   addAuthor(principal: Principal, requestId: string, author: Author) {
-    this._logger.info(this, 'add author function');
-    const specificRequestId = this.specifyRequestId(
-      principal,
-      'addAuthor',
-      requestId
+    this._logger.info(
+      {
+        principal: principal,
+        currentObj: this,
+        methodName: 'addAuthor',
+        requestId: requestId,
+      },
+      'entering the add author function'
     );
-    return this.idempotentRequest(specificRequestId, () => {
+
+    return this.idempotentRequest(principal, 'addAuthor', requestId, () => {
       return this._blogRepository.addAuthor(author);
     });
   }
@@ -43,13 +63,17 @@ export default class BlogService extends BaseService implements ILoggableClass {
     requestId: string,
     blogPost: BlogPost
   ) {
-    this._logger.info(this, 'add blog post function');
-    const specificRequestId = this.specifyRequestId(
-      principal,
-      'addBlogPost',
-      requestId
+    this._logger.info(
+      {
+        principal: principal,
+        currentObj: this,
+        methodName: 'addBlogPost',
+        requestId: requestId,
+      },
+      'entering the add blog post function'
     );
-    return this.idempotentRequest(specificRequestId, () => {
+
+    return this.idempotentRequest(principal, 'addBlogPost', requestId, () => {
       return this._blogRepository.addBlogPost(blogPost);
     });
   }
@@ -59,14 +83,23 @@ export default class BlogService extends BaseService implements ILoggableClass {
     requestId: string,
     blogPost: BlogPost
   ) {
-    this._logger.info(this, 'update blog post function');
-    const specificRequestId = this.specifyRequestId(
+    this._logger.info(
+      {
+        principal: principal,
+        currentObj: this,
+        methodName: 'updateBlogPost',
+        requestId: requestId,
+      },
+      'entering the update blog post function'
+    );
+
+    return this.idempotentRequest(
       principal,
       'updateBlogPost',
-      requestId
+      requestId,
+      () => {
+        return this._blogRepository.updateBlogPost(blogPost);
+      }
     );
-    return this.idempotentRequest(specificRequestId, () => {
-      return this._blogRepository.updateBlogPost(blogPost);
-    });
   }
 }

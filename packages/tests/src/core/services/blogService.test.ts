@@ -4,7 +4,7 @@ import {mock, mockReset} from 'jest-mock-extended';
 import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
 import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
-import Logger, {SubjectLogger} from '@pinkyring/core/util/logger';
+import Logger from '@pinkyring/core/util/logger';
 import Principal from '@pinkyring/core/dtos/principal';
 
 describe('blog service unit tests', () => {
@@ -21,12 +21,15 @@ describe('blog service unit tests', () => {
 
   beforeEach(() => {
     mockReset(baseParams.logger);
-    baseParams.logger.newSubjectLogger = jest.fn(() => {
-      return mock<SubjectLogger>();
-    });
     idempotentRequestHelper.handleIdempotentRequest = jest.fn(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (_: string, requestFunc: any) => {
+      (
+        _: Principal,
+        __: string,
+        ___: string,
+        ____: string,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        requestFunc: any
+      ) => {
         return requestFunc();
       }
     );

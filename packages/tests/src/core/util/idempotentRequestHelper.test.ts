@@ -1,19 +1,18 @@
 import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
-import Logger, {SubjectLogger} from '@pinkyring/core/util/logger';
+import Logger from '@pinkyring/core/util/logger';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
 import {mock, mockReset} from 'jest-mock-extended';
+import Principal from '@pinkyring/core/dtos/principal';
 
 describe('idempotent request helper unit tests', () => {
   const repo = mock<IIdempotentRequestRepository>();
   const logger = mock<Logger>();
   const helper = new IdempotentRequestHelper(repo, logger);
+  const principal = mock<Principal>();
 
   beforeEach(() => {
     mockReset(repo);
     mockReset(logger);
-    logger.newSubjectLogger.mockImplementation(() => {
-      return mock<SubjectLogger>();
-    });
   });
 
   describe('handle idempotent request function', () => {
@@ -29,6 +28,9 @@ describe('idempotent request helper unit tests', () => {
           return Promise.resolve(requestResult);
         });
         const result = await helper.handleIdempotentRequest(
+          principal,
+          'test_class',
+          'test_function',
           requestId,
           requestFunc
         );
@@ -38,34 +40,58 @@ describe('idempotent request helper unit tests', () => {
       });
 
       test('saves the request func result', async () => {
-        const requestId = 'test_request_1234';
+        const requestId = '1234';
+        const specificRequestId = helper.specifyRequestId(
+          principal,
+          'test_class',
+          'test_function',
+          requestId
+        );
         const requestResult = {someResult: true};
         const requestFunc = jest.fn(() => {
           return Promise.resolve(requestResult);
         });
-        await helper.handleIdempotentRequest(requestId, requestFunc);
+        await helper.handleIdempotentRequest(
+          principal,
+          'test_class',
+          'test_function',
+          requestId,
+          requestFunc
+        );
 
         expect(repo.saveRequestResult).toBeCalledTimes(1);
         expect(repo.saveRequestResult).toBeCalledWith(
-          requestId,
+          specificRequestId,
           JSON.stringify(requestResult)
         );
       });
 
       test('deletes the request if something unexpected happens in the request func', async () => {
-        const requestId = 'test_request_1234';
+        const requestId = '1234';
+        const specificRequestId = helper.specifyRequestId(
+          principal,
+          'test_class',
+          'test_function',
+          requestId
+        );
         const exception = 'something unexpected';
         const requestFunc = jest.fn(() => {
           throw Error(exception);
         });
         try {
-          await helper.handleIdempotentRequest(requestId, requestFunc);
+          await helper.handleIdempotentRequest(
+            principal,
+            'test_class',
+            'test_function',
+            requestId,
+            requestFunc
+          );
         } catch (e) {
           expect((e as Error).message).toBe(exception);
         }
 
         expect(repo.deleteRequest).toBeCalledTimes(1);
-        expect(repo.deleteRequest).toBeCalledWith(requestId);
+        expect(repo.deleteRequest).toBeCalledWith(specificRequestId);
       });
     });
 
@@ -82,6 +108,9 @@ describe('idempotent request helper unit tests', () => {
         });
         repo.getRequestResult.mockResolvedValue(JSON.stringify(requestResult));
         const result = await helper.handleIdempotentRequest(
+          principal,
+          'test_class',
+          'test_function',
           requestId,
           requestFunc
         );
@@ -101,6 +130,9 @@ describe('idempotent request helper unit tests', () => {
         });
         repo.getRequestResult.mockResolvedValue(undefined);
         const result = await helper.handleIdempotentRequest(
+          principal,
+          'test_class',
+          'test_function',
           requestId,
           requestFunc
         );
@@ -121,6 +153,9 @@ describe('idempotent request helper unit tests', () => {
           JSON.stringify(requestResult)
         );
         const result = await helper.handleIdempotentRequest(
+          principal,
+          'test_class',
+          'test_function',
           requestId,
           requestFunc
         );
