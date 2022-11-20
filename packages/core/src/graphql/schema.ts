@@ -23,9 +23,16 @@ export const typeDefs = `#graphql
   }
 
   type Mutation {
-    addAuthor(name: String!): Author
+    addAuthor(requestId: String!, name: String!): Author
     addBlogPost(
-      authorId: String, 
+      requestId: String!,
+      authorId: String!, 
+      title: String!,
+      text: String!
+    ): BlogPost
+    updateBlogPost(
+      requestId: String!,
+      id: String!,
       title: String,
       text: String
     ): BlogPost
@@ -35,31 +42,26 @@ export const typeDefs = `#graphql
 export const resolvers = {
   Query: {
     blogPosts(_: any, args: any, context: IContext, info: any) {
-      const serivce = context.blogService;
-      const blogPosts = serivce.getBlogPosts(args);
-      return blogPosts;
+      return context.blogService.getBlogPosts(args);
     },
     authors(_: any, args: any, context: IContext, info: any) {
-      const serivce = context.blogService;
-      const authors = serivce.getAuthors(args);
-      return authors;
+      return context.blogService.getAuthors(args);
     },
   },
   BlogPost: {
     author(obj: BlogPost, args: any, context: IContext, info: any) {
-      const dataLoader = context.authorLoader;
-      const author = dataLoader.load(obj.authorId);
-      return author;
+      return context.authorLoader.load(obj.authorId);
     },
   },
   Mutation: {
-    async addAuthor(_: any, args: any, context: IContext, info: any) {
-      const serivce = context.blogService;
-      const author = await serivce.addAuthor(args.name);
-      return author;
+    addAuthor(_: any, args: any, context: IContext, info: any) {
+      return context.blogService.addAuthor(args.requestId, args);
     },
     async addBlogPost(_: any, args: any, context: IContext, info: any) {
-      return await context.blogService.addBlogPost(args);
+      return await context.blogService.addBlogPost(args.requestId, args);
+    },
+    async updateBlogPost(_: any, args: any, context: IContext, info: any) {
+      return await context.blogService.updateBlogPost(args.requestId, args);
     },
   },
 };

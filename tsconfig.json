@@ -28,6 +28,9 @@
       "path": "./packages/infrastructure/lambdas"
     },
     {
+      "path": "./packages/infrastructure/logging"
+    },
+    {
       "path": "./packages/infrastructure/repositories"
     },
     {
