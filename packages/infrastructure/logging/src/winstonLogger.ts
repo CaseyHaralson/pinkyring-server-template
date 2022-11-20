@@ -1,18 +1,33 @@
 import winston, {format, transports} from 'winston';
-import {
-  ILoggableClass,
-  ILogHandler,
-  LogLevel,
-} from '@pinkyring/core/interfaces/ILogger';
+import {ILogHandler, LogContext} from '@pinkyring/core/interfaces/ILog';
+import {LogLevel} from '@pinkyring/core/dtos/enums';
 
 const logFormat = format.printf((info) => {
   let s = '';
-  s = `${info.timestamp} ${info.level}`;
+  s = `${info.timestamp}`;
   s += ' ';
-  s += info.metadata.class ? `[${info.metadata.class}]` : `[Unknown Class]`;
+  s += info.metadata.env ? `${info.metadata.env}` : `env?`;
+  s += ' ';
+  s += `${info.level}`;
+  s += ' ';
+  s += info.metadata.context?.currentObj
+    ? `[${info.metadata.context.currentObj._className()}`
+    : `[Unknown Class`;
+  s += info.metadata.context?.methodName
+    ? `.${info.metadata.context.methodName}]`
+    : `.Unknown Function]`;
+  s += info.metadata.context?.requestId
+    ? `[${info.metadata.context.requestId}]`
+    : ``;
   s += ': ';
-  s += info.metadata.subject ? `${info.metadata.subject} - ` : '';
+  s += info.metadata.context?.subject
+    ? `${info.metadata.context.subject} - `
+    : '';
   s += `${info.message}`;
+  s += ' ... ';
+  s += info.metadata.context?.principal
+    ? `Principal: ${JSON.stringify(info.metadata.context?.principal)}`
+    : ``;
   return s;
 });
 
@@ -36,22 +51,10 @@ export default class WinstonLogger implements ILogHandler {
     });
   }
 
-  log(level: LogLevel, currentObj: ILoggableClass, message: string): void;
-  log(
-    level: LogLevel,
-    currentObj: ILoggableClass,
-    message: string,
-    subject: string
-  ): void;
-  log(
-    level: LogLevel,
-    currentObj: ILoggableClass,
-    message: string,
-    subject?: string
-  ): void {
+  log(level: LogLevel, context: LogContext, message: string): void {
     const meta = {
-      class: currentObj._className(),
-      subject: subject,
+      env: process.env.NODE_ENV,
+      context: context,
     };
 
     if (level == LogLevel.ERROR) this._logger.error(message, meta);

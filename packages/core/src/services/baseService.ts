@@ -1,5 +1,6 @@
+import Principal from '../dtos/principal';
 import IBaseParams from '../interfaces/IBaseParams';
-import {ILoggableClass} from '../interfaces/ILogger';
+import {ILoggableClass} from '../interfaces/ILog';
 
 export default class BaseService implements ILoggableClass {
   private _baseParams;
@@ -14,16 +15,17 @@ export default class BaseService implements ILoggableClass {
   }
 
   protected async idempotentRequest<T>(
+    principal: Principal,
+    methodName: string,
     requestId: string,
     requestFunc: () => Promise<T>
   ): Promise<T> {
     return this._baseParams.idempotentRequestHelper.handleIdempotentRequest(
+      principal,
+      this._className(),
+      methodName,
       requestId,
       requestFunc
     );
-  }
-
-  protected specifyRequestId(functionName: string, requestId: string) {
-    return `${this._className()}.${functionName}.${requestId}`;
   }
 }

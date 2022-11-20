@@ -42,10 +42,10 @@ export const typeDefs = `#graphql
 export const resolvers = {
   Query: {
     blogPosts(_: any, args: any, context: IContext, info: any) {
-      return context.blogService.getBlogPosts(args);
+      return context.blogService.getBlogPosts(context.principal, args);
     },
     authors(_: any, args: any, context: IContext, info: any) {
-      return context.blogService.getAuthors(args);
+      return context.blogService.getAuthors(context.principal, args);
     },
   },
   BlogPost: {
@@ -55,13 +55,25 @@ export const resolvers = {
   },
   Mutation: {
     addAuthor(_: any, args: any, context: IContext, info: any) {
-      return context.blogService.addAuthor(args.requestId, args);
+      return context.blogService.addAuthor(
+        context.principal,
+        args.requestId,
+        args
+      );
     },
     async addBlogPost(_: any, args: any, context: IContext, info: any) {
-      return await context.blogService.addBlogPost(args.requestId, args);
+      return await context.blogService.addBlogPost(
+        context.principal,
+        args.requestId,
+        args
+      );
     },
     async updateBlogPost(_: any, args: any, context: IContext, info: any) {
-      return await context.blogService.updateBlogPost(args.requestId, args);
+      return await context.blogService.updateBlogPost(
+        context.principal,
+        args.requestId,
+        args
+      );
     },
   },
 };

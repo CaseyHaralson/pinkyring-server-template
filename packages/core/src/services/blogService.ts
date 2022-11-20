@@ -1,7 +1,8 @@
 import {Author, BlogPost} from '../dtos/blogPost';
+import Principal from '../dtos/principal';
 import IBaseParams from '../interfaces/IBaseParams';
 import IBlogRepository from '../interfaces/IBlogRepository';
-import {ILoggableClass} from '../interfaces/ILogger';
+import {ILoggableClass, LogContext} from '../interfaces/ILog';
 import BaseService from './baseService';
 
 export default class BlogService extends BaseService implements ILoggableClass {
@@ -15,42 +16,83 @@ export default class BlogService extends BaseService implements ILoggableClass {
     return 'BlogService';
   }
 
-  // add current user/principal
+  async getBlogPosts(principal: Principal, {ids}: {ids?: string[]}) {
+    const lc = {
+      principal: principal,
+      currentObj: this,
+      methodName: 'getBlogPosts',
+    } as LogContext;
+    this._logger.info(lc, 'entering the get blog posts function');
 
-  async getBlogPosts({ids}: {ids?: string[]}) {
-    this._logger.info(this, 'get blog posts function');
     return await this._blogRepository.getBlogPosts({ids});
   }
 
-  async getAuthors({ids}: {ids?: string[]}) {
-    this._logger.info(this, 'get authors function');
+  async getAuthors(principal: Principal, {ids}: {ids?: string[]}) {
+    const lc = {
+      principal: principal,
+      currentObj: this,
+      methodName: 'getAuthors',
+    } as LogContext;
+    this._logger.info(lc, 'entering the get authors function');
+
     return await this._blogRepository.getAuthors({ids});
   }
 
-  addAuthor(requestId: string, author: Author) {
-    this._logger.info(this, 'add author function');
-    const specificRequestId = this.specifyRequestId('addAuthor', requestId);
-    return this.idempotentRequest(specificRequestId, () => {
+  addAuthor(principal: Principal, requestId: string, author: Author) {
+    const lc = {
+      principal: principal,
+      currentObj: this,
+      methodName: 'addAuthor',
+      requestId: requestId,
+    } as LogContext;
+    this._logger.info(lc, 'entering the add author function');
+
+    return this.idempotentRequest(principal, 'addAuthor', requestId, () => {
+      this._logger.info(lc, 'calling the repo to add the author');
       return this._blogRepository.addAuthor(author);
     });
   }
 
-  async addBlogPost(requestId: string, blogPost: BlogPost) {
-    this._logger.info(this, 'add blog post function');
-    const specificRequestId = this.specifyRequestId('addBlogPost', requestId);
-    return this.idempotentRequest(specificRequestId, () => {
+  async addBlogPost(
+    principal: Principal,
+    requestId: string,
+    blogPost: BlogPost
+  ) {
+    const lc = {
+      principal: principal,
+      currentObj: this,
+      methodName: 'addBlogPost',
+      requestId: requestId,
+    } as LogContext;
+    this._logger.info(lc, 'entering the add blog post function');
+
+    return this.idempotentRequest(principal, 'addBlogPost', requestId, () => {
+      this._logger.info(lc, 'calling the repo to add the blog post');
       return this._blogRepository.addBlogPost(blogPost);
     });
   }
 
-  async updateBlogPost(requestId: string, blogPost: BlogPost) {
-    this._logger.info(this, 'update blog post function');
-    const specificRequestId = this.specifyRequestId(
+  async updateBlogPost(
+    principal: Principal,
+    requestId: string,
+    blogPost: BlogPost
+  ) {
+    const lc = {
+      principal: principal,
+      currentObj: this,
+      methodName: 'updateBlogPost',
+      requestId: requestId,
+    } as LogContext;
+    this._logger.info(lc, 'entering the update blog post function');
+
+    return this.idempotentRequest(
+      principal,
       'updateBlogPost',
-      requestId
+      requestId,
+      () => {
+        this._logger.info(lc, 'calling the repo to update the author');
+        return this._blogRepository.updateBlogPost(blogPost);
+      }
     );
-    return this.idempotentRequest(specificRequestId, () => {
-      return this._blogRepository.updateBlogPost(blogPost);
-    });
   }
 }
