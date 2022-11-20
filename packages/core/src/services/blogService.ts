@@ -2,7 +2,7 @@ import {Author, BlogPost} from '../dtos/blogPost';
 import Principal from '../dtos/principal';
 import IBaseParams from '../interfaces/IBaseParams';
 import IBlogRepository from '../interfaces/IBlogRepository';
-import {ILoggableClass} from '../interfaces/ILog';
+import {ILoggableClass, LogContext} from '../interfaces/ILog';
 import BaseService from './baseService';
 
 export default class BlogService extends BaseService implements ILoggableClass {
@@ -17,43 +17,38 @@ export default class BlogService extends BaseService implements ILoggableClass {
   }
 
   async getBlogPosts(principal: Principal, {ids}: {ids?: string[]}) {
-    this._logger.info(
-      {
-        principal: principal,
-        currentObj: this,
-        methodName: 'getBlogPosts',
-      },
-      'entering the get blog posts function'
-    );
+    const lc = {
+      principal: principal,
+      currentObj: this,
+      methodName: 'getBlogPosts',
+    } as LogContext;
+    this._logger.info(lc, 'entering the get blog posts function');
 
     return await this._blogRepository.getBlogPosts({ids});
   }
 
   async getAuthors(principal: Principal, {ids}: {ids?: string[]}) {
-    this._logger.info(
-      {
-        principal: principal,
-        currentObj: this,
-        methodName: 'getAuthors',
-      },
-      'entering the get authors function'
-    );
+    const lc = {
+      principal: principal,
+      currentObj: this,
+      methodName: 'getAuthors',
+    } as LogContext;
+    this._logger.info(lc, 'entering the get authors function');
 
     return await this._blogRepository.getAuthors({ids});
   }
 
   addAuthor(principal: Principal, requestId: string, author: Author) {
-    this._logger.info(
-      {
-        principal: principal,
-        currentObj: this,
-        methodName: 'addAuthor',
-        requestId: requestId,
-      },
-      'entering the add author function'
-    );
+    const lc = {
+      principal: principal,
+      currentObj: this,
+      methodName: 'addAuthor',
+      requestId: requestId,
+    } as LogContext;
+    this._logger.info(lc, 'entering the add author function');
 
     return this.idempotentRequest(principal, 'addAuthor', requestId, () => {
+      this._logger.info(lc, 'calling the repo to add the author');
       return this._blogRepository.addAuthor(author);
     });
   }
@@ -63,17 +58,16 @@ export default class BlogService extends BaseService implements ILoggableClass {
     requestId: string,
     blogPost: BlogPost
   ) {
-    this._logger.info(
-      {
-        principal: principal,
-        currentObj: this,
-        methodName: 'addBlogPost',
-        requestId: requestId,
-      },
-      'entering the add blog post function'
-    );
+    const lc = {
+      principal: principal,
+      currentObj: this,
+      methodName: 'addBlogPost',
+      requestId: requestId,
+    } as LogContext;
+    this._logger.info(lc, 'entering the add blog post function');
 
     return this.idempotentRequest(principal, 'addBlogPost', requestId, () => {
+      this._logger.info(lc, 'calling the repo to add the blog post');
       return this._blogRepository.addBlogPost(blogPost);
     });
   }
@@ -83,21 +77,20 @@ export default class BlogService extends BaseService implements ILoggableClass {
     requestId: string,
     blogPost: BlogPost
   ) {
-    this._logger.info(
-      {
-        principal: principal,
-        currentObj: this,
-        methodName: 'updateBlogPost',
-        requestId: requestId,
-      },
-      'entering the update blog post function'
-    );
+    const lc = {
+      principal: principal,
+      currentObj: this,
+      methodName: 'updateBlogPost',
+      requestId: requestId,
+    } as LogContext;
+    this._logger.info(lc, 'entering the update blog post function');
 
     return this.idempotentRequest(
       principal,
       'updateBlogPost',
       requestId,
       () => {
+        this._logger.info(lc, 'calling the repo to update the author');
         return this._blogRepository.updateBlogPost(blogPost);
       }
     );

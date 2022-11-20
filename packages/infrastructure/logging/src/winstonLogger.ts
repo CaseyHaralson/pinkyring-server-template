@@ -16,6 +16,9 @@ const logFormat = format.printf((info) => {
   s += info.metadata.context?.methodName
     ? `.${info.metadata.context.methodName}]`
     : `.Unknown Function]`;
+  s += info.metadata.context?.requestId
+    ? `[${info.metadata.context.requestId}]`
+    : ``;
   s += ': ';
   s += info.metadata.context?.subject
     ? `${info.metadata.context.subject} - `
