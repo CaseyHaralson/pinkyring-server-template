@@ -4,7 +4,6 @@ export interface BaseEvent {
 }
 
 export interface BlogPostAddedEvent extends BaseEvent {
-  eventType: EventType.BLOG_POST_ADDED;
   eventData: {
     authorId: string;
     blogPostId: string;
@@ -12,7 +11,7 @@ export interface BlogPostAddedEvent extends BaseEvent {
 }
 
 export enum EventType {
-  BLOG_POST_ADDED = 1,
+  BLOG_POST_ADDED = 'blogpost.added',
 }
 
 export const EVENT_BUS_NAME = 'PINKYRING';

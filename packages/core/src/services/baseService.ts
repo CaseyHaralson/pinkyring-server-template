@@ -30,7 +30,7 @@ export default class BaseService implements ILoggableClass {
     );
   }
 
-  protected publishEvent(event: BaseEvent) {
-    this._baseParams.eventHelper.publishEvent(event);
+  protected async publishEvent(event: BaseEvent) {
+    await this._baseParams.eventHelper.publishEvent(event);
   }
 }

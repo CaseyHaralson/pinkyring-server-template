@@ -1,5 +1,5 @@
 import {BaseEvent} from '../dtos/events';
 
 export default interface IEventRepository {
-  publishEvent(event: BaseEvent): void;
+  publishEvent(event: BaseEvent): Promise<void>;
 }

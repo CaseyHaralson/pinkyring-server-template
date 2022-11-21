@@ -7,8 +7,9 @@ export default class EventHelper {
     this._eventRepository = eventRepository;
   }
 
-  publishEvent(event: BaseEvent) {
-    this._eventRepository.publishEvent(event);
+  async publishEvent(event: BaseEvent) {
+    console.log(`Event type: ${event.eventType}`);
+    await this._eventRepository.publishEvent(event);
   }
 }
 

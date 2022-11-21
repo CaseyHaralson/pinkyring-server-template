@@ -24,6 +24,7 @@
     "@pinkyring/di-container": "*",
     "@pinkyring/infrastructure_lambdas": "*",
     "@pinkyring/infrastructure_logging": "*",
+    "@pinkyring/infrastructure_queue": "*",
     "@pinkyring/infrastructure_repositories": "*"
   },
   "devDependencies": {

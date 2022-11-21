@@ -16,16 +16,7 @@
   },
   "references": [
     {
-      "path": "../core"
-    },
-    {
-      "path": "../infrastructure/logging"
-    },
-    {
-      "path": "../infrastructure/queue"
-    },
-    {
-      "path": "../infrastructure/repositories"
+      "path": "../../core"
     }
   ]
 }

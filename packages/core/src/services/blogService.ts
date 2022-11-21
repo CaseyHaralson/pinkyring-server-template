@@ -1,5 +1,5 @@
 import {Author, BlogPost} from '../dtos/blogPost';
-import {BlogPostAddedEvent} from '../dtos/events';
+import {BlogPostAddedEvent, EventType} from '../dtos/events';
 import Principal from '../dtos/principal';
 import IBaseParams from '../interfaces/IBaseParams';
 import IBlogRepository from '../interfaces/IBlogRepository';
@@ -75,7 +75,8 @@ export default class BlogService extends BaseService implements ILoggableClass {
         this._logger.info(lc, 'calling the repo to add the blog post');
         const result = await this._blogRepository.addBlogPost(blogPost);
 
-        this.publishEvent({
+        await this.publishEvent({
+          eventType: EventType.BLOG_POST_ADDED,
           eventData: {
             authorId: result.authorId,
             blogPostId: result.id,

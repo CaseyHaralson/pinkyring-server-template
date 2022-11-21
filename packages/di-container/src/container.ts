@@ -12,6 +12,8 @@ import WinstonLogger from '@pinkyring/infrastructure_logging/winstonLogger';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
 import Logger from '@pinkyring/core/util/logger';
 import PrincipalResolver from '@pinkyring/core/util/principalResolver';
+import EventHelper from '@pinkyring/core/util/eventHelper';
+import EventRepository from '@pinkyring/infrastructure_queue/eventRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -42,11 +44,14 @@ const createLocalContainer = function () {
     iLogHandler: asClass(WinstonLogger).singleton(),
     idempotentRequestHelper: asClass(IdempotentRequestHelper),
     idempotentRequestRepository: asClass(IdempotentRequestRepository),
+    eventHelper: asClass(EventHelper),
+    eventRepository: asClass(EventRepository),
     baseParams: asFunction(() => {
       return {
         logger: awilix_container.cradle.logger,
         idempotentRequestHelper:
           awilix_container.cradle.idempotentRequestHelper,
+        eventHelper: awilix_container.cradle.eventHelper,
       } as IBaseParams;
     }),
   });
