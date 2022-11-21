@@ -8,8 +8,18 @@ export default class EventHelper {
   }
 
   async publishEvent(event: BaseEvent) {
-    console.log(`Event type: ${event.eventType}`);
     await this._eventRepository.publishEvent(event);
+  }
+
+  async createQueue(queueName: string, busName: string, topicPattern: string) {
+    await this._eventRepository.createQueue(queueName, busName, topicPattern);
+  }
+
+  async listenForMessages(
+    queueName: string,
+    handlerFunc: (event: BaseEvent) => Promise<boolean>
+  ) {
+    await this._eventRepository.listenForMessages(queueName, handlerFunc);
   }
 }
 

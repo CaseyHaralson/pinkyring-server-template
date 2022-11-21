@@ -19,6 +19,9 @@
       "path": "./packages/apps/api-rest"
     },
     {
+      "path": "./packages/apps/test-events"
+    },
+    {
       "path": "./packages/core"
     },
     {

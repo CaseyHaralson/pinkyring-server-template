@@ -11,6 +11,7 @@ export interface BlogPostAddedEvent extends BaseEvent {
 }
 
 export enum EventType {
+  TEST_EVENT = 'test.event',
   BLOG_POST_ADDED = 'blogpost.added',
 }
 

@@ -20,6 +20,7 @@
   "dependencies": {
     "@pinkyring/apps_api-graphql": "*",
     "@pinkyring/apps_api-rest": "*",
+    "@pinkyring/apps_test-events": "*",
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
     "@pinkyring/infrastructure_lambdas": "*",

@@ -84,6 +84,10 @@ class Container {
   resolveBlogService() {
     return this._container.cradle.blogService as BlogService;
   }
+
+  resolveEventHelper() {
+    return this._container.cradle.eventHelper as EventHelper;
+  }
 }
 
 loadContainer();
