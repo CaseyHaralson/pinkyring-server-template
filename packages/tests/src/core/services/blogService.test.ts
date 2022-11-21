@@ -6,6 +6,7 @@ import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelpe
 import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
 import Logger from '@pinkyring/core/util/logger';
 import Principal from '@pinkyring/core/dtos/principal';
+import EventHelper from '@pinkyring/core/util/eventHelper';
 
 describe('blog service unit tests', () => {
   const baseParams = mock<IBaseParams>();
@@ -15,6 +16,7 @@ describe('blog service unit tests', () => {
     mock<Logger>()
   );
   baseParams.idempotentRequestHelper = idempotentRequestHelper;
+  baseParams.eventHelper = mock<EventHelper>();
   const blogRepoMock = mock<IBlogRepository>();
   const blogService = new BlogService(baseParams, blogRepoMock);
   const principal = mock<Principal>();
@@ -33,6 +35,7 @@ describe('blog service unit tests', () => {
         return requestFunc();
       }
     );
+    mockReset(baseParams.eventHelper);
     mockReset(blogRepoMock);
   });
 
@@ -96,6 +99,17 @@ describe('blog service unit tests', () => {
   });
 
   describe('add blog post function', () => {
+    beforeEach(() => {
+      blogRepoMock.addBlogPost.mockResolvedValue({
+        id: 'new_blog_post_id',
+        authorId: 'authorId',
+        title: 'test title',
+        text: 'test text',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    });
+
     test('should call repository', async () => {
       const requestId = 'test_request_1234';
       const blogPost = {
@@ -127,6 +141,21 @@ describe('blog service unit tests', () => {
       expect(idempotentRequestHelper.handleIdempotentRequest).toBeCalledTimes(
         1
       );
+    });
+
+    test('should publish a blog post added event', async () => {
+      const requestId = 'test_request_1234';
+      const blogPost = {
+        id: '',
+        title: 'test title',
+        text: 'test text',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        authorId: 'authorId',
+      };
+      await blogService.addBlogPost(principal, requestId, blogPost);
+
+      expect(baseParams.eventHelper.publishEvent).toBeCalledTimes(1);
     });
   });
 
