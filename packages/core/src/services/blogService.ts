@@ -1,4 +1,5 @@
 import {Author, BlogPost} from '../dtos/blogPost';
+import {BlogPostAddedEvent, EventType} from '../dtos/events';
 import Principal from '../dtos/principal';
 import IBaseParams from '../interfaces/IBaseParams';
 import IBlogRepository from '../interfaces/IBlogRepository';
@@ -66,10 +67,25 @@ export default class BlogService extends BaseService implements ILoggableClass {
     } as LogContext;
     this._logger.info(lc, 'entering the add blog post function');
 
-    return this.idempotentRequest(principal, 'addBlogPost', requestId, () => {
-      this._logger.info(lc, 'calling the repo to add the blog post');
-      return this._blogRepository.addBlogPost(blogPost);
-    });
+    return this.idempotentRequest(
+      principal,
+      'addBlogPost',
+      requestId,
+      async () => {
+        this._logger.info(lc, 'calling the repo to add the blog post');
+        const result = await this._blogRepository.addBlogPost(blogPost);
+
+        await this.publishEvent({
+          eventType: EventType.BLOG_POST_ADDED,
+          eventData: {
+            authorId: result.authorId,
+            blogPostId: result.id,
+          },
+        } as BlogPostAddedEvent);
+
+        return result;
+      }
+    );
   }
 
   async updateBlogPost(

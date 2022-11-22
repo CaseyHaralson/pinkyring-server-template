@@ -13,6 +13,7 @@
   "dependencies": {
     "@pinkyring/core": "*",
     "@pinkyring/infrastructure_logging": "*",
+    "@pinkyring/infrastructure_queue": "*",
     "@pinkyring/infrastructure_repositories": "*",
     "awilix": "^8.0.0"
   }

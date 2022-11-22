@@ -11,21 +11,14 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "rootDir": "./src",
-    "outDir": "./build",
-    "composite": true
+    "outDir": "./build"
   },
   "references": [
     {
-      "path": "../core"
+      "path": "../../core"
     },
     {
-      "path": "../infrastructure/logging"
-    },
-    {
-      "path": "../infrastructure/queue"
-    },
-    {
-      "path": "../infrastructure/repositories"
+      "path": "../../di-container"
     }
   ]
 }

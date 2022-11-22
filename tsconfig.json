@@ -19,6 +19,9 @@
       "path": "./packages/apps/api-rest"
     },
     {
+      "path": "./packages/apps/test-events"
+    },
+    {
       "path": "./packages/core"
     },
     {
@@ -29,6 +32,9 @@
     },
     {
       "path": "./packages/infrastructure/logging"
+    },
+    {
+      "path": "./packages/infrastructure/queue"
     },
     {
       "path": "./packages/infrastructure/repositories"

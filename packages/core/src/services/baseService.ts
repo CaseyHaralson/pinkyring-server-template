@@ -1,3 +1,4 @@
+import {BaseEvent} from '../dtos/events';
 import Principal from '../dtos/principal';
 import IBaseParams from '../interfaces/IBaseParams';
 import {ILoggableClass} from '../interfaces/ILog';
@@ -27,5 +28,9 @@ export default class BaseService implements ILoggableClass {
       requestId,
       requestFunc
     );
+  }
+
+  protected async publishEvent(event: BaseEvent) {
+    await this._baseParams.eventHelper.publishEvent(event);
   }
 }

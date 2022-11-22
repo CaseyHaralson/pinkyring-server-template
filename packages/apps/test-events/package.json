@@ -1,0 +1,15 @@
+{
+  "name": "@pinkyring/apps_test-events",
+  "main": "build/app.js",
+  "scripts": {
+    "build": "tsc -b",
+    "start": "node .",
+    "event:produce": "cd build/test && node produceEvent.js",
+    "event:listen": "cd build/test && node listenForEvents.js",
+    "event:grab": "cd build/test && node grabOneEvent.js"
+  },
+  "dependencies": {
+    "@pinkyring/core": "*",
+    "@pinkyring/di-container": "*"
+  }
+}
