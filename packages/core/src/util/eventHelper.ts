@@ -25,16 +25,11 @@ export default class EventHelper {
   async getEventFromQueue(queueName: string) {
     return await this._eventRepository.getEventFromQueue(queueName);
   }
+
+  async getEventCount(queueName: string) {
+    return await this._eventRepository.getEventCount(queueName);
+  }
 }
-
-// IEventRepository
-// publishEvent
-
-// listenForEvents
-
-// setup queue
-
-//
 
 // aws
 // repo

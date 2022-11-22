@@ -86,6 +86,14 @@ export default class EventRepository implements IEventRepository {
     return null;
   }
 
+  async getEventCount(queueName: string) {
+    const connection = await connect('amqp://localhost');
+    const channel = await connection.createChannel();
+    const queue = await channel.assertQueue(queueName, {durable: DURABLE});
+    this.closeConnection(connection);
+    return queue.messageCount;
+  }
+
   private closeConnection(connection: Connection) {
     setTimeout(async function () {
       await connection.close();
