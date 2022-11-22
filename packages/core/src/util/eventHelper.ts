@@ -15,11 +15,15 @@ export default class EventHelper {
     await this._eventRepository.createQueue(queueName, busName, topicPattern);
   }
 
-  async listenForMessages(
+  async listenForEvents(
     queueName: string,
     handlerFunc: (event: BaseEvent) => Promise<boolean>
   ) {
-    await this._eventRepository.listenForMessages(queueName, handlerFunc);
+    await this._eventRepository.listenForEvents(queueName, handlerFunc);
+  }
+
+  async getEventFromQueue(queueName: string) {
+    return await this._eventRepository.getEventFromQueue(queueName);
   }
 }
 

@@ -7,8 +7,9 @@ export default interface IEventRepository {
     busName?: string,
     topicPattern?: string
   ): Promise<void>;
-  listenForMessages(
+  listenForEvents(
     queueName: string,
     handlerFunc: (event: BaseEvent) => Promise<boolean>
   ): Promise<void>;
+  getEventFromQueue(queueName: string): Promise<BaseEvent | null>;
 }

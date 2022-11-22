@@ -1,6 +1,6 @@
 import IEventRepository from '@pinkyring/core/interfaces/IEventRepository';
 import {BaseEvent, EVENT_BUS_NAME} from '@pinkyring/core/dtos/events';
-import {connect} from 'amqplib';
+import {connect, Connection} from 'amqplib';
 
 const DURABLE = false;
 
@@ -16,6 +16,7 @@ export default class EventRepository implements IEventRepository {
       event.eventType,
       Buffer.from(JSON.stringify(event))
     );
+    this.closeConnection(connection);
   }
 
   async createQueue(
@@ -36,9 +37,11 @@ export default class EventRepository implements IEventRepository {
         await channel.bindQueue(queueName, busName, topicPattern);
       }
     }
+
+    this.closeConnection(connection);
   }
 
-  async listenForMessages(
+  async listenForEvents(
     queueName: string,
     handlerFunc: (event: BaseEvent) => Promise<boolean>
   ) {
@@ -61,5 +64,31 @@ export default class EventRepository implements IEventRepository {
         noAck: false,
       }
     );
+  }
+
+  async getEventFromQueue(queueName: string) {
+    const connection = await connect('amqp://localhost');
+    const channel = await connection.createChannel();
+    await channel.assertQueue(queueName, {durable: DURABLE});
+    const msg = await channel.get(queueName, {
+      noAck: true,
+    });
+
+    if (msg) {
+      const content = msg.content.toString();
+      const event = JSON.parse(content) as BaseEvent;
+
+      this.closeConnection(connection);
+      return event;
+    }
+
+    this.closeConnection(connection);
+    return null;
+  }
+
+  private closeConnection(connection: Connection) {
+    setTimeout(async function () {
+      await connection.close();
+    }, 500);
   }
 }
