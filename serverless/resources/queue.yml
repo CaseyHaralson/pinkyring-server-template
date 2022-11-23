@@ -43,3 +43,32 @@ Resources:
                 aws:SourceArn: !Ref BlogPostAddedTopic
       Queues:
         - Ref: BlogPostAddedQueue
+
+  BlogPostAddedVpcToSNSPolicy:
+    Type: AWS::SNS::TopicPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: 'Allow VPC publish to SNS'
+            Effect: Allow
+            Principal:
+              Aws: '*'
+            Resource: !GetAtt BlogPostAddedTopic.Arn
+            Action: SNS:Publish
+            Condition:
+              IpAddress:
+                aws:SourceIp: 10.0.0.0/16
+      Topics:
+        - Ref: BlogPostAddedTopic
+  
+  SNSEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PrivateDnsEnabled: true
+      ServiceName: com.amazonaws.${self:provider.region}.sns
+      SubnetIds:
+        - !Ref SubnetAPrivate
+        - !Ref SubnetBPrivate
+      VpcEndpointType: Interface
+      VpcId: !Ref VPC

@@ -102,6 +102,13 @@ functions:
       - sqs: 
           arn: 
             Fn::GetAtt: [BlogPostAddedQueue, Arn]
+  
+  createBlogPostEvent:
+    handler: ./packages/infrastructure/aws/lambdas/build/events/createBlogPostEvent.handler
+    events:
+      - httpApi:
+          path: /events/createBlogPostEvent
+          method: GET
 
 resources:
   - ${file(serverless/resources/vpc.yml)}

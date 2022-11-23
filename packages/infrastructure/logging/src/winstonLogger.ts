@@ -38,6 +38,11 @@ const logFormat = format.printf((info) => {
 export default class WinstonLogger implements ILogHandler {
   private _logger;
   constructor() {
+    let consoleFormat = format.combine(logFormat);
+    if (process.env.NODE_ENV === undefined || process.env.NODE_ENV === 'dev') {
+      consoleFormat = format.combine(format.colorize(), logFormat);
+    }
+
     this._logger = winston.createLogger({
       level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
       format: format.combine(
@@ -49,7 +54,7 @@ export default class WinstonLogger implements ILogHandler {
       ),
       transports: [
         new transports.Console({
-          format: format.combine(format.colorize(), logFormat),
+          format: consoleFormat,
         }),
       ],
     });
