@@ -1,0 +1,16 @@
+{
+  "name": "@pinkyring/infrastructure_aws_snqs",
+  "exports": {
+    "./*": "./build/*.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "build/*"
+      ]
+    }
+  },
+  "dependencies": {
+    "@pinkyring/core": "*"
+  }
+}
