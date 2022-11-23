@@ -1,0 +1,45 @@
+Resources:
+  BlogPostAddedTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: 'BlogPostAdded.fifo'
+      FifoTopic: true
+      ContentBasedDeduplication: true
+      Subscription:
+        - Protocol: sqs
+          Endpoint: !GetAtt BlogPostAddedQueue.Arn
+
+  BlogPostAddedQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: 'BlogPostAddedQueue.fifo'
+      FifoQueue: true
+      ContentBasedDeduplication: true
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt BlogPostAddedDLQ.Arn
+        maxReceiveCount: 3
+  
+  BlogPostAddedDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: 'BlogPostAddedDLQ.fifo'
+      FifoQueue: true
+      ContentBasedDeduplication: true
+
+  BlogPostAddedSNStoSQSPolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: 'Allow SNS publish to SQS'
+            Effect: Allow
+            Principal:
+              Service: 'sns.amazonaws.com'
+            Resource: !GetAtt BlogPostAddedQueue.Arn
+            Action: SQS:SendMessage
+            Condition:
+              ArnEquals:
+                aws:SourceArn: !Ref BlogPostAddedTopic
+      Queues:
+        - Ref: BlogPostAddedQueue

@@ -96,6 +96,7 @@ functions:
 resources:
   - ${file(serverless/resources/vpc.yml)}
   - ${file(serverless/resources/rds.yml)}
+  - ${file(serverless/resources/queue.yml)}
   #- ${file(serverless/resources/custom/dbmigration.yml)}
 
 package:

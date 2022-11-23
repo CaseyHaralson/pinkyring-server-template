@@ -11,6 +11,10 @@ export default class EventHelper {
     await this._eventRepository.publishEvent(event);
   }
 
+  // all of the functions below here can only be used with a message broker system
+  // so they can't be used with AWS SNS and SQS for example
+  // these functions would have to be used with AWS MQ instead
+
   async createQueue(queueName: string, busName: string, topicPattern: string) {
     await this._eventRepository.createQueue(queueName, busName, topicPattern);
   }
