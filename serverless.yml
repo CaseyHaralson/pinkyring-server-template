@@ -92,6 +92,12 @@ functions:
     image:
       name: db-migration-runner
     # role: DBMigrationRole
+  
+  blogPostAddedEvent:
+    handler: ./packages/infrastructure/lambdas/build/events/blogPostAdded.handler
+    events:
+      - sqs: 
+          arn: !GetAtt BlogPostAddedQueue.Arn
 
 resources:
   - ${file(serverless/resources/vpc.yml)}
