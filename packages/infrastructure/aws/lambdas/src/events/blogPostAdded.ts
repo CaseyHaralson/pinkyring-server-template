@@ -7,6 +7,7 @@ export const handler = async (event: SQSEvent) => {
   console.log(`Received ${numRecords} records`);
 
   for (const record of event.Records) {
-    //
+    console.log(`Got message: ${record.body}`);
+    console.log(`...pretending to handle message...`);
   }
 };
