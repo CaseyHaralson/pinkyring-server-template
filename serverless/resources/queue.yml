@@ -54,7 +54,7 @@ Resources:
             Effect: Allow
             Principal:
               Aws: '*'
-            Resource: !GetAtt BlogPostAddedTopic.Arn
+            Resource: !Ref BlogPostAddedTopic
             Action: SNS:Publish
             Condition:
               IpAddress:
