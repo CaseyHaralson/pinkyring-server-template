@@ -52,8 +52,7 @@ Resources:
         Statement:
           - Sid: 'Allow VPC publish to SNS'
             Effect: Allow
-            Principal:
-              Aws: '*'
+            Principal: '*'
             Resource: !Ref BlogPostAddedTopic
             Action: SNS:Publish
             Condition:
