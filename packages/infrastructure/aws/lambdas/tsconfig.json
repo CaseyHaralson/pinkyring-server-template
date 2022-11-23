@@ -16,10 +16,10 @@
   },
   "references": [
     {
-      "path": "../../core"
+      "path": "../../../core"
     },
     {
-      "path": "../../di-container"
+      "path": "../../../di-container"
     }
   ]
 }

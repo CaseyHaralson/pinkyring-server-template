@@ -51,35 +51,35 @@ custom:
 
 functions:
   test-test:
-    handler: ./packages/infrastructure/lambdas/build/test/test.handler
+    handler: ./packages/infrastructure/aws/lambdas/build/test/test.handler
     events:
       - httpApi:
           path: /
           method: GET
 
   test-getData:
-    handler: ./packages/infrastructure/lambdas/build/test/getData.handler
+    handler: ./packages/infrastructure/aws/lambdas/build/test/getData.handler
     events:
       - httpApi:
           path: /getData
           method: GET
   
   todo-getTodos:
-    handler: ./packages/infrastructure/lambdas/build/todo/getTodos.handler
+    handler: ./packages/infrastructure/aws/lambdas/build/todo/getTodos.handler
     events:
       - httpApi:
           path: /todo/getTodos
           method: GET
   
   todo-createTodo:
-    handler: ./packages/infrastructure/lambdas/build/todo/createTodo.handler
+    handler: ./packages/infrastructure/aws/lambdas/build/todo/createTodo.handler
     events:
       - httpApi:
           path: /todo/createTodo
           method: POST
   
   graphql:
-    handler: ./packages/infrastructure/lambdas/build/graphql/server.graphqlHandler
+    handler: ./packages/infrastructure/aws/lambdas/build/graphql/server.graphqlHandler
     events:
       - httpApi:
           path: /graphql
@@ -94,7 +94,7 @@ functions:
     # role: DBMigrationRole
   
   blogPostAddedEvent:
-    handler: ./packages/infrastructure/lambdas/build/events/blogPostAdded.handler
+    handler: ./packages/infrastructure/aws/lambdas/build/events/blogPostAdded.handler
     events:
       - sqs: 
           arn: !GetAtt BlogPostAddedQueue.Arn

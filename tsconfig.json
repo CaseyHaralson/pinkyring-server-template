@@ -28,7 +28,7 @@
       "path": "./packages/di-container"
     },
     {
-      "path": "./packages/infrastructure/lambdas"
+      "path": "./packages/infrastructure/aws/lambdas"
     },
     {
       "path": "./packages/infrastructure/logging"
