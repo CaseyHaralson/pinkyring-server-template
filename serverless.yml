@@ -27,8 +27,7 @@ provider:
           - ${self:custom.DB_DATABASE_NAME}
           - '?connection_limit=1'
           - '&pool_timeout=30'
-    BlogPostAddedTopicArn:
-      Fn::GetAtt: [BlogPostAddedTopic, Arn]
+    BlogPostAddedTopicArn: !Ref BlogPostAddedTopic
   ecr:
     images:
       db-migration-runner:
