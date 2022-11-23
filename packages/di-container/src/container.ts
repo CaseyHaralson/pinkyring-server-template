@@ -13,17 +13,23 @@ import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelpe
 import Logger from '@pinkyring/core/util/logger';
 import PrincipalResolver from '@pinkyring/core/util/principalResolver';
 import EventHelper from '@pinkyring/core/util/eventHelper';
-import EventRepository from '@pinkyring/infrastructure_queue/eventRepository';
+import LocalEventRepository from '@pinkyring/infrastructure_queue/eventRepository';
+import ServerEventRepository from '@pinkyring/infrastructure_aws_snqs/eventRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
 const loadContainer = function () {
   // can check for environment to load specific container type
+  if (process.env.NODE_ENV !== 'dev') {
+    loadServerItems();
+  } else {
+    loadLocalItems();
+  }
 
-  return createLocalContainer();
+  loadGenericItems();
 };
 
-const createLocalContainer = function () {
+const loadGenericItems = function () {
   awilix_container.register({
     testService: asClass(TestService),
     testRepository: asClass(TestRepository),
@@ -45,7 +51,7 @@ const createLocalContainer = function () {
     idempotentRequestHelper: asClass(IdempotentRequestHelper),
     idempotentRequestRepository: asClass(IdempotentRequestRepository),
     eventHelper: asClass(EventHelper),
-    eventRepository: asClass(EventRepository),
+    //eventRepository: asClass(EventRepository),
     baseParams: asFunction(() => {
       return {
         logger: awilix_container.cradle.logger,
@@ -58,7 +64,18 @@ const createLocalContainer = function () {
   awilix_container.register({
     prismaClient: asFunction(prisma).singleton(),
   });
-  return awilix_container;
+};
+
+const loadLocalItems = function () {
+  awilix_container.register({
+    eventRepository: asClass(LocalEventRepository),
+  });
+};
+
+const loadServerItems = function () {
+  awilix_container.register({
+    eventRepository: asClass(ServerEventRepository),
+  });
 };
 
 class Container {
@@ -93,23 +110,3 @@ class Container {
 loadContainer();
 const container = new Container(awilix_container);
 export default container;
-
-//============================================
-// shouldn't be putting anything below here or using this thing
-// unless you know what you are doing...not sure I do either
-
-// class DecoratorContainer {
-//   private _container;
-
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   constructor(container: AwilixContainer<any>) {
-//     this._container = container;
-//   }
-
-//   resolveIdempotentRepository() {
-//     return this._container.cradle.idempotentRepository as IIdempotentRepository;
-//   }
-// }
-
-// const decoratorContainer = new DecoratorContainer(awilix_container);
-// export {decoratorContainer};

@@ -19,6 +19,9 @@
       "path": "../core"
     },
     {
+      "path": "../infrastructure/aws/snqs"
+    },
+    {
       "path": "../infrastructure/logging"
     },
     {
