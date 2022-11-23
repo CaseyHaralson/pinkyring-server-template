@@ -28,7 +28,7 @@ provider:
           - '?connection_limit=1'
           - '&pool_timeout=30'
     BlogPostAddedTopicArn:
-      Fn::GetAtt: [BlogPostAddedQueue, Arn]
+      Fn::GetAtt: [BlogPostAddedTopic, Arn]
   ecr:
     images:
       db-migration-runner:
