@@ -68,6 +68,8 @@ Resources:
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
+          FromPort: '-1'
+          ToPort: '-1'
           CidrIp: '10.0.0.0/16'
 
   SNSEndpoint:
