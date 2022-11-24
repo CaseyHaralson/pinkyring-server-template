@@ -34,6 +34,12 @@ provider:
         # this relies on the prisma folder existing in the same directory
         # the github deploy action includes a step that handles copying the prisma folder
         path: ./serverless/dbmigration/
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: SNS:Publish
+          Resource: '*'
 
 custom:
   DB_USERNAME: root
