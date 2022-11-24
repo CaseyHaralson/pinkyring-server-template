@@ -8,6 +8,8 @@ Resources:
       Subscription:
         - Protocol: sqs
           Endpoint: !GetAtt BlogPostAddedQueue.Arn
+        - Protocol: sqs
+          Endpoint: !GetAtt ManualPullQueue.Arn
 
   BlogPostAddedQueue:
     Type: AWS::SQS::Queue
