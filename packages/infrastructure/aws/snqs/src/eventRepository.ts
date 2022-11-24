@@ -4,7 +4,7 @@ import {SNS} from '@aws-sdk/client-sns';
 
 export default class EventRepository implements IEventRepository {
   async publishEvent(event: BaseEvent): Promise<void> {
-    const client = new SNS({region: process.env.AWS_REGION});
+    const client = new SNS({region: process.env.AWS_REGION}); // env variable set by AWS
     await client.publish({
       Message: JSON.stringify(event),
       TopicArn: process.env.BlogPostAddedTopicArn,

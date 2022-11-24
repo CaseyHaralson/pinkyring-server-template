@@ -13,7 +13,6 @@ provider:
       - !Ref SubnetAPublic
       - !Ref SubnetBPublic
   environment:
-    AWS_REGION: ${self:provider.region}
     NODE_ENV: ${self:provider.stage}
     DATABASE_URL:
       Fn::Join:
