@@ -1,3 +1,4 @@
+import {BaseEvent} from '@pinkyring/core/dtos/events';
 import {SQSEvent} from 'aws-lambda';
 
 export const handler = async (event: SQSEvent) => {
@@ -7,7 +8,19 @@ export const handler = async (event: SQSEvent) => {
   console.log(`Received ${numRecords} records`);
 
   for (const record of event.Records) {
-    console.log(`Got message: ${record.body}`);
-    console.log(`...pretending to handle message...`);
+    console.log(`Got record: ${record.body}`);
+
+    console.log(`Trying to get event from the record...`);
+    const recordBody = JSON.parse(record.body);
+    if (recordBody.Message) {
+      const message = JSON.parse(recordBody.Message) as BaseEvent;
+      console.log(`Parsed event from record: ${message.eventType}`);
+      console.log(
+        `Parsed event data from record: ${JSON.stringify(message.eventData)}`
+      );
+      console.log(`...pretending to handle message...`);
+    } else {
+      console.log(`Couldn't get the event from the record...`);
+    }
   }
 };
