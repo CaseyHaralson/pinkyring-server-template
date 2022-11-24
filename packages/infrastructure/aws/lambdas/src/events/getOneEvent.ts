@@ -6,7 +6,7 @@ const queueUrl = process.env.ManualPullQueueUrl ?? '';
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
   console.log(`Trying to get a message from the queue...`);
-  const event = eventHelper.getEventFromQueue(queueUrl);
+  const event = await eventHelper.getEventFromQueue(queueUrl);
 
   if (event) {
     console.log(`Received event: ${JSON.stringify(event)}`);

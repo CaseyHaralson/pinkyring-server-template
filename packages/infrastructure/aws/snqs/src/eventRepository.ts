@@ -39,13 +39,12 @@ export default class EventRepository implements IEventRepository {
     const client = new SQS({region: process.env.AWS_REGION}); // env variable set by AWS
 
     console.log(`Trying to get a message from the queue...`);
-    const messages = (
-      await client.receiveMessage({
-        QueueUrl: queueName,
-        MaxNumberOfMessages: 1,
-        WaitTimeSeconds: 5,
-      })
-    ).Messages;
+    const messageOutput = await client.receiveMessage({
+      QueueUrl: queueName,
+      MaxNumberOfMessages: 1,
+      WaitTimeSeconds: 5,
+    });
+    const messages = messageOutput.Messages;
 
     if (messages) {
       console.log(`Received ${messages.length} messages`);
