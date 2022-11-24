@@ -2,7 +2,7 @@ import {APIGatewayProxyResult} from 'aws-lambda';
 import container from '@pinkyring/di-container/container';
 
 const eventHelper = container.resolveEventHelper();
-const queueUrl = '';
+const queueUrl = process.env.ManualPullQueueUrl ?? '';
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
   console.log(`Trying to get a message from the queue...`);

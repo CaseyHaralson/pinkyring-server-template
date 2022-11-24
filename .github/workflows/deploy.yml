@@ -59,7 +59,7 @@ jobs:
       
       - name: '🔧 db migration - sleep for a bit to let the database wake up'
         if: steps.db-migrate-1.outcome != 'success'
-        run: sleep 30s
+        run: sleep 50s
         shell: bash
       
       - name: '☁️ db migration - call lambda 2nd time (db should be awake)'
