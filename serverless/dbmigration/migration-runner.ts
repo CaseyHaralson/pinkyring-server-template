@@ -20,7 +20,7 @@ export const handler: Handler = async (event) => {
   // As a workaround, we spawn migration script as a child process and wait for its completion.
   // Please also refer to the following GitHub issue: https://github.com/prisma/prisma/issues/4703
   try {
-    const exitCode = await prismaMigrateWithRetry(command, options, 0);
+    const exitCode = await prismaMigrateWithRetry(command, options, 1);
 
     if (exitCode != 0)
       throw Error(`command ${command} failed with exit code ${exitCode}`);

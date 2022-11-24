@@ -36,25 +36,40 @@ export default class EventRepository implements IEventRepository {
   }
 
   async getEventFromQueue(queueName: string): Promise<BaseEvent | null> {
-    const client = new SQS({region: process.env.AWS_REGION}); // env variable set by AWS
+    let queueUrl = undefined;
+    if (queueName === 'ManualPullQueue') {
+      queueUrl = process.env.ManualPullQueueUrl;
+    }
 
-    console.log(`Trying to get a message from the queue...`);
-    const messageOutput = await client.receiveMessage({
-      QueueUrl: queueName,
-      MaxNumberOfMessages: 1,
-      WaitTimeSeconds: 5,
-    });
-    const messages = messageOutput.Messages;
+    if (queueUrl) {
+      const client = new SQS({region: process.env.AWS_REGION}); // env variable set by AWS
 
-    if (messages) {
-      console.log(`Received ${messages.length} messages`);
-      for (const message of messages) {
-        console.log(`Got message: ${JSON.stringify(message)}`);
+      console.log(`Trying to get a message from the queue...`);
+      const messageOutput = await client.receiveMessage({
+        QueueUrl: queueUrl,
+        MaxNumberOfMessages: 1,
+        WaitTimeSeconds: 5,
+      });
+      const messages = messageOutput.Messages;
 
-        //console.log(`Trying to get event from the message`)
+      if (messages) {
+        console.log(`Received ${messages.length} messages`);
+        for (const message of messages) {
+          console.log(`Got message: ${JSON.stringify(message)}`);
+          const messageBody = message.Body;
+
+          if (messageBody) {
+            const messageBodyObj = JSON.parse(messageBody);
+
+            console.log(`Trying to get event from the message`);
+            const event = JSON.parse(messageBodyObj.Message) as BaseEvent;
+            console.log(`Parsed event from record: ${event.eventType}`);
+            return event;
+          }
+        }
+      } else {
+        console.log(`Didn't receive any messages...`);
       }
-    } else {
-      console.log(`Didn't receive any messages...`);
     }
     return null;
   }
