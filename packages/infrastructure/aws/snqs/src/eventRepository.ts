@@ -89,7 +89,7 @@ export default class EventRepository implements IEventRepository {
         AttributeNames: ['ApproximateNumberOfMessages'],
       });
 
-      console.log(`Received the following attriburtes: ${attributes}`);
+      console.log(`Received the following attributes: ${attributes}`);
     }
 
     return 0;
