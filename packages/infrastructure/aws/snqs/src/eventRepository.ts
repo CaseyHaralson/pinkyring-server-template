@@ -92,6 +92,18 @@ export default class EventRepository implements IEventRepository {
       console.log(
         `Received the following attributes: ${JSON.stringify(attributes)}`
       );
+
+      console.log(
+        `Trying to parse the number of messages from the attributes...`
+      );
+      const numMessages =
+        attributes.Attributes?.['ApproximateNumberOfMessages'];
+      if (numMessages) {
+        console.log(`There are ~${numMessages} messages in the queue`);
+        return Number(numMessages);
+      } else {
+        console.log(`Couldn't parse the number of messages in the queue...`);
+      }
     }
 
     return 0;

@@ -6,7 +6,8 @@ const queueName = 'ManualPullQueue';
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
   console.log(`Trying to get the number of messages in the queue...`);
-  await eventHelper.getNumEventsInQueue(queueName);
+  const numMessages = await eventHelper.getNumEventsInQueue(queueName);
+  console.log(`Approximate number of messages in the queue: ${numMessages}`);
 
   console.log(`Trying to get a message from the queue...`);
   const event = await eventHelper.getEventFromQueue(queueName);
