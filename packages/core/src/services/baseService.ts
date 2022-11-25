@@ -1,7 +1,8 @@
 import {BaseEvent} from '../dtos/events';
 import Principal from '../dtos/principal';
 import IBaseParams from '../interfaces/IBaseParams';
-import {ILoggableClass} from '../interfaces/ILog';
+import {ILoggableClass, LogContext} from '../interfaces/ILog';
+import {UnknownPrincipal} from '../util/principalResolver';
 
 export default class BaseService implements ILoggableClass {
   private _baseParams;
@@ -30,7 +31,19 @@ export default class BaseService implements ILoggableClass {
     );
   }
 
-  protected async publishEvent(event: BaseEvent) {
-    await this._baseParams.eventHelper.publishEvent(event);
+  protected async publishEvent(event: BaseEvent): Promise<boolean> {
+    try {
+      await this._baseParams.eventHelper.publishEvent(event);
+    } catch (e) {
+      const lc = {
+        currentObj: this,
+        methodName: 'publishEvent',
+        principal: UnknownPrincipal,
+      } as LogContext;
+      this._logger.error(lc, `Error publishing event: ${e}`);
+
+      return false;
+    }
+    return true;
   }
 }

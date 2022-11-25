@@ -16,3 +16,11 @@ export default class PrincipalResolver {
     } as Principal;
   }
 }
+
+export const UnknownPrincipal = {
+  identity: {
+    id: 'unknown_id',
+    name: 'unknown_name',
+  },
+  roles: [],
+} as Principal;

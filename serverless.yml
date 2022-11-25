@@ -5,7 +5,7 @@ provider:
   region: us-east-1
   stage: test
   stackName: ${self:provider.stage}-${self:service}
-  timeout: 30
+  timeout: 29
   vpc:
     securityGroupIds:
       - !Ref PublicSecurityGroup
@@ -13,6 +13,7 @@ provider:
       - !Ref SubnetAPublic
       - !Ref SubnetBPublic
   environment:
+    NODE_ENV: ${self:provider.stage}
     DATABASE_URL:
       Fn::Join:
         - ''
@@ -26,12 +27,26 @@ provider:
           - ${self:custom.DB_DATABASE_NAME}
           - '?connection_limit=1'
           - '&pool_timeout=30'
+    BlogPostAddedTopicArn: !Ref BlogPostAddedTopic
+    ManualPullQueueUrl: !Ref ManualPullQueue
   ecr:
     images:
       db-migration-runner:
         # this relies on the prisma folder existing in the same directory
         # the github deploy action includes a step that handles copying the prisma folder
         path: ./serverless/dbmigration/
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: SNS:Publish
+          Resource: '*'
+        - Effect: Allow
+          Action: sqs:ReceiveMessage
+          Resource: '*'
+        - Effect: Allow
+          Action: sqs:GetQueueAttributes
+          Resource: '*'
 
 custom:
   DB_USERNAME: root
@@ -51,35 +66,35 @@ custom:
 
 functions:
   test-test:
-    handler: ./packages/infrastructure/lambdas/build/test/test.handler
+    handler: ./packages/infrastructure/aws/lambdas/build/test/test.handler
     events:
       - httpApi:
           path: /
           method: GET
 
   test-getData:
-    handler: ./packages/infrastructure/lambdas/build/test/getData.handler
+    handler: ./packages/infrastructure/aws/lambdas/build/test/getData.handler
     events:
       - httpApi:
           path: /getData
           method: GET
   
   todo-getTodos:
-    handler: ./packages/infrastructure/lambdas/build/todo/getTodos.handler
+    handler: ./packages/infrastructure/aws/lambdas/build/todo/getTodos.handler
     events:
       - httpApi:
           path: /todo/getTodos
           method: GET
   
   todo-createTodo:
-    handler: ./packages/infrastructure/lambdas/build/todo/createTodo.handler
+    handler: ./packages/infrastructure/aws/lambdas/build/todo/createTodo.handler
     events:
       - httpApi:
           path: /todo/createTodo
           method: POST
   
   graphql:
-    handler: ./packages/infrastructure/lambdas/build/graphql/server.graphqlHandler
+    handler: ./packages/infrastructure/aws/lambdas/build/graphql/server.graphqlHandler
     events:
       - httpApi:
           path: /graphql
@@ -92,10 +107,32 @@ functions:
     image:
       name: db-migration-runner
     # role: DBMigrationRole
+  
+  blogPostAddedEvent:
+    handler: ./packages/infrastructure/aws/lambdas/build/events/blogPostAdded.handler
+    events:
+      - sqs: 
+          arn: 
+            Fn::GetAtt: [BlogPostAddedQueue, Arn]
+  
+  createBlogPostEvent:
+    handler: ./packages/infrastructure/aws/lambdas/build/events/createBlogPostEvent.handler
+    events:
+      - httpApi:
+          path: /events/createBlogPostEvent
+          method: GET
+  
+  getOneEventEvent:
+    handler: ./packages/infrastructure/aws/lambdas/build/events/getOneEvent.handler
+    events:
+      - httpApi:
+          path: /events/getOneEventEvent
+          method: GET
 
 resources:
   - ${file(serverless/resources/vpc.yml)}
   - ${file(serverless/resources/rds.yml)}
+  - ${file(serverless/resources/queue.yml)}
   #- ${file(serverless/resources/custom/dbmigration.yml)}
 
 package:

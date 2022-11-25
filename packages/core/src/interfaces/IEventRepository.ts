@@ -12,5 +12,5 @@ export default interface IEventRepository {
     handlerFunc: (event: BaseEvent) => Promise<boolean>
   ): Promise<void>;
   getEventFromQueue(queueName: string): Promise<BaseEvent | null>;
-  getEventCount(queueName: string): Promise<number>;
+  getNumEventsInQueue(queueName: string): Promise<number>;
 }

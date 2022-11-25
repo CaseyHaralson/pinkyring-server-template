@@ -13,33 +13,41 @@ jobs:
     steps:
       - name: '☁️ checkout repository'
         uses: actions/checkout@v3
+        timeout-minutes: 1
 
       - name: '🔧 setup node'
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+        timeout-minutes: 1
 
       - name: '📦 install dependencies'
         uses: bahmutov/npm-install@v1
+        timeout-minutes: 1
 
       - name: '📦 build project'
         run: npm run build
+        timeout-minutes: 1
       
       - name: '🔧 setup prisma - generate'
         working-directory: ./packages/infrastructure/repositories
         run: npx prisma generate
+        timeout-minutes: 1
       
       # - name: '📦 remove dev dependencies'
       #   run: 'npm prune --production'
 
       - name: '📦 install serverless'
         run: npm i -g serverless
+        timeout-minutes: 1
 
       - name: '🔧 setup serverless'
         run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        timeout-minutes: 1
 
       - name: '🔧 pre serverless deploy - copy files'
         run: cp -r packages/infrastructure/repositories/prisma serverless/dbmigration/prisma
+        timeout-minutes: 1
 
       - name: '☁️ serverless deploy'
         run: serverless deploy
@@ -51,7 +59,7 @@ jobs:
       
       - name: '🔧 db migration - sleep for a bit to let the database wake up'
         if: steps.db-migrate-1.outcome != 'success'
-        run: sleep 30s
+        run: sleep 50s
         shell: bash
       
       - name: '☁️ db migration - call lambda 2nd time (db should be awake)'

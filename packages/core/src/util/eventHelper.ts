@@ -26,15 +26,7 @@ export default class EventHelper {
     return await this._eventRepository.getEventFromQueue(queueName);
   }
 
-  async getEventCount(queueName: string) {
-    return await this._eventRepository.getEventCount(queueName);
+  async getNumEventsInQueue(queueName: string) {
+    return await this._eventRepository.getNumEventsInQueue(queueName);
   }
 }
-
-// aws
-// repo
-// some way to push events onto SNS
-// lambda
-// handle SNS event triggers
-// push events on to SQS
-// handle SQS events

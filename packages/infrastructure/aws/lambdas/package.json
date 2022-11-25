@@ -1,5 +1,5 @@
 {
-  "name": "@pinkyring/infrastructure_lambdas",
+  "name": "@pinkyring/infrastructure_aws_lambdas",
   "exports": {
     "./*": "./build/*.js"
   },

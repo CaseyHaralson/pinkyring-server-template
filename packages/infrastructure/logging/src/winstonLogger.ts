@@ -6,13 +6,17 @@ const logFormat = format.printf((info) => {
   let s = '';
   s = `${info.timestamp}`;
   s += ' ';
-  s += info.metadata.env ? `${info.metadata.env}` : `env?`;
+  s += info.metadata.env ? `${info.metadata.env}` : `dev`;
   s += ' ';
   s += `${info.level}`;
   s += ' ';
+  s += info.metadata.projectName
+    ? `[${info.metadata.projectName}`
+    : `[Unknown Project`;
+  s += info.metadata.projectVersion ? `:${info.metadata.projectVersion}` : ``;
   s += info.metadata.context?.currentObj
-    ? `[${info.metadata.context.currentObj._className()}`
-    : `[Unknown Class`;
+    ? `.${info.metadata.context.currentObj._className()}`
+    : `.Unknown Class`;
   s += info.metadata.context?.methodName
     ? `.${info.metadata.context.methodName}]`
     : `.Unknown Function]`;
@@ -34,6 +38,11 @@ const logFormat = format.printf((info) => {
 export default class WinstonLogger implements ILogHandler {
   private _logger;
   constructor() {
+    let consoleFormat = format.combine(logFormat);
+    if (process.env.NODE_ENV === undefined || process.env.NODE_ENV === 'dev') {
+      consoleFormat = format.combine(format.colorize(), logFormat);
+    }
+
     this._logger = winston.createLogger({
       level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
       format: format.combine(
@@ -45,7 +54,7 @@ export default class WinstonLogger implements ILogHandler {
       ),
       transports: [
         new transports.Console({
-          format: format.combine(format.colorize(), logFormat),
+          format: consoleFormat,
         }),
       ],
     });
@@ -54,6 +63,8 @@ export default class WinstonLogger implements ILogHandler {
   log(level: LogLevel, context: LogContext, message: string): void {
     const meta = {
       env: process.env.NODE_ENV,
+      projectName: process.env.npm_package_name,
+      projectVersion: process.env.npm_package_version,
       context: context,
     };
 

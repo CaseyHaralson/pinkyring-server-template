@@ -16,19 +16,10 @@
   },
   "references": [
     {
-      "path": "../core"
+      "path": "../../../core"
     },
     {
-      "path": "../infrastructure/aws/snqs"
-    },
-    {
-      "path": "../infrastructure/logging"
-    },
-    {
-      "path": "../infrastructure/queue"
-    },
-    {
-      "path": "../infrastructure/repositories"
+      "path": "../../../di-container"
     }
   ]
 }
