@@ -67,26 +67,31 @@ export default class BlogService extends BaseService implements ILoggableClass {
     } as LogContext;
     this._logger.info(lc, 'entering the add blog post function');
 
-    return this.idempotentRequest(
+    let blogPostAdded = false;
+    const requestResult = await this.idempotentRequest(
       principal,
       'addBlogPost',
       requestId,
       async () => {
         this._logger.info(lc, 'calling the repo to add the blog post');
         const result = await this._blogRepository.addBlogPost(blogPost);
-
-        this._logger.info(lc, 'publishing the blog post added event');
-        await this.publishEvent({
-          eventType: EventType.BLOG_POST_ADDED,
-          eventData: {
-            authorId: result.authorId,
-            blogPostId: result.id,
-          },
-        } as BlogPostAddedEvent);
-
+        blogPostAdded = result != undefined;
         return result;
       }
     );
+
+    if (blogPostAdded) {
+      this._logger.info(lc, 'publishing the blog post added event');
+      await this.publishEvent(lc, {
+        eventType: EventType.BLOG_POST_ADDED,
+        eventData: {
+          authorId: requestResult.authorId,
+          blogPostId: requestResult.id,
+        },
+      } as BlogPostAddedEvent);
+    }
+
+    return requestResult;
   }
 
   async updateBlogPost(

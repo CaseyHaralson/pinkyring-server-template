@@ -35,3 +35,10 @@ To run the api package:
 - change directory to the api package project
 - run "npm run start"
 
+Apps can ask for services and utils exposed by the di-container.
+Anything internal can ask for things via their class constructor and the di-container will inject the correct thing at runtime.
+
+Idempotent requests are requests that need to only have an effect once, but will return the same result every time they are called.
+Idempotent requests should be as small as possible too.
+
+

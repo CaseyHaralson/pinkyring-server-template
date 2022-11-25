@@ -10,10 +10,10 @@ const logFormat = format.printf((info) => {
   s += ' ';
   s += `${info.level}`;
   s += ' ';
-  s += info.metadata.projectName
-    ? `[${info.metadata.projectName}`
-    : `[Unknown Project`;
-  s += info.metadata.projectVersion ? `:${info.metadata.projectVersion}` : ``;
+  s += info.metadata.packageName
+    ? `[${info.metadata.packageName}`
+    : `[Unknown Package`;
+  s += info.metadata.packageVersion ? `:${info.metadata.packageVersion}` : ``;
   s += info.metadata.context?.currentObj
     ? `.${info.metadata.context.currentObj.className()}`
     : `.Unknown Class`;
@@ -63,8 +63,8 @@ export default class WinstonLogger implements ILogHandler {
   log(level: LogLevel, context: LogContext, message: string): void {
     const meta = {
       env: process.env.NODE_ENV,
-      projectName: process.env.npm_package_name,
-      projectVersion: process.env.npm_package_version,
+      packageName: process.env.npm_package_name,
+      packageVersion: process.env.npm_package_version,
       context: context,
     };
 

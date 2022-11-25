@@ -1,14 +1,37 @@
 import {BaseEvent} from '../dtos/events';
 import IEventRepository from '../interfaces/IEventRepository';
+import {BaseLogContext, ILoggableClass, LogContext} from '../interfaces/ILog';
+import Logger from './logger';
 
-export default class EventHelper {
+export default class EventHelper implements ILoggableClass {
+  private _logger;
   private _eventRepository;
-  constructor(eventRepository: IEventRepository) {
+  constructor(logger: Logger, eventRepository: IEventRepository) {
+    this._logger = logger;
     this._eventRepository = eventRepository;
   }
 
-  async publishEvent(event: BaseEvent) {
-    await this._eventRepository.publishEvent(event);
+  className(): string {
+    return 'EventHelper';
+  }
+
+  async publishEvent(blc: BaseLogContext, event: BaseEvent): Promise<boolean> {
+    try {
+      await this._eventRepository.publishEvent(event);
+      return true;
+    } catch (e) {
+      const lc = {
+        ...blc,
+        currentObj: this,
+        methodName: 'publishEvent',
+      } as LogContext;
+      this._logger.error(
+        lc,
+        `Error publishing event: ${JSON.stringify(event)} ; error: ${e}`
+      );
+
+      return false;
+    }
   }
 
   async createQueue(queueName: string, busName: string, topicPattern: string) {
