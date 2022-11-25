@@ -7,7 +7,7 @@ const queueName = 'testEventListenerQ';
 console.log(`Creating queue if it doesn't exist: ${queueName}`);
 eventHelper.createQueue(queueName, EVENT_BUS_NAME, EventType.TEST_EVENT);
 
-eventHelper.getEventCount(queueName).then(function (count) {
+eventHelper.getNumEventsInQueue(queueName).then(function (count) {
   console.log(`Number of messages in the queue: ${count}`);
 });
 

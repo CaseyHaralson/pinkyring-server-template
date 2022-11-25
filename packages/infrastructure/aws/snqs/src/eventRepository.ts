@@ -74,7 +74,24 @@ export default class EventRepository implements IEventRepository {
     return null;
   }
 
-  getEventCount(queueName: string): Promise<number> {
-    throw new Error('Method not implemented.');
+  async getNumEventsInQueue(queueName: string): Promise<number> {
+    let queueUrl = undefined;
+    if (queueName === 'ManualPullQueue') {
+      queueUrl = process.env.ManualPullQueueUrl;
+    }
+
+    if (queueUrl) {
+      const client = new SQS({region: process.env.AWS_REGION}); // env variable set by AWS
+
+      console.log(`Trying to get attributes from the queue...`);
+      const attributes = await client.getQueueAttributes({
+        QueueUrl: queueUrl,
+        AttributeNames: ['ApproximateNumberOfMessages'],
+      });
+
+      console.log(`Received the following attriburtes: ${attributes}`);
+    }
+
+    return 0;
   }
 }
