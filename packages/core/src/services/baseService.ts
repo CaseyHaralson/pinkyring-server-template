@@ -1,8 +1,7 @@
 import {BaseEvent} from '../dtos/events';
 import Principal from '../dtos/principal';
 import IBaseParams from '../interfaces/IBaseParams';
-import {BaseLogContext, ILoggableClass, LogContext} from '../interfaces/ILog';
-import {UnknownPrincipal} from '../util/principalResolver';
+import {BaseLogContext, ILoggableClass} from '../interfaces/ILog';
 
 export default class BaseService implements ILoggableClass {
   private _baseParams;
