@@ -2,7 +2,7 @@ import {LogLevel} from '../dtos/enums';
 import Principal from '../dtos/principal';
 
 export interface ILoggableClass {
-  _className(): string;
+  className(): string;
 }
 
 export interface ILogHandler {

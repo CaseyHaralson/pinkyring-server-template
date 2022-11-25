@@ -13,7 +13,7 @@ export default class BlogService extends BaseService implements ILoggableClass {
     this._blogRepository = blogRepository;
   }
 
-  _className(): string {
+  className(): string {
     return 'BlogService';
   }
 

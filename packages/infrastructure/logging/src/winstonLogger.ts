@@ -15,7 +15,7 @@ const logFormat = format.printf((info) => {
     : `[Unknown Project`;
   s += info.metadata.projectVersion ? `:${info.metadata.projectVersion}` : ``;
   s += info.metadata.context?.currentObj
-    ? `.${info.metadata.context.currentObj._className()}`
+    ? `.${info.metadata.context.currentObj.className()}`
     : `.Unknown Class`;
   s += info.metadata.context?.methodName
     ? `.${info.metadata.context.methodName}]`

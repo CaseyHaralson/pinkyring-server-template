@@ -12,7 +12,7 @@ export default class BaseService implements ILoggableClass {
     this._logger = baseParams.logger;
   }
 
-  _className(): string {
+  className(): string {
     return 'BaseService';
   }
 
@@ -24,7 +24,7 @@ export default class BaseService implements ILoggableClass {
   ): Promise<T> {
     return this._baseParams.idempotentRequestHelper.handleIdempotentRequest(
       principal,
-      this._className(),
+      this.className(),
       methodName,
       requestId,
       requestFunc

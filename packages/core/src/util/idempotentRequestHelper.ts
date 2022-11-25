@@ -14,7 +14,7 @@ export default class IdempotentRequestHelper implements ILoggableClass {
     this._logger = logger;
   }
 
-  _className(): string {
+  className(): string {
     return 'IdempotentRequestHelper';
   }
 
