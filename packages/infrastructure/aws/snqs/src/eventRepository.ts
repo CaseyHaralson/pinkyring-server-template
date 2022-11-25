@@ -20,18 +20,11 @@ export default class EventRepository implements IEventRepository {
     }
   }
 
-  createQueue(
-    queueName: string,
-    busName?: string | undefined,
-    topicPattern?: string | undefined
-  ): Promise<void> {
+  createQueue(): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
-  listenForEvents(
-    queueName: string,
-    handlerFunc: (event: BaseEvent) => Promise<boolean>
-  ): Promise<void> {
+  listenForEvents(): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
