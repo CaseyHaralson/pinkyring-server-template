@@ -44,6 +44,9 @@ provider:
         - Effect: Allow
           Action: sqs:ReceiveMessage
           Resource: '*'
+        - Effect: Allow
+          Action: sqs:GetQueueAttributes
+          Resource: '*'
 
 custom:
   DB_USERNAME: root
