@@ -15,6 +15,8 @@ import PrincipalResolver from '@pinkyring/core/util/principalResolver';
 import EventHelper from '@pinkyring/core/util/eventHelper';
 import LocalEventRepository from '@pinkyring/infrastructure_queue/eventRepository';
 import ServerEventRepository from '@pinkyring/infrastructure_aws_snqs/eventRepository';
+import ConfigHelper from '@pinkyring/core/util/configHelper';
+import ConfigFileReader from '@pinkyring/infrastructure_util/configFileReader';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -44,6 +46,10 @@ const loadGenericItems = function () {
   awilix_container.register({
     blogService: asClass(BlogService),
     blogRepository: asClass(BlogRepository),
+  });
+  awilix_container.register({
+    configHelper: asClass(ConfigHelper),
+    configFileReader: asClass(ConfigFileReader),
   });
   awilix_container.register({
     logger: asClass(Logger),
