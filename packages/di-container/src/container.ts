@@ -24,6 +24,7 @@ import ConfigFileReader from '@pinkyring/infrastructure_util/configFileReader';
 import {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
 import PrismaClientFactory from '@pinkyring/infrastructure_repositories/util/prismaClientFactory';
+import {Environment} from '@pinkyring/core/dtos/enums';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -32,10 +33,10 @@ const loadContainer = function () {
   const configHelper = awilix_container.cradle.configHelper as ConfigHelper;
 
   // can check for environment to load specific container type
-  if (!configHelper.isDevelopment()) {
-    loadServerItems();
-  } else {
+  if (configHelper.getEnvironment() === Environment.DEVELOPMENT) {
     loadLocalItems();
+  } else {
+    loadServerItems();
   }
 
   loadGenericItems();

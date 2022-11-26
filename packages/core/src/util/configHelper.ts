@@ -1,3 +1,4 @@
+import {Environment} from '../dtos/enums';
 import {
   ConfigKey,
   IConfigFileReader,
@@ -38,7 +39,7 @@ export default class ConfigHelper {
 
     if (missingConfigurations.length > 0) {
       let devMessage = '';
-      if (this.isDevelopment()) {
+      if (this.getEnvironment() === Environment.DEVELOPMENT) {
         devMessage = `For the development environment, you may need to add the values to the .env file.`;
       }
 
@@ -96,26 +97,6 @@ export default class ConfigHelper {
 
   getEnvironment() {
     const env = process.env.NODE_ENV ?? 'development';
-    return env;
-  }
-
-  isDevelopment() {
-    return this.getEnvironment() === 'development';
-  }
-
-  isTest() {
-    return this.getEnvironment() === 'test';
-  }
-
-  isQAT() {
-    return this.getEnvironment() === 'qat';
-  }
-
-  isUAT() {
-    return this.getEnvironment() === 'uat';
-  }
-
-  isProduction() {
-    return this.getEnvironment() === 'production';
+    return env as Environment;
   }
 }

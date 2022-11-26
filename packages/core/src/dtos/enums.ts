@@ -4,3 +4,11 @@ export enum LogLevel {
   INFO = 2,
   DEBUG = 3,
 }
+
+export enum Environment {
+  DEVELOPMENT = 'development',
+  TEST = 'test',
+  QAT = 'qat',
+  UAT = 'uat',
+  PRODUCTION = 'production',
+}
