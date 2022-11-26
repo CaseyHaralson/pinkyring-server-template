@@ -11,6 +11,8 @@
     }
   },
   "dependencies": {
-    "@pinkyring/core": "*"
+    "@pinkyring/core": "*",
+    "dotenv": "^16.0.3",
+    "find-up": "^6.3.0"
   }
 }
