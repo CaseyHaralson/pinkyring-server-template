@@ -9,7 +9,6 @@ import TestService from '@pinkyring/core/services/testService';
 import TestRepository from '@pinkyring/infrastructure_repositories/testRepository';
 import TodoService from '@pinkyring/core/services/todoService';
 import TodoRepository from '@pinkyring/infrastructure_repositories/todoRepository';
-import {prisma} from '@pinkyring/infrastructure_repositories/util/db';
 import BlogService from '@pinkyring/core/services/blogService';
 import BlogRepository from '@pinkyring/infrastructure_repositories/blogRepository';
 import IdempotentRequestRepository from '@pinkyring/infrastructure_repositories/idempotentRequestRepository';
@@ -24,6 +23,7 @@ import ConfigHelper from '@pinkyring/core/util/configHelper';
 import ConfigFileReader from '@pinkyring/infrastructure_util/configFileReader';
 import {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
+import PrismaClientFactory from '@pinkyring/infrastructure_repositories/util/prismaClientFactory';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -44,7 +44,7 @@ const loadContainer = function () {
 const loadConfigHelper = function () {
   awilix_container.register({
     configHelper: asClass(ConfigHelper),
-    configFileReader: asClass(ConfigFileReader),
+    configFileReader: asClass(ConfigFileReader).singleton(),
     secretRepository: asValue(null), // currently not using a secrets repo for this project
   });
 };
@@ -90,7 +90,12 @@ const loadGenericItems = function () {
     }),
   });
   awilix_container.register({
-    prismaClient: asFunction(prisma).singleton(),
+    prismaClientFactory: asClass(PrismaClientFactory),
+    prismaClient: asFunction(() => {
+      const factory = awilix_container.cradle
+        .prismaClientFactory as PrismaClientFactory;
+      return factory.createPrismaClient();
+    }).singleton(),
   });
 };
 

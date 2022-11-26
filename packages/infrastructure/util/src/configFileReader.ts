@@ -26,4 +26,13 @@ export default class ConfigFileReader implements IConfigFileReader {
     }
     return parsed;
   }
+
+  addValueToEnv(key: string): void {
+    const value = this.getValue(key);
+    if (value) {
+      if (!Object.prototype.hasOwnProperty.call(process.env, key)) {
+        process.env[key] = value;
+      }
+    }
+  }
 }

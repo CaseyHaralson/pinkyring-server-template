@@ -1,6 +1,7 @@
 export interface ConfigKey {
   name: string;
   isSecret?: boolean;
+  loadIntoEnv?: boolean;
 }
 
 export interface ISecretRepository {
@@ -9,4 +10,5 @@ export interface ISecretRepository {
 
 export interface IConfigFileReader {
   getValue(key: string): string | undefined;
+  addValueToEnv(key: string): void;
 }

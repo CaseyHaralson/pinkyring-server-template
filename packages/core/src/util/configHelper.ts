@@ -15,15 +15,6 @@ export default class ConfigHelper {
     this._configFileReader = configFileReader;
   }
 
-  // add settings we will need for this package
-  //
-  // look in .env file
-  // look in env
-  // look in settings repo
-  //
-  // get key, protected?
-  //
-
   private _registeredKeys = new Map<string, ConfigKey>();
 
   registerNeededConfigurations(keys: ConfigKey[]) {
@@ -93,6 +84,10 @@ export default class ConfigHelper {
     // lastly try to read from a file
     const fileValue = this._configFileReader.getValue(configKey.name);
     if (fileValue !== undefined) {
+      if (configKey.loadIntoEnv) {
+        this._configFileReader.addValueToEnv(keyName);
+      }
+
       return fileValue;
     }
 
