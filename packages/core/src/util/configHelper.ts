@@ -5,6 +5,8 @@ import {
   ISecretRepository,
 } from '../interfaces/IConfig';
 
+const CONFIGKEYNAME_ENVIRONMENT = 'NODE_ENV';
+
 export default class ConfigHelper {
   private _secretRepository;
   private _configFileReader;
@@ -96,7 +98,18 @@ export default class ConfigHelper {
   }
 
   getEnvironment() {
-    const env = process.env.NODE_ENV ?? 'development';
+    this.registerEnvironmentAsNeededConfig();
+    const env =
+      this.getPossiblyUndefinedConfigValue(CONFIGKEYNAME_ENVIRONMENT) ??
+      'development';
     return env as Environment;
+  }
+
+  private registerEnvironmentAsNeededConfig() {
+    if (this._registeredKeys.get(CONFIGKEYNAME_ENVIRONMENT) === undefined) {
+      this._registeredKeys.set(CONFIGKEYNAME_ENVIRONMENT, {
+        name: CONFIGKEYNAME_ENVIRONMENT,
+      });
+    }
   }
 }
