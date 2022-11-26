@@ -1,6 +1,22 @@
 import express from 'express';
 import container from '@pinkyring/di-container/container';
 
+// ======================================
+// Get configurations
+const CONFIGKEYNAME_APPS_EXPRESS_PORT = 'APPS_EXPRESS_PORT';
+const configHelper = container.resolveConfigHelper();
+configHelper.registerNeededConfigurations([
+  {
+    name: CONFIGKEYNAME_APPS_EXPRESS_PORT,
+  },
+]);
+const configPort = Number(
+  configHelper.getConfigValue(CONFIGKEYNAME_APPS_EXPRESS_PORT)
+);
+const port = configPort != 0 ? configPort : 3000;
+// ======================================
+
+// create an express server
 const app = express();
 app.use(express.json()); // to support JSON-encoded bodies
 
@@ -46,6 +62,6 @@ app.post('/todo/:id/delete', async (req, res) => {
   res.send(await service.deleteTodo(req.params.id));
 });
 
-app.listen(3000, () => {
-  console.log('express app listening on port 3000');
+app.listen(port, () => {
+  console.log(`express app listening on port ${port}`);
 });

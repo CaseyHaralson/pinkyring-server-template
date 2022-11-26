@@ -7,6 +7,22 @@ import DataLoader from 'dataloader';
 import {mapObjectsToKeys} from '@pinkyring/core/graphql/IDataLoader';
 import {Author} from '@pinkyring/core/dtos/blogPost';
 
+// ======================================
+// Get configurations
+const CONFIGKEYNAME_APPS_GRAPHQL_PORT = 'APPS_GRAPHQL_PORT';
+const configHelper = container.resolveConfigHelper();
+configHelper.registerNeededConfigurations([
+  {
+    name: CONFIGKEYNAME_APPS_GRAPHQL_PORT,
+  },
+]);
+const configPort = Number(
+  configHelper.getConfigValue(CONFIGKEYNAME_APPS_GRAPHQL_PORT)
+);
+const port = configPort != 0 ? configPort : 4000;
+// ======================================
+
+// create yoga graphql server
 const yoga = createYoga({
   schema: createSchema({
     typeDefs: typeDefs,
@@ -32,6 +48,6 @@ const yoga = createYoga({
 
 const server = createServer(yoga);
 
-server.listen(4000, () => {
-  console.info('Server is running on http://localhost:4000/graphql');
+server.listen(port, () => {
+  console.info(`Server is running on http://localhost:${port}/graphql`);
 });

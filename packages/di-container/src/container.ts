@@ -136,6 +136,10 @@ class Container {
     return this._container.cradle.blogService as BlogService;
   }
 
+  resolveConfigHelper() {
+    return this._container.cradle.configHelper as ConfigHelper;
+  }
+
   resolveEventHelper() {
     return this._container.cradle.eventHelper as EventHelper;
   }
