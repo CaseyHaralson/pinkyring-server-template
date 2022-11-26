@@ -1,20 +1,18 @@
 import {Author, BlogPost} from '../dtos/blogPost';
 import {BlogPostAddedEvent, EventType} from '../dtos/events';
 import Principal from '../dtos/principal';
-import IBaseParams from '../interfaces/IBaseParams';
 import IBlogRepository from '../interfaces/IBlogRepository';
-import {ILoggableClass, LogContext} from '../interfaces/ILog';
-import BaseService from './baseService';
+import {LogContext} from '../interfaces/ILog';
+import BaseService, {IBaseServiceParams} from './baseService';
 
-export default class BlogService extends BaseService implements ILoggableClass {
+export default class BlogService extends BaseService {
   private _blogRepository;
-  constructor(baseParams: IBaseParams, blogRepository: IBlogRepository) {
-    super(baseParams);
+  constructor(
+    baseServiceParams: IBaseServiceParams,
+    blogRepository: IBlogRepository
+  ) {
+    super(baseServiceParams, 'BlogService');
     this._blogRepository = blogRepository;
-  }
-
-  className(): string {
-    return 'BlogService';
   }
 
   async getBlogPosts(principal: Principal, {ids}: {ids?: string[]}) {

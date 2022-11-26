@@ -12,7 +12,6 @@ import TodoRepository from '@pinkyring/infrastructure_repositories/todoRepositor
 import {prisma} from '@pinkyring/infrastructure_repositories/util/db';
 import BlogService from '@pinkyring/core/services/blogService';
 import BlogRepository from '@pinkyring/infrastructure_repositories/blogRepository';
-import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
 import IdempotentRequestRepository from '@pinkyring/infrastructure_repositories/idempotentRequestRepository';
 import WinstonLogger from '@pinkyring/infrastructure_logging/winstonLogger';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
@@ -23,6 +22,8 @@ import LocalEventRepository from '@pinkyring/infrastructure_queue/eventRepositor
 import ServerEventRepository from '@pinkyring/infrastructure_aws_snqs/eventRepository';
 import ConfigHelper from '@pinkyring/core/util/configHelper';
 import ConfigFileReader from '@pinkyring/infrastructure_util/configFileReader';
+import {IBaseParams} from '@pinkyring/core/util/baseClass';
+import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -67,17 +68,25 @@ const loadGenericItems = function () {
   awilix_container.register({
     logger: asClass(Logger),
     iLogHandler: asClass(WinstonLogger).singleton(),
-    idempotentRequestHelper: asClass(IdempotentRequestHelper),
-    idempotentRequestRepository: asClass(IdempotentRequestRepository),
-    eventHelper: asClass(EventHelper),
-    //eventRepository: asClass(EventRepository),
     baseParams: asFunction(() => {
       return {
         logger: awilix_container.cradle.logger,
+        configHelper: awilix_container.cradle.configHelper,
+      } as IBaseParams;
+    }),
+  });
+  awilix_container.register({
+    idempotentRequestHelper: asClass(IdempotentRequestHelper),
+    idempotentRequestRepository: asClass(IdempotentRequestRepository),
+    eventHelper: asClass(EventHelper),
+    baseServiceParams: asFunction(() => {
+      return {
+        logger: awilix_container.cradle.logger,
+        configHelper: awilix_container.cradle.configHelper,
         idempotentRequestHelper:
           awilix_container.cradle.idempotentRequestHelper,
         eventHelper: awilix_container.cradle.eventHelper,
-      } as IBaseParams;
+      } as IBaseServiceParams;
     }),
   });
   awilix_container.register({
