@@ -5,7 +5,7 @@ import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 
 const DURABLE = false;
 
-const RABBITMQ_URL = 'RABBITMQ_URL';
+const CONFIGKEYNAME_RABBITMQ_URL = 'RABBITMQ_URL';
 
 export default class EventRepository
   extends BaseClass
@@ -14,13 +14,15 @@ export default class EventRepository
   constructor(baseParams: IBaseParams) {
     super(baseParams, 'EventRepository', [
       {
-        name: RABBITMQ_URL,
+        name: CONFIGKEYNAME_RABBITMQ_URL,
       },
     ]);
   }
 
   async publishEvent(event: BaseEvent): Promise<void> {
-    const connection = await connect(this.getConfigValue(RABBITMQ_URL));
+    const connection = await connect(
+      this.getConfigValue(CONFIGKEYNAME_RABBITMQ_URL)
+    );
     const channel = await connection.createChannel();
     await channel.assertExchange(EVENT_BUS_NAME, 'topic', {
       durable: DURABLE,
@@ -38,7 +40,9 @@ export default class EventRepository
     busName?: string,
     topicPattern?: string
   ) {
-    const connection = await connect(this.getConfigValue(RABBITMQ_URL));
+    const connection = await connect(
+      this.getConfigValue(CONFIGKEYNAME_RABBITMQ_URL)
+    );
     const channel = await connection.createChannel();
     await channel.assertQueue(queueName, {durable: DURABLE});
 
@@ -59,7 +63,9 @@ export default class EventRepository
     queueName: string,
     handlerFunc: (event: BaseEvent) => Promise<boolean>
   ) {
-    const connection = await connect(this.getConfigValue(RABBITMQ_URL));
+    const connection = await connect(
+      this.getConfigValue(CONFIGKEYNAME_RABBITMQ_URL)
+    );
     const channel = await connection.createChannel();
     await channel.assertQueue(queueName, {durable: DURABLE});
     channel.consume(
@@ -81,7 +87,9 @@ export default class EventRepository
   }
 
   async getEventFromQueue(queueName: string) {
-    const connection = await connect(this.getConfigValue(RABBITMQ_URL));
+    const connection = await connect(
+      this.getConfigValue(CONFIGKEYNAME_RABBITMQ_URL)
+    );
     const channel = await connection.createChannel();
     await channel.assertQueue(queueName, {durable: DURABLE});
     const msg = await channel.get(queueName, {
@@ -101,7 +109,9 @@ export default class EventRepository
   }
 
   async getNumEventsInQueue(queueName: string) {
-    const connection = await connect(this.getConfigValue(RABBITMQ_URL));
+    const connection = await connect(
+      this.getConfigValue(CONFIGKEYNAME_RABBITMQ_URL)
+    );
     const channel = await connection.createChannel();
     const queue = await channel.assertQueue(queueName, {durable: DURABLE});
     this.closeConnection(connection);
