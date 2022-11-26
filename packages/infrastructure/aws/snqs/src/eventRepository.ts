@@ -2,16 +2,40 @@ import IEventRepository from '@pinkyring/core/interfaces/IEventRepository';
 import {BaseEvent, EventType} from '@pinkyring/core/dtos/events';
 import {SNS} from '@aws-sdk/client-sns';
 import {SQS} from '@aws-sdk/client-sqs';
+import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 
-export default class EventRepository implements IEventRepository {
+const CONFIGKEYNAME_AWS_REGION = 'AWS_REGION'; // env variable set by AWS
+const CONFIGKEYNAME_BLOGPOST_ADDED_TOPIC_ARN = 'BLOGPOST_ADDED_TOPIC_ARN';
+const CONFIGKEYNAME_MANUAL_PULL_QUEUE_URL = 'MANUAL_PULL_QUEUE_URL';
+
+export default class EventRepository
+  extends BaseClass
+  implements IEventRepository
+{
+  constructor(baseParams: IBaseParams) {
+    super(baseParams, 'EventRepository', [
+      {
+        name: CONFIGKEYNAME_AWS_REGION,
+      },
+      {
+        name: CONFIGKEYNAME_BLOGPOST_ADDED_TOPIC_ARN,
+      },
+      {
+        name: CONFIGKEYNAME_MANUAL_PULL_QUEUE_URL,
+      },
+    ]);
+  }
+
   async publishEvent(event: BaseEvent): Promise<void> {
     let topicArn = undefined;
     if (event.eventType === EventType.BLOG_POST_ADDED) {
-      topicArn = process.env.BlogPostAddedTopicArn;
+      topicArn = this.getConfigValue(CONFIGKEYNAME_BLOGPOST_ADDED_TOPIC_ARN);
     }
 
     if (topicArn) {
-      const client = new SNS({region: process.env.AWS_REGION}); // env variable set by AWS
+      const client = new SNS({
+        region: this.getConfigValue(CONFIGKEYNAME_AWS_REGION),
+      });
       await client.publish({
         Message: JSON.stringify(event),
         TopicArn: topicArn,
@@ -31,11 +55,13 @@ export default class EventRepository implements IEventRepository {
   async getEventFromQueue(queueName: string): Promise<BaseEvent | null> {
     let queueUrl = undefined;
     if (queueName === 'ManualPullQueue') {
-      queueUrl = process.env.ManualPullQueueUrl;
+      queueUrl = this.getConfigValue(CONFIGKEYNAME_MANUAL_PULL_QUEUE_URL);
     }
 
     if (queueUrl) {
-      const client = new SQS({region: process.env.AWS_REGION}); // env variable set by AWS
+      const client = new SQS({
+        region: this.getConfigValue(CONFIGKEYNAME_AWS_REGION),
+      });
 
       console.log(`Trying to get a message from the queue...`);
       const messageOutput = await client.receiveMessage({
@@ -70,11 +96,13 @@ export default class EventRepository implements IEventRepository {
   async getNumEventsInQueue(queueName: string): Promise<number> {
     let queueUrl = undefined;
     if (queueName === 'ManualPullQueue') {
-      queueUrl = process.env.ManualPullQueueUrl;
+      queueUrl = this.getConfigValue(CONFIGKEYNAME_MANUAL_PULL_QUEUE_URL);
     }
 
     if (queueUrl) {
-      const client = new SQS({region: process.env.AWS_REGION}); // env variable set by AWS
+      const client = new SQS({
+        region: this.getConfigValue(CONFIGKEYNAME_AWS_REGION),
+      });
 
       console.log(`Trying to get attributes from the queue...`);
       const attributes = await client.getQueueAttributes({

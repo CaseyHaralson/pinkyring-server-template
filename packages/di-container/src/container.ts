@@ -68,7 +68,13 @@ const loadGenericItems = function () {
   });
   awilix_container.register({
     logger: asClass(Logger),
-    iLogHandler: asClass(WinstonLogger).singleton(),
+    iLogHandler: asFunction(() => {
+      const logger = new WinstonLogger({
+        logger: asValue(null) as unknown as Logger, // can't include a logger in Winston because that creates a circular dependency, because Winston IS the logger
+        configHelper: awilix_container.cradle.configHelper as ConfigHelper,
+      } as IBaseParams);
+      return logger;
+    }).singleton(),
     baseParams: asFunction(() => {
       return {
         logger: awilix_container.cradle.logger,
