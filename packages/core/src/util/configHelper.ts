@@ -38,7 +38,7 @@ export default class ConfigHelper {
         this._registeredKeys.set(key.name, key);
       }
 
-      if (this.getConfigValue(key.name) === undefined) {
+      if (this.getPossiblyUndefinedConfigValue(key.name) === undefined) {
         missingConfigurations.push(key.name);
       }
 
@@ -66,7 +66,12 @@ export default class ConfigHelper {
     }
   }
 
-  private getConfigValue(keyName: string): string | undefined {
+  getConfigValue(keyName: string): string {
+    const value = this.getPossiblyUndefinedConfigValue(keyName);
+    return value ?? '';
+  }
+
+  private getPossiblyUndefinedConfigValue(keyName: string): string | undefined {
     const configKey = this._registeredKeys.get(keyName);
     if (configKey === undefined) {
       throw new Error(

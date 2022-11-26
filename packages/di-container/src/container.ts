@@ -1,4 +1,10 @@
-import {createContainer, asClass, AwilixContainer, asFunction} from 'awilix';
+import {
+  createContainer,
+  asClass,
+  AwilixContainer,
+  asFunction,
+  asValue,
+} from 'awilix';
 import TestService from '@pinkyring/core/services/testService';
 import TestRepository from '@pinkyring/infrastructure_repositories/testRepository';
 import TodoService from '@pinkyring/core/services/todoService';
@@ -21,14 +27,25 @@ import ConfigFileReader from '@pinkyring/infrastructure_util/configFileReader';
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
 const loadContainer = function () {
+  loadConfigHelper();
+  const configHelper = awilix_container.cradle.configHelper as ConfigHelper;
+
   // can check for environment to load specific container type
-  if (process.env.NODE_ENV !== 'dev') {
+  if (!configHelper.isDevelopment()) {
     loadServerItems();
   } else {
     loadLocalItems();
   }
 
   loadGenericItems();
+};
+
+const loadConfigHelper = function () {
+  awilix_container.register({
+    configHelper: asClass(ConfigHelper),
+    configFileReader: asClass(ConfigFileReader),
+    secretRepository: asValue(null), // currently not using a secrets repo for this project
+  });
 };
 
 const loadGenericItems = function () {
@@ -46,10 +63,6 @@ const loadGenericItems = function () {
   awilix_container.register({
     blogService: asClass(BlogService),
     blogRepository: asClass(BlogRepository),
-  });
-  awilix_container.register({
-    configHelper: asClass(ConfigHelper),
-    configFileReader: asClass(ConfigFileReader),
   });
   awilix_container.register({
     logger: asClass(Logger),

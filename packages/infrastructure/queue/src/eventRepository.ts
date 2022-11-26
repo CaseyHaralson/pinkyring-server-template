@@ -1,12 +1,31 @@
 import IEventRepository from '@pinkyring/core/interfaces/IEventRepository';
 import {BaseEvent, EVENT_BUS_NAME} from '@pinkyring/core/dtos/events';
 import {connect, Connection} from 'amqplib';
+import ConfigHelper from '@pinkyring/core/util/configHelper';
 
 const DURABLE = false;
 
+const RABBITMQ_URL = 'RABBITMQ_URL';
+
 export default class EventRepository implements IEventRepository {
+  private _configHelper;
+  constructor(configHelper: ConfigHelper) {
+    this._configHelper = configHelper;
+    this.registerNeededConfigurations();
+  }
+
+  private registerNeededConfigurations() {
+    this._configHelper.registerNeededConfigurations([
+      {
+        name: RABBITMQ_URL,
+      },
+    ]);
+  }
+
   async publishEvent(event: BaseEvent): Promise<void> {
-    const connection = await connect('amqp://localhost');
+    const connection = await connect(
+      this._configHelper.getConfigValue(RABBITMQ_URL)
+    );
     const channel = await connection.createChannel();
     await channel.assertExchange(EVENT_BUS_NAME, 'topic', {
       durable: DURABLE,
@@ -24,7 +43,9 @@ export default class EventRepository implements IEventRepository {
     busName?: string,
     topicPattern?: string
   ) {
-    const connection = await connect('amqp://localhost');
+    const connection = await connect(
+      this._configHelper.getConfigValue(RABBITMQ_URL)
+    );
     const channel = await connection.createChannel();
     await channel.assertQueue(queueName, {durable: DURABLE});
 
@@ -45,7 +66,9 @@ export default class EventRepository implements IEventRepository {
     queueName: string,
     handlerFunc: (event: BaseEvent) => Promise<boolean>
   ) {
-    const connection = await connect('amqp://localhost');
+    const connection = await connect(
+      this._configHelper.getConfigValue(RABBITMQ_URL)
+    );
     const channel = await connection.createChannel();
     await channel.assertQueue(queueName, {durable: DURABLE});
     channel.consume(
@@ -67,7 +90,9 @@ export default class EventRepository implements IEventRepository {
   }
 
   async getEventFromQueue(queueName: string) {
-    const connection = await connect('amqp://localhost');
+    const connection = await connect(
+      this._configHelper.getConfigValue(RABBITMQ_URL)
+    );
     const channel = await connection.createChannel();
     await channel.assertQueue(queueName, {durable: DURABLE});
     const msg = await channel.get(queueName, {
@@ -87,7 +112,9 @@ export default class EventRepository implements IEventRepository {
   }
 
   async getNumEventsInQueue(queueName: string) {
-    const connection = await connect('amqp://localhost');
+    const connection = await connect(
+      this._configHelper.getConfigValue(RABBITMQ_URL)
+    );
     const channel = await connection.createChannel();
     const queue = await channel.assertQueue(queueName, {durable: DURABLE});
     this.closeConnection(connection);

@@ -1,5 +1,5 @@
 import {IConfigFileReader} from '@pinkyring/core/interfaces/IConfig';
-import find from 'find-up';
+import findUp from 'find-up';
 import dotenv, {DotenvParseOutput} from 'dotenv';
 import fs from 'fs';
 
@@ -16,7 +16,7 @@ export default class ConfigFileReader implements IConfigFileReader {
   }
 
   private findEnvFile() {
-    return find.findUpSync('.env');
+    return findUp.sync('.env');
   }
 
   private parseEnvFile(filePath: string | undefined) {
