@@ -12,3 +12,5 @@ export interface IConfigFileReader {
   getValue(key: string): string | undefined;
   addValueToEnv(key: string): void;
 }
+
+export const CONFIGKEYNAME_PROJECTDATA_PREFIX = 'PROJECTDATA.';
