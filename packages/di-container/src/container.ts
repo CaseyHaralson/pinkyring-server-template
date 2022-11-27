@@ -25,6 +25,7 @@ import {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
 import PrismaClientFactory from '@pinkyring/infrastructure_repositories/util/prismaClientFactory';
 import {Environment} from '@pinkyring/core/dtos/enums';
+import MaintenanceService from '@pinkyring/core/services/maintenanceService';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -104,6 +105,9 @@ const loadGenericItems = function () {
       return factory.createPrismaClient();
     }).singleton(),
   });
+  awilix_container.register({
+    maintenanceService: asClass(MaintenanceService),
+  });
 };
 
 const loadLocalItems = function () {
@@ -140,6 +144,10 @@ class Container {
 
   resolveBlogService() {
     return this._container.cradle.blogService as BlogService;
+  }
+
+  resolveMaintenanceService() {
+    return this._container.cradle.maintenanceService as MaintenanceService;
   }
 
   resolveConfigHelper() {

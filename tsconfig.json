@@ -19,6 +19,9 @@
       "path": "./packages/apps/api-rest"
     },
     {
+      "path": "./packages/apps/cron-jobs"
+    },
+    {
       "path": "./packages/apps/test-events"
     },
     {
