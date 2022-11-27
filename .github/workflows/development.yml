@@ -9,6 +9,11 @@ on:
       - reopened
   workflow_call:
 
+env:
+  MYSQL_DATABASE: pinkyring
+  MYSQL_USER: root
+  MYSQL_ROOT_PASSWORD: example
+
 jobs:
   unit-test:
     name: Unit test application
@@ -36,8 +41,8 @@ jobs:
     services:
       mysql:
         image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: example
+        # env:
+        #   MYSQL_ROOT_PASSWORD: example
         ports:
           - 3306:3306
     steps:
@@ -60,12 +65,12 @@ jobs:
         working-directory: ./packages/infrastructure/repositories
         run: npx prisma migrate deploy
         env:
-          DATABASE_URL: mysql://root:example@127.0.0.1:3306/pinkyring
+          DATABASE_URL: mysql://${{env.MYSQL_USER}}:${{env.MYSQL_ROOT_PASSWORD}}@127.0.0.1:3306/${{env.MYSQL_ROOT_PASSWORD}}
 
       - name: '🔍 run integration tests'
         run: npm run test:it --if-present
         env:
-          DATABASE_URL: mysql://root:example@127.0.0.1:3306/pinkyring
+          DATABASE_URL: mysql://${{env.MYSQL_USER}}:${{env.MYSQL_ROOT_PASSWORD}}@127.0.0.1:3306/${{env.MYSQL_ROOT_PASSWORD}}
 
   style-and-lint:
     name: Code standards
