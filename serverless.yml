@@ -14,7 +14,7 @@ provider:
       - !Ref SubnetBPublic
   environment:
     NODE_ENV: ${self:provider.stage}
-    DATABASE_URL:
+    MYSQL_DATABASE_URL:
       Fn::Join:
         - ''
         - - 'mysql://'
