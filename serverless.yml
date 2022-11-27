@@ -27,8 +27,8 @@ provider:
           - ${self:custom.DB_DATABASE_NAME}
           - '?connection_limit=1'
           - '&pool_timeout=30'
-    BlogPostAddedTopicArn: !Ref BlogPostAddedTopic
-    ManualPullQueueUrl: !Ref ManualPullQueue
+    BLOGPOST_ADDED_TOPIC_ARN: !Ref BlogPostAddedTopic
+    MANUAL_PULL_QUEUE_URL: !Ref ManualPullQueue
   ecr:
     images:
       db-migration-runner:
