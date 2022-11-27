@@ -1,21 +1,23 @@
 import Principal from '../dtos/principal';
 import IIdempotentRequestRepository from '../interfaces/IIdempotentRequestRepository';
-import {ILoggableClass, LogContext} from '../interfaces/ILog';
-import Logger from './logger';
+import {LogContext} from '../interfaces/ILog';
+import BaseClass, {IBaseParams} from './baseClass';
 
-export default class IdempotentRequestHelper implements ILoggableClass {
+const CONFIGKEYNAME_IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS =
+  'IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS';
+
+export default class IdempotentRequestHelper extends BaseClass {
   private _idempotentRequestRepository;
-  private _logger;
   constructor(
-    idempotentRequestRepository: IIdempotentRequestRepository,
-    logger: Logger
+    baseParams: IBaseParams,
+    idempotentRequestRepository: IIdempotentRequestRepository
   ) {
+    super(baseParams, 'IdempotentRequestHelper', [
+      {
+        name: CONFIGKEYNAME_IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS,
+      },
+    ]);
     this._idempotentRequestRepository = idempotentRequestRepository;
-    this._logger = logger;
-  }
-
-  className(): string {
-    return 'IdempotentRequestHelper';
   }
 
   async handleIdempotentRequest<T>(
@@ -193,5 +195,14 @@ export default class IdempotentRequestHelper implements ILoggableClass {
     requestId: string
   ) {
     return `${principal.identity.id}.${originatingClassName}.${originatingMethodName}.${requestId}`;
+  }
+
+  async cleanOldIdempotentRequests() {
+    const hours = this.getConfigValue(
+      CONFIGKEYNAME_IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS
+    );
+    await this._idempotentRequestRepository.deleteRequestsOlderThan(
+      Number(hours)
+    );
   }
 }

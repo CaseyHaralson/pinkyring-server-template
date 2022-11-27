@@ -7,13 +7,15 @@ import Logger from '@pinkyring/core/util/logger';
 import Principal from '@pinkyring/core/dtos/principal';
 import EventHelper from '@pinkyring/core/util/eventHelper';
 import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
+import ConfigHelper from '@pinkyring/core/util/configHelper';
 
 describe('blog service unit tests', () => {
   const baseParams = mock<IBaseServiceParams>();
   baseParams.logger = mock<Logger>();
+  baseParams.configHelper = mock<ConfigHelper>();
   const idempotentRequestHelper = new IdempotentRequestHelper(
-    mock<IIdempotentRequestRepository>(),
-    mock<Logger>()
+    baseParams,
+    mock<IIdempotentRequestRepository>()
   );
   baseParams.idempotentRequestHelper = idempotentRequestHelper;
   baseParams.eventHelper = mock<EventHelper>();

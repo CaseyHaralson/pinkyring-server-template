@@ -3,4 +3,5 @@ export default interface IIdempotentRequestRepository {
   saveRequestResult(requestId: string, result: string): Promise<void>;
   getRequestResult(requestId: string): Promise<string | null | undefined>;
   deleteRequest(requestId: string): Promise<void>;
+  deleteRequestsOlderThan(hours: number): Promise<void>;
 }
