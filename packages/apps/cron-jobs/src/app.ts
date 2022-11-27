@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import container from '@pinkyring/di-container/container';
+import {cleanOldIdempotentRequests} from './maintenanceTasks';
 
 //  ┌────────────── second (optional)
 //  │ ┌──────────── minute
@@ -14,6 +14,10 @@ import container from '@pinkyring/di-container/container';
 // clean old idempotent requests
 // runs at 1am every day
 cron.schedule('* 1 * * *', async () => {
-  const service = container.resolveMaintenanceService();
-  await service.cleanOldIdempotentRequests();
+  await cleanOldIdempotentRequests();
 });
+
+// things to run on startup (use timeout to allow for await)
+setTimeout(async () => {
+  await cleanOldIdempotentRequests();
+}, 500);

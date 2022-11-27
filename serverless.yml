@@ -29,6 +29,7 @@ provider:
           - '&pool_timeout=30'
     BLOGPOST_ADDED_TOPIC_ARN: !Ref BlogPostAddedTopic
     MANUAL_PULL_QUEUE_URL: !Ref ManualPullQueue
+    IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS: '24'
   ecr:
     images:
       db-migration-runner:
