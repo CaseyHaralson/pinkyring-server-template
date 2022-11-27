@@ -34,8 +34,13 @@ jobs:
         run: npx prisma generate
         timeout-minutes: 1
       
-      # - name: '📦 remove dev dependencies'
-      #   run: 'npm prune --production'
+      - name: '📦 install prune'
+        run: 'curl -sf https://gobinaries.com/tj/node-prune | sh'
+        timeout-minutes: 1
+      
+      - name: '📦 prune dependencies'
+        run: 'node-prune'
+        timeout-minutes: 1
 
       - name: '📦 install serverless'
         run: npm i -g serverless
