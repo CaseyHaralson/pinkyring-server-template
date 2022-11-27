@@ -171,9 +171,9 @@ export default class IdempotentRequestHelper implements ILoggableClass {
           originatingMethodName,
           requestId,
           requestFunc,
-          maxWaitCountMs - 100
+          maxWaitCountMs - 300
         );
-      }, 100);
+      }, 300);
     }
     throw new Error(`Unknown state - The request couldn't be found.`);
   }
