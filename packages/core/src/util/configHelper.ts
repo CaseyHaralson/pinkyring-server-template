@@ -4,7 +4,7 @@ import {
   IConfigFileReader,
   ISecretRepository,
 } from '../interfaces/IConfig';
-import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '@pinkyring/core/interfaces/IConfig';
+import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '../interfaces/IConfig';
 
 const CONFIGKEYNAME_ENVIRONMENT = 'NODE_ENV';
 
