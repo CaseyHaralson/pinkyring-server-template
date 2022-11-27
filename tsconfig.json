@@ -43,6 +43,9 @@
       "path": "./packages/infrastructure/repositories"
     },
     {
+      "path": "./packages/infrastructure/util"
+    },
+    {
       "path": "./packages/tests"
     }
   ],

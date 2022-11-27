@@ -1,19 +1,25 @@
 import {BaseEvent} from '../dtos/events';
 import Principal from '../dtos/principal';
-import IBaseParams from '../interfaces/IBaseParams';
-import {ILoggableClass, LogContext} from '../interfaces/ILog';
-import {UnknownPrincipal} from '../util/principalResolver';
+import {ConfigKey} from '../interfaces/IConfig';
+import {BaseLogContext} from '../interfaces/ILog';
+import BaseClass, {IBaseParams} from '../util/baseClass';
+import EventHelper from '../util/eventHelper';
+import IdempotentRequestHelper from '../util/idempotentRequestHelper';
 
-export default class BaseService implements ILoggableClass {
-  private _baseParams;
-  protected _logger;
-  constructor(baseParams: IBaseParams) {
-    this._baseParams = baseParams;
-    this._logger = baseParams.logger;
-  }
+export interface IBaseServiceParams extends IBaseParams {
+  idempotentRequestHelper: IdempotentRequestHelper;
+  eventHelper: EventHelper;
+}
 
-  _className(): string {
-    return 'BaseService';
+export default class BaseService extends BaseClass {
+  private _baseServiceParams;
+  constructor(
+    baseServiceParams: IBaseServiceParams,
+    className: string,
+    configKeys?: ConfigKey[]
+  ) {
+    super(baseServiceParams, className, configKeys);
+    this._baseServiceParams = baseServiceParams;
   }
 
   protected async idempotentRequest<T>(
@@ -22,28 +28,19 @@ export default class BaseService implements ILoggableClass {
     requestId: string,
     requestFunc: () => Promise<T>
   ): Promise<T> {
-    return this._baseParams.idempotentRequestHelper.handleIdempotentRequest(
+    return this._baseServiceParams.idempotentRequestHelper.handleIdempotentRequest(
       principal,
-      this._className(),
+      this.className(),
       methodName,
       requestId,
       requestFunc
     );
   }
 
-  protected async publishEvent(event: BaseEvent): Promise<boolean> {
-    try {
-      await this._baseParams.eventHelper.publishEvent(event);
-    } catch (e) {
-      const lc = {
-        currentObj: this,
-        methodName: 'publishEvent',
-        principal: UnknownPrincipal,
-      } as LogContext;
-      this._logger.error(lc, `Error publishing event: ${e}`);
-
-      return false;
-    }
-    return true;
+  protected async publishEvent(
+    blc: BaseLogContext,
+    event: BaseEvent
+  ): Promise<boolean> {
+    return await this._baseServiceParams.eventHelper.publishEvent(blc, event);
   }
 }

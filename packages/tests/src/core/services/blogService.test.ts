@@ -1,15 +1,15 @@
 import BlogService from '@pinkyring/core/services/blogService';
 import IBlogRepository from '@pinkyring/core/interfaces/IBlogRepository';
 import {mock, mockReset} from 'jest-mock-extended';
-import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
 import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
 import Logger from '@pinkyring/core/util/logger';
 import Principal from '@pinkyring/core/dtos/principal';
 import EventHelper from '@pinkyring/core/util/eventHelper';
+import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
 
 describe('blog service unit tests', () => {
-  const baseParams = mock<IBaseParams>();
+  const baseParams = mock<IBaseServiceParams>();
   baseParams.logger = mock<Logger>();
   const idempotentRequestHelper = new IdempotentRequestHelper(
     mock<IIdempotentRequestRepository>(),

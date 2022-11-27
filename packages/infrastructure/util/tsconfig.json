@@ -16,22 +16,7 @@
   },
   "references": [
     {
-      "path": "../core"
-    },
-    {
-      "path": "../infrastructure/aws/snqs"
-    },
-    {
-      "path": "../infrastructure/logging"
-    },
-    {
-      "path": "../infrastructure/queue"
-    },
-    {
-      "path": "../infrastructure/repositories"
-    },
-    {
-      "path": "../infrastructure/util"
+      "path": "../../core"
     }
   ]
 }

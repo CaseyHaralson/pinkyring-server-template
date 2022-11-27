@@ -1,12 +1,16 @@
-import {createContainer, asClass, AwilixContainer, asFunction} from 'awilix';
+import {
+  createContainer,
+  asClass,
+  AwilixContainer,
+  asFunction,
+  asValue,
+} from 'awilix';
 import TestService from '@pinkyring/core/services/testService';
 import TestRepository from '@pinkyring/infrastructure_repositories/testRepository';
 import TodoService from '@pinkyring/core/services/todoService';
 import TodoRepository from '@pinkyring/infrastructure_repositories/todoRepository';
-import {prisma} from '@pinkyring/infrastructure_repositories/util/db';
 import BlogService from '@pinkyring/core/services/blogService';
 import BlogRepository from '@pinkyring/infrastructure_repositories/blogRepository';
-import IBaseParams from '@pinkyring/core/interfaces/IBaseParams';
 import IdempotentRequestRepository from '@pinkyring/infrastructure_repositories/idempotentRequestRepository';
 import WinstonLogger from '@pinkyring/infrastructure_logging/winstonLogger';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
@@ -15,18 +19,35 @@ import PrincipalResolver from '@pinkyring/core/util/principalResolver';
 import EventHelper from '@pinkyring/core/util/eventHelper';
 import LocalEventRepository from '@pinkyring/infrastructure_queue/eventRepository';
 import ServerEventRepository from '@pinkyring/infrastructure_aws_snqs/eventRepository';
+import ConfigHelper from '@pinkyring/core/util/configHelper';
+import ConfigFileReader from '@pinkyring/infrastructure_util/configFileReader';
+import {IBaseParams} from '@pinkyring/core/util/baseClass';
+import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
+import PrismaClientFactory from '@pinkyring/infrastructure_repositories/util/prismaClientFactory';
+import {Environment} from '@pinkyring/core/dtos/enums';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
 const loadContainer = function () {
+  loadConfigHelper();
+  const configHelper = awilix_container.cradle.configHelper as ConfigHelper;
+
   // can check for environment to load specific container type
-  if (process.env.NODE_ENV !== 'dev') {
-    loadServerItems();
-  } else {
+  if (configHelper.getEnvironment() === Environment.DEVELOPMENT) {
     loadLocalItems();
+  } else {
+    loadServerItems();
   }
 
   loadGenericItems();
+};
+
+const loadConfigHelper = function () {
+  awilix_container.register({
+    configHelper: asClass(ConfigHelper),
+    configFileReader: asClass(ConfigFileReader).singleton(),
+    secretRepository: asValue(null), // currently not using a secrets repo for this project
+  });
 };
 
 const loadGenericItems = function () {
@@ -47,22 +68,41 @@ const loadGenericItems = function () {
   });
   awilix_container.register({
     logger: asClass(Logger),
-    iLogHandler: asClass(WinstonLogger).singleton(),
-    idempotentRequestHelper: asClass(IdempotentRequestHelper),
-    idempotentRequestRepository: asClass(IdempotentRequestRepository),
-    eventHelper: asClass(EventHelper),
-    //eventRepository: asClass(EventRepository),
+    iLogHandler: asFunction(() => {
+      const logger = new WinstonLogger({
+        logger: asValue(null) as unknown as Logger, // can't include a logger in Winston because that creates a circular dependency, because Winston IS the logger
+        configHelper: awilix_container.cradle.configHelper as ConfigHelper,
+      } as IBaseParams);
+      return logger;
+    }).singleton(),
     baseParams: asFunction(() => {
       return {
         logger: awilix_container.cradle.logger,
-        idempotentRequestHelper:
-          awilix_container.cradle.idempotentRequestHelper,
-        eventHelper: awilix_container.cradle.eventHelper,
+        configHelper: awilix_container.cradle.configHelper,
       } as IBaseParams;
     }),
   });
   awilix_container.register({
-    prismaClient: asFunction(prisma).singleton(),
+    idempotentRequestHelper: asClass(IdempotentRequestHelper),
+    idempotentRequestRepository: asClass(IdempotentRequestRepository),
+    eventHelper: asClass(EventHelper),
+    baseServiceParams: asFunction(() => {
+      return {
+        logger: awilix_container.cradle.logger,
+        configHelper: awilix_container.cradle.configHelper,
+        idempotentRequestHelper:
+          awilix_container.cradle.idempotentRequestHelper,
+        eventHelper: awilix_container.cradle.eventHelper,
+      } as IBaseServiceParams;
+    }),
+  });
+  awilix_container.register({
+    prismaClientFactory: asClass(PrismaClientFactory),
+    prismaClient: asFunction(() => {
+      const factory = awilix_container.cradle
+        .prismaClientFactory as PrismaClientFactory;
+      return factory.createPrismaClient();
+    }).singleton(),
   });
 };
 
@@ -100,6 +140,10 @@ class Container {
 
   resolveBlogService() {
     return this._container.cradle.blogService as BlogService;
+  }
+
+  resolveConfigHelper() {
+    return this._container.cradle.configHelper as ConfigHelper;
   }
 
   resolveEventHelper() {

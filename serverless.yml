@@ -14,7 +14,7 @@ provider:
       - !Ref SubnetBPublic
   environment:
     NODE_ENV: ${self:provider.stage}
-    DATABASE_URL:
+    MYSQL_DATABASE_URL:
       Fn::Join:
         - ''
         - - 'mysql://'
@@ -49,8 +49,13 @@ provider:
           Resource: '*'
 
 custom:
+  # the following should come from a secrets store
+  # also, these will show up in the environment variables for the lambda
+  # so make sure whoever can view the lambda config should be able to see this data
+  # ================================
   DB_USERNAME: root
   DB_PASSWORD: example!
+  # ================================
   DB_DATABASE_NAME: pinkyring
   DB_AUTOPAUSE: true
   DB_CAPACITY_MIN: 1

@@ -16,6 +16,7 @@
     "@pinkyring/infrastructure_logging": "*",
     "@pinkyring/infrastructure_queue": "*",
     "@pinkyring/infrastructure_repositories": "*",
+    "@pinkyring/infrastructure_util": "*",
     "awilix": "^8.0.0"
   }
 }

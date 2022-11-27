@@ -9,6 +9,11 @@ on:
       - reopened
   workflow_call:
 
+env:
+  MYSQL_DATABASE: pinkyring
+  MYSQL_USER: root
+  MYSQL_ROOT_PASSWORD: example
+
 jobs:
   unit-test:
     name: Unit test application
@@ -37,7 +42,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: example
+          MYSQL_ROOT_PASSWORD: ${{env.MYSQL_ROOT_PASSWORD}}
         ports:
           - 3306:3306
     steps:
@@ -48,6 +53,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+
+      - name: '🔧 create env file'
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_NODE_ENV: 'test'
 
       - name: '📦 install dependencies'
         uses: bahmutov/npm-install@v1
@@ -60,12 +70,12 @@ jobs:
         working-directory: ./packages/infrastructure/repositories
         run: npx prisma migrate deploy
         env:
-          DATABASE_URL: mysql://root:example@127.0.0.1:3306/pinkyring
+          MYSQL_DATABASE_URL: mysql://${{env.MYSQL_USER}}:${{env.MYSQL_ROOT_PASSWORD}}@127.0.0.1:3306/${{env.MYSQL_DATABASE}}
 
       - name: '🔍 run integration tests'
         run: npm run test:it --if-present
         env:
-          DATABASE_URL: mysql://root:example@127.0.0.1:3306/pinkyring
+          MYSQL_DATABASE_URL: mysql://${{env.MYSQL_USER}}:${{env.MYSQL_ROOT_PASSWORD}}@127.0.0.1:3306/${{env.MYSQL_DATABASE}}
 
   style-and-lint:
     name: Code standards
