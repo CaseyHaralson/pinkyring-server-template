@@ -2,7 +2,8 @@
   "name": "serverless-dbmigration",
   "private": true,
   "dependencies": {
-    "@prisma/client": "^4.6.1"
+    "@prisma/client": "^4.6.1",
+    "aws-sdk": "^2.1253.0"
   },
   "scripts": {
     "build": "tsc",
