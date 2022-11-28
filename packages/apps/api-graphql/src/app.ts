@@ -1,14 +1,8 @@
 import {createSchema, createYoga} from 'graphql-yoga';
 import {createServer} from 'node:http';
-import {
-  typeDefs,
-  resolvers,
-  authorDataLoaderHandler,
-} from '@pinkyring/core/graphql/schema';
-import {IContext} from '@pinkyring/core/graphql/IContext';
+import {typeDefs, resolvers, IContext} from '@pinkyring/core/graphql/schema';
 import container from '@pinkyring/di-container/container';
 import DataLoader from 'dataloader';
-import {Author} from '@pinkyring/core/dtos/blogPost';
 
 // ======================================
 // Get configurations
@@ -35,14 +29,10 @@ const yoga = createYoga({
     // can resolve principal with header or something here
     const principal = container.resolvePrincipalResolver().resolve();
 
-    const blogService = container.resolveBlogService();
-
     return {
       principal: principal,
-      blogService: blogService,
-      authorDataLoader: new DataLoader<string, Author>(async (keys) => {
-        return await authorDataLoaderHandler(keys, blogService, principal);
-      }),
+      blogService: container.resolveBlogService(),
+      dataLoaderConstructable: DataLoader,
     } as IContext;
   },
 });

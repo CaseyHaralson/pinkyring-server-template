@@ -1,15 +1,11 @@
-import {BaseObject} from '../dtos/blogPost';
-
-export interface IDataLoader<T> {
-  load(id: string): Promise<T>;
+export interface IDataLoaderConstructable {
+  new <K, V>(batchLoaderFn: BatchLoadFn<K, V>): IDataLoader<K, V>;
 }
 
-export function mapObjectsToKeys<T extends BaseObject>(
-  keys: readonly string[],
-  objs: T[]
-) {
-  const map: {[key: string]: T} = {};
-  objs.forEach((item) => [(map[item.id] = item)]);
+type BatchLoadFn<K, V> = (
+  keys: ReadonlyArray<K>
+) => PromiseLike<ArrayLike<V | Error>>;
 
-  return keys.map((key) => map[key]);
+export interface IDataLoader<K, T> {
+  load(key: K): Promise<T>;
 }

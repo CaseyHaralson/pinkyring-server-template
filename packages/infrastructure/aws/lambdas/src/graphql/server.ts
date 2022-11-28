@@ -1,14 +1,8 @@
 import {ApolloServer} from '@apollo/server';
 import {startServerAndCreateLambdaHandler} from '@as-integrations/aws-lambda';
-import {
-  authorDataLoaderHandler,
-  resolvers,
-  typeDefs,
-} from '@pinkyring/core/graphql/schema';
-import {IContext} from '@pinkyring/core/graphql/IContext';
+import {IContext, resolvers, typeDefs} from '@pinkyring/core/graphql/schema';
 import container from '@pinkyring/di-container/container';
 import DataLoader from 'dataloader';
-import {Author} from '@pinkyring/core/dtos/blogPost';
 
 const server = new ApolloServer<IContext>({
   typeDefs,
@@ -20,14 +14,10 @@ export const graphqlHandler = startServerAndCreateLambdaHandler(server, {
     // can resolve principal with header or something here
     const principal = container.resolvePrincipalResolver().resolve();
 
-    const blogService = container.resolveBlogService();
-
     return {
       principal: principal,
-      blogService: blogService,
-      authorDataLoader: new DataLoader<string, Author>(async (keys) => {
-        return await authorDataLoaderHandler(keys, blogService, principal);
-      }),
+      blogService: container.resolveBlogService(),
+      dataLoaderConstructable: DataLoader,
     } as IContext;
   },
 });
