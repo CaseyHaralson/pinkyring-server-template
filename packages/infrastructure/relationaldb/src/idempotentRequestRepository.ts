@@ -26,6 +26,24 @@ export default class IdempotentRequestRepository
     }
   }
 
+  async deleteRequestIfTimedOut(
+    requestId: string,
+    timeoutSeconds: number
+  ): Promise<void> {
+    const pointInTime = new Date();
+    pointInTime.setSeconds(pointInTime.getSeconds() - timeoutSeconds);
+
+    await this._prismaClient.idempotentRequest.deleteMany({
+      where: {
+        id: requestId,
+        createdAt: {
+          lt: pointInTime,
+        },
+        result: null,
+      },
+    });
+  }
+
   async saveRequestResult(requestId: string, result: string): Promise<void> {
     await this._prismaClient.idempotentRequest.update({
       where: {

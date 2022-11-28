@@ -21,6 +21,8 @@ describe('idempotent request helper unit tests', () => {
   beforeEach(() => {
     mockReset(repo);
     mockReset(logger);
+
+    configHelper.getConfigValue.mockReturnValue('5');
   });
 
   describe('handle idempotent request function', () => {
@@ -106,6 +108,34 @@ describe('idempotent request helper unit tests', () => {
     describe('subsequent requests by id', () => {
       beforeEach(() => {
         repo.createRequest.mockResolvedValue(false);
+      });
+
+      test('calls repo to delete original request if timed out', async () => {
+        const requestId = 'test_request_1234';
+        const specificRequestId = helper.specifyRequestId(
+          principal,
+          'test_class',
+          'test_function',
+          requestId
+        );
+        const requestResult = {someResult: true};
+        const requestFunc = jest.fn(() => {
+          return Promise.resolve(requestResult);
+        });
+        repo.getRequestResult.mockResolvedValue(JSON.stringify(requestResult));
+        await helper.handleIdempotentRequest(
+          principal,
+          'test_class',
+          'test_function',
+          requestId,
+          requestFunc
+        );
+
+        expect(repo.deleteRequestIfTimedOut).toBeCalledTimes(1);
+        expect(repo.deleteRequestIfTimedOut).toBeCalledWith(
+          specificRequestId,
+          5
+        );
       });
 
       test('returns the saved result if it exists and doesnt call request func a second time', async () => {

@@ -5,6 +5,8 @@ import BaseClass, {IBaseParams} from './baseClass';
 
 const CONFIGKEYNAME_IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS =
   'IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS';
+const CONFIGKEYNAME_IDEMPOTENT_REQUESTS_TIMEDOUT_SECONDS =
+  'IDEMPOTENT_REQUESTS_TIMEDOUT_SECONDS';
 
 export default class IdempotentRequestHelper extends BaseClass {
   private _idempotentRequestRepository;
@@ -15,6 +17,9 @@ export default class IdempotentRequestHelper extends BaseClass {
     super(baseParams, 'IdempotentRequestHelper', [
       {
         name: CONFIGKEYNAME_IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS,
+      },
+      {
+        name: CONFIGKEYNAME_IDEMPOTENT_REQUESTS_TIMEDOUT_SECONDS,
       },
     ]);
     this._idempotentRequestRepository = idempotentRequestRepository;
@@ -111,8 +116,6 @@ export default class IdempotentRequestHelper extends BaseClass {
       subject: 'Additional Request',
     } as LogContext;
 
-    this._logger.debug(lc, `checking for the original request result`);
-
     const specificRequestId = this.specifyRequestId(
       principal,
       originatingClassName,
@@ -120,6 +123,13 @@ export default class IdempotentRequestHelper extends BaseClass {
       requestId
     );
 
+    this._logger.debug(lc, `deleting the original request if it timed out`);
+    await this._idempotentRequestRepository.deleteRequestIfTimedOut(
+      specificRequestId,
+      this.getRequestTimedOutSecondsConfigValue()
+    );
+
+    this._logger.debug(lc, `checking for the original request result`);
     const result = await this._idempotentRequestRepository.getRequestResult(
       specificRequestId
     );
@@ -178,6 +188,14 @@ export default class IdempotentRequestHelper extends BaseClass {
       }, 300);
     }
     throw new Error(`Unknown state - The request couldn't be found.`);
+  }
+
+  private getRequestTimedOutSecondsConfigValue() {
+    const configValueDefault = 300; // 5 minutes...because this should be configured...
+    const configValue = Number(
+      this.getConfigValue(CONFIGKEYNAME_IDEMPOTENT_REQUESTS_TIMEDOUT_SECONDS)
+    );
+    return configValue != 0 ? configValue : configValueDefault;
   }
 
   private snooze<T>(callback: () => Promise<T>, snoozeMs: number) {
