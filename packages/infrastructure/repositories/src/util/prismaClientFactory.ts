@@ -6,7 +6,7 @@ const CONFIGKEYNAME_MYSQL_DATABASE_URL = 'MYSQL_DATABASE_URL';
 
 export default class PrismaClientFactory extends BaseClass {
   constructor(baseParams: IBaseParams) {
-    super(baseParams, '', [
+    super(baseParams, 'PrismaClientFactory', [
       {
         name: CONFIGKEYNAME_MYSQL_DATABASE_URL,
         loadIntoEnv: true,

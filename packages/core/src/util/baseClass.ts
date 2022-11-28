@@ -34,11 +34,11 @@ export default class BaseClass implements ILoggableClass {
     this._baseParams.configHelper.registerNeededConfigurations(configKeys);
   }
 
-  getConfigValue(keyName: string) {
+  protected getConfigValue(keyName: string) {
     return this._baseParams.configHelper.getConfigValue(keyName);
   }
 
-  getEnvironment() {
+  protected getEnvironment() {
     return this._baseParams.configHelper.getEnvironment();
   }
 }

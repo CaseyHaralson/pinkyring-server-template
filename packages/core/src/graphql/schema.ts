@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Author, BlogPost} from '../dtos/blogPost';
+import Principal from '../dtos/principal';
+import BlogService from '../services/blogService';
 import {IContext} from './IContext';
+import {mapObjectsToKeys} from './IDataLoader';
 
 export const typeDefs = `#graphql
   type BlogPost {
@@ -50,7 +53,7 @@ export const resolvers = {
   },
   BlogPost: {
     author(obj: BlogPost, args: any, context: IContext, info: any) {
-      return context.authorLoader.load(obj.authorId);
+      return context.authorDataLoader.load(obj.authorId);
     },
   },
   Mutation: {
@@ -77,3 +80,15 @@ export const resolvers = {
     },
   },
 };
+
+export async function authorDataLoaderHandler(
+  keys: readonly string[],
+  blogService: BlogService,
+  principal: Principal
+) {
+  const authors = await blogService.getAuthors(principal, {
+    ids: keys as string[],
+  });
+
+  return mapObjectsToKeys(keys, authors);
+}

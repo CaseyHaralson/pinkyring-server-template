@@ -11,7 +11,7 @@ export default class ConfigFileReader implements IConfigFileReader {
     const envFilePath = this.findEnvFile();
     this._envProps = this.parseEnvFile(envFilePath);
 
-    const packageJsonPath = envFilePath?.replace('.env', 'package.json');
+    const packageJsonPath = this.findRootLevelPackageJson(envFilePath);
     this._packageData = this.loadProjectPackageJsonData(packageJsonPath);
   }
 
@@ -27,6 +27,28 @@ export default class ConfigFileReader implements IConfigFileReader {
 
   private findEnvFile() {
     return findUp.sync('.env');
+  }
+
+  private findRootLevelPackageJson(envFilePath: string | undefined) {
+    let rootLevelFilePath = envFilePath;
+    if (rootLevelFilePath !== undefined) {
+      rootLevelFilePath = rootLevelFilePath.replace('.env', '');
+    }
+
+    if (rootLevelFilePath === undefined || rootLevelFilePath.length == 0) {
+      rootLevelFilePath = findUp.sync('.env.example');
+      if (rootLevelFilePath !== undefined) {
+        rootLevelFilePath = rootLevelFilePath.replace('.env.example', '');
+      }
+    }
+
+    if (rootLevelFilePath === undefined || rootLevelFilePath.length == 0) {
+      rootLevelFilePath = findUp.sync('package.json');
+    } else {
+      rootLevelFilePath = rootLevelFilePath + 'package.json';
+    }
+
+    return rootLevelFilePath;
   }
 
   private parseEnvFile(filePath: string | undefined) {

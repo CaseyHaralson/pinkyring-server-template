@@ -4,6 +4,7 @@ import {
   IConfigFileReader,
   ISecretRepository,
 } from '../interfaces/IConfig';
+import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '../interfaces/IConfig';
 
 const CONFIGKEYNAME_ENVIRONMENT = 'NODE_ENV';
 
@@ -23,6 +24,7 @@ export default class ConfigHelper {
   registerNeededConfigurations(keys: ConfigKey[]) {
     const missingConfigurations: string[] = [];
     let secretKeyInList = false;
+    let projectDataKeyInList = false;
     for (const key of keys) {
       if (this._registeredKeys.has(key.name)) {
         throw new Error(
@@ -37,6 +39,9 @@ export default class ConfigHelper {
       }
 
       if (key.isSecret) secretKeyInList = true;
+      if (key.name.startsWith(CONFIGKEYNAME_PROJECTDATA_PREFIX)) {
+        projectDataKeyInList = true;
+      }
     }
 
     if (missingConfigurations.length > 0) {
@@ -50,10 +55,18 @@ export default class ConfigHelper {
         secretMessage = `If the keys should be secret, they will need to be configured with the secret repository.`;
       }
 
+      let missingPackageFileMessage = '';
+      if (projectDataKeyInList) {
+        missingPackageFileMessage = `Also, check to make sure a package.json file exists at the root of the project.`;
+      }
+
       const message =
         `The following keys' configurations weren't found. Maybe they weren't added to the environment?` +
         (devMessage.length > 0 ? ` ${devMessage}` : ``) +
         (secretMessage.length > 0 ? ` ${secretMessage}` : ``) +
+        (missingPackageFileMessage.length > 0
+          ? ` ${missingPackageFileMessage}`
+          : ``) +
         ` Keys: ${missingConfigurations.join('; ')}`;
 
       throw new Error(message);

@@ -3,11 +3,19 @@ import Logger from '@pinkyring/core/util/logger';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
 import {mock, mockReset} from 'jest-mock-extended';
 import Principal from '@pinkyring/core/dtos/principal';
+import ConfigHelper from '@pinkyring/core/util/configHelper';
 
 describe('idempotent request helper unit tests', () => {
   const repo = mock<IIdempotentRequestRepository>();
   const logger = mock<Logger>();
-  const helper = new IdempotentRequestHelper(repo, logger);
+  const configHelper = mock<ConfigHelper>();
+  const helper = new IdempotentRequestHelper(
+    {
+      logger: logger,
+      configHelper: configHelper,
+    },
+    repo
+  );
   const principal = mock<Principal>();
 
   beforeEach(() => {

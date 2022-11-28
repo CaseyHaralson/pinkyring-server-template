@@ -5,14 +5,20 @@
     "declaration": true,
     "sourceMap": true,
     "strict": true,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "rootDir": "./src",
-    "outDir": "./build",
-    "composite": true,
-    "experimentalDecorators": true
-  }
+    "outDir": "./build"
+  },
+  "references": [
+    {
+      "path": "../../core"
+    },
+    {
+      "path": "../../di-container"
+    }
+  ]
 }

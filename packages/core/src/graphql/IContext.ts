@@ -6,5 +6,5 @@ import {IDataLoader} from './IDataLoader';
 export interface IContext {
   principal: Principal;
   blogService: BlogService;
-  authorLoader: IDataLoader<Author>;
+  authorDataLoader: IDataLoader<Author>;
 }

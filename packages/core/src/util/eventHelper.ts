@@ -1,18 +1,13 @@
 import {BaseEvent} from '../dtos/events';
 import IEventRepository from '../interfaces/IEventRepository';
-import {BaseLogContext, ILoggableClass, LogContext} from '../interfaces/ILog';
-import Logger from './logger';
+import {BaseLogContext, LogContext} from '../interfaces/ILog';
+import BaseClass, {IBaseParams} from './baseClass';
 
-export default class EventHelper implements ILoggableClass {
-  private _logger;
+export default class EventHelper extends BaseClass {
   private _eventRepository;
-  constructor(logger: Logger, eventRepository: IEventRepository) {
-    this._logger = logger;
+  constructor(baseParams: IBaseParams, eventRepository: IEventRepository) {
+    super(baseParams, 'EventHelper');
     this._eventRepository = eventRepository;
-  }
-
-  className(): string {
-    return 'EventHelper';
   }
 
   async publishEvent(blc: BaseLogContext, event: BaseEvent): Promise<boolean> {

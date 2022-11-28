@@ -55,4 +55,17 @@ export default class IdempotentRequestRepository
       },
     });
   }
+
+  async deleteRequestsOlderThan(hours: number): Promise<void> {
+    const pointInTime = new Date();
+    pointInTime.setHours(pointInTime.getHours() - hours);
+
+    await this._prismaClient.idempotentRequest.deleteMany({
+      where: {
+        createdAt: {
+          lt: pointInTime,
+        },
+      },
+    });
+  }
 }

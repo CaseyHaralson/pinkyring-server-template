@@ -21,6 +21,7 @@
   "dependencies": {
     "@pinkyring/apps_api-graphql": "*",
     "@pinkyring/apps_api-rest": "*",
+    "@pinkyring/apps_cron-jobs": "*",
     "@pinkyring/apps_test-events": "*",
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",

@@ -12,7 +12,7 @@ export interface IBaseServiceParams extends IBaseParams {
 }
 
 export default class BaseService extends BaseClass {
-  private _baseServiceParams;
+  protected _baseServiceParams;
   constructor(
     baseServiceParams: IBaseServiceParams,
     className: string,
