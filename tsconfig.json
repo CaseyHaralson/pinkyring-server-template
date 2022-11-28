@@ -43,7 +43,7 @@
       "path": "./packages/infrastructure/queue"
     },
     {
-      "path": "./packages/infrastructure/repositories"
+      "path": "./packages/infrastructure/relationaldb"
     },
     {
       "path": "./packages/infrastructure/util"

@@ -28,7 +28,7 @@
       "path": "../infrastructure/queue"
     },
     {
-      "path": "../infrastructure/repositories"
+      "path": "../infrastructure/relationaldb"
     },
     {
       "path": "../infrastructure/util"

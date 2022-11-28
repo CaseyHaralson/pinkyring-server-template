@@ -23,7 +23,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: '🔧 setup prisma - generate'
-        working-directory: ./packages/infrastructure/repositories
+        working-directory: ./packages/infrastructure/relationaldb
         run: npx prisma generate
 
       - name: '☁️ add public IP to AWS security group'
@@ -39,7 +39,7 @@ jobs:
           description: 'GitHub Action'
 
       - name: '🔧 setup prisma - migrate'
-        working-directory: ./packages/infrastructure/repositories
+        working-directory: ./packages/infrastructure/relationaldb
         run: npx prisma migrate deploy
         env:
           DATABASE_URL: ${{ secrets.AWS_AURORA_DB_CONNECTION_STRING }}

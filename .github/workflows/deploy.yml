@@ -30,7 +30,7 @@ jobs:
         timeout-minutes: 1
       
       - name: '🔧 setup prisma - generate'
-        working-directory: ./packages/infrastructure/repositories
+        working-directory: ./packages/infrastructure/relationaldb
         run: npx prisma generate
         timeout-minutes: 1
       
@@ -51,7 +51,7 @@ jobs:
         timeout-minutes: 1
 
       - name: '🔧 pre serverless deploy - copy files'
-        run: cp -r packages/infrastructure/repositories/prisma serverless/dbmigration/prisma
+        run: cp -r packages/infrastructure/relationaldb/prisma serverless/dbmigration/prisma
         timeout-minutes: 1
 
       - name: '☁️ serverless deploy'
