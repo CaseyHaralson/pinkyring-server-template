@@ -9,17 +9,17 @@ import Logger from '@pinkyring/core/util/logger';
 import WinstonLogger from '@pinkyring/infrastructure_logging/winstonLogger';
 import {IBaseParams} from '@pinkyring/core/util/baseClass';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
-import IdempotentRequestRepository from '@pinkyring/infrastructure_repositories/idempotentRequestRepository';
+import IdempotentRequestRepository from '@pinkyring/infrastructure_relationaldb/idempotentRequestRepository';
 import EventHelper from '@pinkyring/core/util/eventHelper';
 import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
 import BlogService from '@pinkyring/core/services/blogService';
-import BlogRepository from '@pinkyring/infrastructure_repositories/blogRepository';
+import BlogRepository from '@pinkyring/infrastructure_relationaldb/blogRepository';
 import MaintenanceService from '@pinkyring/core/services/maintenanceService';
 import TodoService from '@pinkyring/core/services/todoService';
-import TodoRepository from '@pinkyring/infrastructure_repositories/todoRepository';
+import TodoRepository from '@pinkyring/infrastructure_relationaldb/todoRepository';
 import TestService from '@pinkyring/core/services/testService';
-import TestRepository from '@pinkyring/infrastructure_repositories/testRepository';
-import PrismaClientFactory from '@pinkyring/infrastructure_repositories/util/prismaClientFactory';
+import TestRepository from '@pinkyring/infrastructure_relationaldb/testRepository';
+import PrismaClientFactory from '@pinkyring/infrastructure_relationaldb/util/prismaClientFactory';
 
 export default function loadContainer(container: AwilixContainer) {
   loadConfigHelper(container);
