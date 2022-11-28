@@ -20,7 +20,7 @@ WORKDIR ${LAMBDA_TASK_ROOT}
 
 # COPY serverless/dbmigration/package-lock.json serverless/dbmigration/package.json ./
 COPY package-lock.json package.json ./
-# COPY packages/infrastructure/repositories/prisma ./prisma
+# COPY packages/infrastructure/relationaldb/prisma ./prisma
 COPY ./prisma ./prisma
 RUN npm ci --production
 COPY --from=build /build/dist .
