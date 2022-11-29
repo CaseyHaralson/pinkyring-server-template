@@ -98,46 +98,46 @@ Resources:
   #     Topics:
   #       - Ref: BlogPostAddedTopic
   
-  SNSSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: !Ref 'AWS::StackName'
-      VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: '-1'
-          CidrIp: '10.0.0.0/16'
+  # SNSSecurityGroup:
+  #   Type: AWS::EC2::SecurityGroup
+  #   Properties:
+  #     GroupDescription: !Ref 'AWS::StackName'
+  #     VpcId: !Ref VPC
+  #     SecurityGroupIngress:
+  #       - IpProtocol: '-1'
+  #         CidrIp: '10.0.0.0/16'
 
-  SNSEndpoint:
-    Type: AWS::EC2::VPCEndpoint
-    Properties:
-      PrivateDnsEnabled: true
-      ServiceName: com.amazonaws.${self:provider.region}.sns
-      SecurityGroupIds:
-        - !Ref SNSSecurityGroup
-      SubnetIds:
-        - !Ref SubnetAPrivate
-        - !Ref SubnetBPrivate
-      VpcEndpointType: Interface
-      VpcId: !Ref VPC
+  # SNSEndpoint:
+  #   Type: AWS::EC2::VPCEndpoint
+  #   Properties:
+  #     PrivateDnsEnabled: true
+  #     ServiceName: com.amazonaws.${self:provider.region}.sns
+  #     SecurityGroupIds:
+  #       - !Ref SNSSecurityGroup
+  #     SubnetIds:
+  #       - !Ref SubnetAPrivate
+  #       - !Ref SubnetBPrivate
+  #     VpcEndpointType: Interface
+  #     VpcId: !Ref VPC
 
-  SQSSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: !Ref 'AWS::StackName'
-      VpcId: !Ref VPC
-      SecurityGroupIngress:
-        - IpProtocol: '-1'
-          CidrIp: '10.0.0.0/16'
+  # SQSSecurityGroup:
+  #   Type: AWS::EC2::SecurityGroup
+  #   Properties:
+  #     GroupDescription: !Ref 'AWS::StackName'
+  #     VpcId: !Ref VPC
+  #     SecurityGroupIngress:
+  #       - IpProtocol: '-1'
+  #         CidrIp: '10.0.0.0/16'
 
-  SQSEndpoint:
-    Type: AWS::EC2::VPCEndpoint
-    Properties:
-      PrivateDnsEnabled: true
-      ServiceName: com.amazonaws.${self:provider.region}.sqs
-      SecurityGroupIds:
-        - !Ref SQSSecurityGroup
-      SubnetIds:
-        - !Ref SubnetAPrivate
-        - !Ref SubnetBPrivate
-      VpcEndpointType: Interface
-      VpcId: !Ref VPC
+  # SQSEndpoint:
+  #   Type: AWS::EC2::VPCEndpoint
+  #   Properties:
+  #     PrivateDnsEnabled: true
+  #     ServiceName: com.amazonaws.${self:provider.region}.sqs
+  #     SecurityGroupIds:
+  #       - !Ref SQSSecurityGroup
+  #     SubnetIds:
+  #       - !Ref SubnetAPrivate
+  #       - !Ref SubnetBPrivate
+  #     VpcEndpointType: Interface
+  #     VpcId: !Ref VPC
