@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Author, BlogPost} from '../dtos/blogPost';
+import {Author, BaseObject, BlogPost} from '../dtos/blogPost';
 import Principal from '../dtos/principal';
 import BlogService from '../services/blogService';
-import {IContext} from './IContext';
-import {mapObjectsToKeys} from './IDataLoader';
+import {IDataLoader, IDataLoaderConstructable} from './IDataLoader';
 
 export const typeDefs = `#graphql
   type BlogPost {
@@ -42,6 +41,13 @@ export const typeDefs = `#graphql
   }
 `;
 
+export interface IContext {
+  principal: Principal;
+  blogService: BlogService;
+  dataLoaderConstructable: IDataLoaderConstructable;
+  authorDataLoader?: IDataLoader<string, Author>;
+}
+
 export const resolvers = {
   Query: {
     blogPosts(_: any, args: any, context: IContext, info: any) {
@@ -53,7 +59,8 @@ export const resolvers = {
   },
   BlogPost: {
     author(obj: BlogPost, args: any, context: IContext, info: any) {
-      return context.authorDataLoader.load(obj.authorId);
+      createDataLoaders(context);
+      return context.authorDataLoader?.load(obj.authorId);
     },
   },
   Mutation: {
@@ -81,14 +88,27 @@ export const resolvers = {
   },
 };
 
-export async function authorDataLoaderHandler(
-  keys: readonly string[],
-  blogService: BlogService,
-  principal: Principal
-) {
-  const authors = await blogService.getAuthors(principal, {
-    ids: keys as string[],
-  });
+function createDataLoaders(context: IContext) {
+  if (context.authorDataLoader === undefined) {
+    context.authorDataLoader = new context.dataLoaderConstructable<
+      string,
+      Author
+    >(async (keys) => {
+      const authors = await context.blogService.getAuthors(context.principal, {
+        ids: keys as string[],
+      });
 
-  return mapObjectsToKeys(keys, authors);
+      return mapObjectsToKeys(keys, authors);
+    });
+  }
+}
+
+function mapObjectsToKeys<T extends BaseObject>(
+  keys: readonly string[],
+  objs: T[]
+) {
+  const map: {[key: string]: T} = {};
+  objs.forEach((item) => [(map[item.id] = item)]);
+
+  return keys.map((key) => map[key]);
 }
