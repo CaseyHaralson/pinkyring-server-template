@@ -1,4 +1,30 @@
-# pinkyring
+# <%= projectName %>
+
+This project was created with the Pinkyring project creator.
+Please check that documentation to create another project or to remove pre-installed code.
+https://github.com/CaseyHaralson/pinkyring
+
+This project comes with the following:
+- Github Workflows
+  - CodeQL Analysis
+  - Serverless Framework Deploy and Teardown into AWS
+  - CI with unit and integration tests, and style/linting checks
+- Serverless Framework
+  - Configuration to deploy the following to AWS:
+    - REST Lambdas
+    - GraphQL Lambda
+    - DB Migration Dockerfile/Lambda with Prisma
+    - Mysql Serverless Aurora RDS
+    - SNS Topic to automatic and manual pull SQS Queue
+- Code Styles Rules
+  - ESLint
+  - Prettier
+
+
+
+
+
+
 
 First time you run:
 - run "docker compose -f pre-start.yml up"

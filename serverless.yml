@@ -113,7 +113,6 @@ functions:
   DBMigration:
     image:
       name: db-migration-runner
-    # role: DBMigrationRole
   
   blogPostAddedEvent:
     handler: ./packages/infrastructure/aws/lambdas/build/events/blogPostAdded.handler
@@ -140,7 +139,6 @@ resources:
   - ${file(serverless/resources/vpc.yml)}
   - ${file(serverless/resources/rds.yml)}
   - ${file(serverless/resources/queue.yml)}
-  #- ${file(serverless/resources/custom/dbmigration.yml)}
 
 package:
   patterns:
