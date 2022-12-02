@@ -68,6 +68,8 @@ Note: you will need docker installed.
 
 ## Development Mode
 
+- will need to run prisma generate locally to make sure it matches the environment
+
 First time you run:
 
 - run "docker compose -f pre-start.yml up"

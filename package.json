@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "everything": "npm run build && npm run prisma:generate && docker compose -f docker-compose.run-everything.yml up -d",
+    "everything": "npm run build && docker compose -f docker-compose.run-everything.yml up -d",
     "everything:stop": "docker compose -f docker-compose.run-everything.yml down",
     "merge-check": "npm run lint && npm run prettier:check && npm run test:unit && npm run test:it",
     "build:clean": "npx rimraf ./packages/**/build && npx rimraf ./packages/**/tsconfig.tsbuildinfo",
