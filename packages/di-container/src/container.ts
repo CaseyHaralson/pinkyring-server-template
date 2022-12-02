@@ -1,6 +1,4 @@
 import {createContainer, AwilixContainer} from 'awilix';
-import TestService from '@pinkyring/core/services/testService';
-import TodoService from '@pinkyring/core/services/todoService';
 import BlogService from '@pinkyring/core/services/blogService';
 import PrincipalResolver from '@pinkyring/core/util/principalResolver';
 import EventHelper from '@pinkyring/core/util/eventHelper';
@@ -20,14 +18,6 @@ class Container {
 
   resolvePrincipalResolver() {
     return this._container.cradle.principalResolver as PrincipalResolver;
-  }
-
-  resolveTestService() {
-    return this._container.cradle.testService as TestService;
-  }
-
-  resolveTodoService() {
-    return this._container.cradle.todoService as TodoService;
   }
 
   resolveBlogService() {

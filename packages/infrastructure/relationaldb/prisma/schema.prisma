@@ -12,16 +12,6 @@ datasource db {
   url      = env("MYSQL_DATABASE_URL")
 }
 
-model Todo {
-  id String @id @default(cuid())
-  text String
-  completed Boolean
-  createdDt DateTime
-  completedDt DateTime?
-
-  @@fulltext([text])
-}
-
 model BlogPost {
   id String @id @default(cuid())
   title String
@@ -33,6 +23,7 @@ model BlogPost {
   author Author @relation(fields: [authorId], references: [id])
 
   @@unique([authorId, title])
+  @@fulltext([text])
 }
 
 model Author {

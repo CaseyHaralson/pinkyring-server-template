@@ -15,10 +15,6 @@ import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
 import BlogService from '@pinkyring/core/services/blogService';
 import BlogRepository from '@pinkyring/infrastructure_relationaldb/blogRepository';
 import MaintenanceService from '@pinkyring/core/services/maintenanceService';
-import TodoService from '@pinkyring/core/services/todoService';
-import TodoRepository from '@pinkyring/infrastructure_relationaldb/todoRepository';
-import TestService from '@pinkyring/core/services/testService';
-import TestRepository from '@pinkyring/infrastructure_relationaldb/testRepository';
 import PrismaClientFactory from '@pinkyring/infrastructure_relationaldb/util/prismaClientFactory';
 
 export default function loadContainer(container: AwilixContainer) {
@@ -106,10 +102,6 @@ const loadGenericItems = function (container: AwilixContainer) {
     maintenanceService: asClass(MaintenanceService),
     blogService: asClass(BlogService),
     blogRepository: asClass(BlogRepository),
-    todoService: asClass(TodoService),
-    todoRepository: asClass(TodoRepository),
-    testService: asClass(TestService),
-    testRepository: asClass(TestRepository),
   });
 
   container.register({

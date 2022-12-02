@@ -22,7 +22,7 @@ This project comes with the following:
   - Prettier
 - REST Endpoints
 - Graphql Endpoint
-- Prisma ORM
+- Prisma Database Stuff
 - Winston Logging
 - Cron maintenance jobs
 - An event bus/queue
