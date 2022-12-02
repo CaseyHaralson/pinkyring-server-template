@@ -1,6 +1,6 @@
 import {EventType} from '@pinkyring/core/dtos/events';
 import {BaseLogContext} from '@pinkyring/core/interfaces/ILog';
-import {UnknownPrincipal} from '@pinkyring/core/util/principalResolver';
+import {UnknownPrincipal} from '@pinkyring/core/interfaces/IPrincipal';
 import Container from '@pinkyring/di-container/container';
 
 const args = process.argv.slice(2);

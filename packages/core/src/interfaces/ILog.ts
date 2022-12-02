@@ -1,4 +1,4 @@
-import Principal from '../dtos/principal';
+import Principal from './IPrincipal';
 
 export enum LogLevel {
   ERROR = 0,

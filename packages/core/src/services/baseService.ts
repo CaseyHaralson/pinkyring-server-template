@@ -1,5 +1,5 @@
 import {BaseEvent} from '../dtos/events';
-import Principal from '../dtos/principal';
+import Principal from '../interfaces/IPrincipal';
 import {ConfigKey} from '../interfaces/IConfig';
 import {BaseLogContext} from '../interfaces/ILog';
 import BaseClass, {IBaseParams} from '../util/baseClass';

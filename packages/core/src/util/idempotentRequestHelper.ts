@@ -1,4 +1,4 @@
-import Principal from '../dtos/principal';
+import Principal from '../interfaces/IPrincipal';
 import IIdempotentRequestRepository from '../interfaces/IIdempotentRequestRepository';
 import {LogContext} from '../interfaces/ILog';
 import BaseClass, {IBaseParams} from './baseClass';

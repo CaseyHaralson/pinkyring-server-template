@@ -3,7 +3,6 @@ import ConfigHelper, {Environment} from '@pinkyring/core/util/configHelper';
 import ConfigFileReader from '@pinkyring/infrastructure_util/configFileReader';
 import LocalEventRepository from '@pinkyring/infrastructure_queue/eventRepository';
 import ServerEventRepository from '@pinkyring/infrastructure_aws_snqs/eventRepository';
-import PrincipalResolver from '@pinkyring/core/util/principalResolver';
 import Logger from '@pinkyring/core/util/logger';
 import WinstonLogger from '@pinkyring/infrastructure_logging/winstonLogger';
 import {IBaseParams} from '@pinkyring/core/util/baseClass';
@@ -15,6 +14,7 @@ import BlogService from '@pinkyring/core/services/blogService';
 import BlogRepository from '@pinkyring/infrastructure_relationaldb/blogRepository';
 import MaintenanceService from '@pinkyring/core/services/maintenanceService';
 import PrismaClientFactory from '@pinkyring/infrastructure_relationaldb/util/prismaClientFactory';
+import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
 
 export default function loadContainer(container: AwilixContainer) {
   loadConfigHelper(container);

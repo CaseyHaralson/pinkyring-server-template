@@ -1,10 +1,10 @@
 import {createContainer, AwilixContainer} from 'awilix';
 import BlogService from '@pinkyring/core/services/blogService';
-import PrincipalResolver from '@pinkyring/core/util/principalResolver';
 import EventHelper from '@pinkyring/core/util/eventHelper';
 import ConfigHelper from '@pinkyring/core/util/configHelper';
 import MaintenanceService from '@pinkyring/core/services/maintenanceService';
 import loadContainer from './containerLoader';
+import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 

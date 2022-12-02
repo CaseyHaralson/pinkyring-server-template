@@ -4,10 +4,10 @@ import {mock, mockReset} from 'jest-mock-extended';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
 import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
 import Logger from '@pinkyring/core/util/logger';
-import Principal from '@pinkyring/core/dtos/principal';
 import EventHelper from '@pinkyring/core/util/eventHelper';
 import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
 import ConfigHelper from '@pinkyring/core/util/configHelper';
+import Principal from '@pinkyring/core/interfaces/IPrincipal';
 
 describe('blog service unit tests', () => {
   const baseParams = mock<IBaseServiceParams>();

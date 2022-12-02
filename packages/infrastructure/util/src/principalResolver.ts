@@ -1,4 +1,4 @@
-import Principal from '../dtos/principal';
+import Principal from '@pinkyring/core/interfaces/IPrincipal';
 
 export default class PrincipalResolver {
   resolve() {
@@ -16,11 +16,3 @@ export default class PrincipalResolver {
     } as Principal;
   }
 }
-
-export const UnknownPrincipal = {
-  identity: {
-    id: 'unknown_id',
-    name: 'unknown_name',
-  },
-  roles: [],
-} as Principal;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Author, BaseObject, BlogPost} from '../dtos/blogPost';
-import Principal from '../dtos/principal';
+import Principal from '../interfaces/IPrincipal';
 import BlogService from '../services/blogService';
 import {IDataLoader, IDataLoaderConstructable} from './IDataLoader';
 

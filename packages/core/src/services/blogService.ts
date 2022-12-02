@@ -1,6 +1,6 @@
 import {Author, BlogPost} from '../dtos/blogPost';
 import {BlogPostAddedEvent, EventType} from '../dtos/events';
-import Principal from '../dtos/principal';
+import Principal from '../interfaces/IPrincipal';
 import IBlogRepository from '../interfaces/IBlogRepository';
 import {LogContext} from '../interfaces/ILog';
 import BaseService, {IBaseServiceParams} from './baseService';

@@ -1,6 +1,6 @@
 import {BaseEvent, EventType} from '@pinkyring/core/dtos/events';
 import {BaseLogContext} from '@pinkyring/core/interfaces/ILog';
-import {UnknownPrincipal} from '@pinkyring/core/util/principalResolver';
+import {UnknownPrincipal} from '@pinkyring/core/interfaces/IPrincipal';
 import container from '@pinkyring/di-container/container';
 import {APIGatewayProxyResult} from 'aws-lambda';
 

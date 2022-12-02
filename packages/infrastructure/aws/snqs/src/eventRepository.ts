@@ -4,7 +4,7 @@ import {SNS} from '@aws-sdk/client-sns';
 import {SQS} from '@aws-sdk/client-sqs';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {LogContext} from '@pinkyring/core/interfaces/ILog';
-import {UnknownPrincipal} from '@pinkyring/core/util/principalResolver';
+import {UnknownPrincipal} from '@pinkyring/core/interfaces/IPrincipal';
 
 const CONFIGKEYNAME_AWS_REGION = 'AWS_REGION'; // env variable set by AWS
 const CONFIGKEYNAME_BLOGPOST_ADDED_TOPIC_ARN = 'BLOGPOST_ADDED_TOPIC_ARN';
