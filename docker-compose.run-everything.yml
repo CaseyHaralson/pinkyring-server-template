@@ -11,7 +11,7 @@ services:
     volumes:
       - mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
 
   mysql-adminer:
     container_name: mysql-adminer
@@ -70,7 +70,7 @@ services:
     volumes:
       - ./:/code
     environment:
-      MYSQL_DATABASE_URL: 'mysql://root:example@mysql:3306/pinkyring'
+      MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL}
 
 volumes:
   mysql:
