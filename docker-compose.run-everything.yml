@@ -35,7 +35,7 @@ services:
       context: ./docker
       dockerfile: Dockerfile.app
     ports:
-      - 4000:4000
+      - ${APPS_GRAPHQL_PORT}:${APPS_GRAPHQL_PORT}
     working_dir: /code/packages/apps/api-graphql
     volumes:
       - ./:/code
@@ -46,7 +46,7 @@ services:
       context: ./docker
       dockerfile: Dockerfile.app
     ports:
-      - 3000:3000
+      - ${APPS_EXPRESS_PORT}:${APPS_EXPRESS_PORT}
     working_dir: /code/packages/apps/api-rest
     volumes:
       - ./:/code
