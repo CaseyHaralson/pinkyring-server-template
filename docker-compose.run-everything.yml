@@ -56,7 +56,7 @@ services:
     build:
       context: ./docker
       dockerfile: Dockerfile.app
-    working_dir: /code/packages/apps/chron-jobs
+    working_dir: /code/packages/apps/cron-jobs
     volumes:
       - ./:/code
   
