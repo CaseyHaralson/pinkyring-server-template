@@ -23,6 +23,8 @@ export default class BlogService extends BaseService {
     } as LogContext;
     this._logger.info(lc, 'entering the get blog posts function');
 
+    // can use principal to authorize request
+
     return await this._blogRepository.getBlogPosts({ids});
   }
 
@@ -33,6 +35,8 @@ export default class BlogService extends BaseService {
       methodName: 'getAuthors',
     } as LogContext;
     this._logger.info(lc, 'entering the get authors function');
+
+    // can use principal to authorize request
 
     return await this._blogRepository.getAuthors({ids});
   }
@@ -45,6 +49,8 @@ export default class BlogService extends BaseService {
       requestId: requestId,
     } as LogContext;
     this._logger.info(lc, 'entering the add author function');
+
+    // can use principal to authorize request
 
     return this.idempotentRequest(principal, 'addAuthor', requestId, () => {
       this._logger.info(lc, 'calling the repo to add the author');
@@ -64,6 +70,8 @@ export default class BlogService extends BaseService {
       requestId: requestId,
     } as LogContext;
     this._logger.info(lc, 'entering the add blog post function');
+
+    // can use principal to authorize request
 
     let blogPostAdded = false;
     const requestResult = await this.idempotentRequest(
@@ -104,6 +112,8 @@ export default class BlogService extends BaseService {
       requestId: requestId,
     } as LogContext;
     this._logger.info(lc, 'entering the update blog post function');
+
+    // can use principal to authorize request
 
     return this.idempotentRequest(
       principal,

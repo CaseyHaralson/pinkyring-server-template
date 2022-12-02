@@ -66,9 +66,21 @@ Note: you will need docker installed.
 
 ### Exploring Everything
 
+After docker has everything running, you should have access to the following services:
+
+- Graphql Server: http://localhost:4000/graphql
+- Rest Server:
+  - sdf
+
 ## Development Mode
 
 - will need to run prisma generate locally to make sure it matches the environment
+
+Notes for later:
+
+- core, no dependencies, using orm...
+- principal
+-
 
 First time you run:
 

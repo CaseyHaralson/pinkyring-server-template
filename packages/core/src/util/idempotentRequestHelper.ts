@@ -56,7 +56,7 @@ export default class IdempotentRequestHelper extends BaseClass {
 
       let result;
       try {
-        this._logger.debug(lc, `calling the request fuction`);
+        this._logger.debug(lc, `calling the request function`);
 
         result = await requestFunc();
       } catch (e) {
@@ -65,7 +65,7 @@ export default class IdempotentRequestHelper extends BaseClass {
         this._logger.debug(lc, `the request function failed with e: ${e}`);
         this._logger.debug(
           lc,
-          `deleteing the request record and then throwing the error`
+          `deleting the request record and then throwing the error`
         );
 
         await this._idempotentRequestRepository.deleteRequest(

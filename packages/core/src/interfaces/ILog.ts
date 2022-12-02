@@ -15,9 +15,7 @@ export interface BaseLogContext {
 }
 
 export interface LogContext extends BaseLogContext {
-  //principal: Principal;
   currentObj: ILoggableClass;
   methodName: string;
   subject?: string;
-  //requestId?: string;
 }
