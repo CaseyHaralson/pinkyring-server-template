@@ -4,9 +4,9 @@ import {
   LogContext,
   LogLevel,
 } from '@pinkyring/core/interfaces/ILog';
-import {Environment} from '@pinkyring/core/dtos/enums';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '@pinkyring/core/interfaces/IConfig';
+import {Environment} from '@pinkyring/core/util/configHelper';
 
 const CONFIGKEYNAME_PROJECT_NAME = `${CONFIGKEYNAME_PROJECTDATA_PREFIX}NAME`;
 const CONFIGKEYNAME_PROJECT_VERSION = `${CONFIGKEYNAME_PROJECTDATA_PREFIX}VERSION`;

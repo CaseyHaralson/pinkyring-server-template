@@ -1,7 +1,6 @@
 import {asClass, asFunction, asValue, AwilixContainer} from 'awilix';
-import ConfigHelper from '@pinkyring/core/util/configHelper';
+import ConfigHelper, {Environment} from '@pinkyring/core/util/configHelper';
 import ConfigFileReader from '@pinkyring/infrastructure_util/configFileReader';
-import {Environment} from '@pinkyring/core/dtos/enums';
 import LocalEventRepository from '@pinkyring/infrastructure_queue/eventRepository';
 import ServerEventRepository from '@pinkyring/infrastructure_aws_snqs/eventRepository';
 import PrincipalResolver from '@pinkyring/core/util/principalResolver';

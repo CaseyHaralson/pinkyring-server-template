@@ -1,6 +1,6 @@
 import {PrismaClient} from '@prisma/client';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
-import {Environment} from '@pinkyring/core/dtos/enums';
+import {Environment} from '@pinkyring/core/util/configHelper';
 
 const CONFIGKEYNAME_MYSQL_DATABASE_URL = 'MYSQL_DATABASE_URL';
 

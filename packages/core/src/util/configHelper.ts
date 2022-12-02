@@ -1,10 +1,17 @@
-import {Environment} from '../dtos/enums';
 import {
   ConfigKey,
   IConfigFileReader,
   ISecretRepository,
 } from '../interfaces/IConfig';
 import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '../interfaces/IConfig';
+
+export enum Environment {
+  DEVELOPMENT = 'development',
+  TEST = 'test',
+  QAT = 'qat',
+  UAT = 'uat',
+  PRODUCTION = 'production',
+}
 
 const CONFIGKEYNAME_ENVIRONMENT = 'NODE_ENV';
 
