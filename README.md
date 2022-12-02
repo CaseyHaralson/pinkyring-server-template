@@ -5,6 +5,7 @@ Please check that documentation to create another project or to remove pre-insta
 https://github.com/CaseyHaralson/pinkyring
 
 This project comes with the following:
+
 - Github Workflows
   - CodeQL Analysis
   - Serverless Framework Deploy and Teardown into AWS
@@ -27,8 +28,10 @@ This project comes with the following:
 - An event bus/queue
 
 ## Project Structure
+
 The project is structured around the principals of the onion/hexagonal architecture.
 It uses npm workspaces to separate functionality into different packages.
+
 - https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/
 - https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)
 
@@ -44,9 +47,11 @@ This package knows everything about how things are tied together and can give di
 The **apps packages** expose the functionality of the project. These are things that have to run, like endpoint servers, event listeners, or chron jobs. They ask the dependency container for objects.
 
 ## Getting Started
+
 Note: you will need docker installed.
 
 ### Run Everything Locally
+
 1. Install dependencies:
 
 `npm install`
@@ -55,46 +60,55 @@ Note: you will need docker installed.
 
 `npm run everything`
 
-### Exploring Everything
+3. When you are finished exploring:
 
+`npm run everything:stop`
+
+### Exploring Everything
 
 ## Development Mode
 
-
-
-
 First time you run:
+
 - run "docker compose -f pre-start.yml up"
 - then run "docker compose up -d"
 
 To make code changes:
+
 - run "npm install"
   - this can't be used from inside docker because the workspace node_modules packages need to be symlinked and that can't happen from inside docker
   - will need node installed
 
 To watch test code changes, you will need to open two terminals:
+
 - run "npm run build:watch" in one
 - run "npm run test:unit:watch" in the other (this will only rerun tests after a test file changes)
 
 Installing new npm packages to a workspace package:
+
 - run "npm install _npm_package_ --save -w packages/_workspace_package_name_"
 
 For prisma:
+
 - need to make a .env file in the interface-implementations package
 - can copy the .env.example file and fill in the values
 
 Removing docker volumes created during docker compose:
-- docker compose -f __composefile.yml__ up -d
-- docker compose -f __composefile.yml__ down -v
+
+- docker compose -f **composefile.yml** up -d
+- docker compose -f **composefile.yml** down -v
 
 Rebuilding container with compose (build and recreate after the up):
+
 - docker compose up --build --force-recreate -d
 
 VS Code typescript intellisense isn't working after some change:
+
 - when you have a typescript file open, open the command palette (ctrl + shift + p)
 - TypeScript: Restart TS server
 
 To run the api package:
+
 - change directory to the api package project
 - run "npm run start"
 
@@ -103,5 +117,3 @@ Anything internal can ask for things via their class constructor and the di-cont
 
 Idempotent requests are requests that need to only have an effect once, but will return the same result every time they are called.
 Idempotent requests should be as small as possible too.
-
-
