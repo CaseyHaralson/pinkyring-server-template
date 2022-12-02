@@ -16,9 +16,32 @@ This project comes with the following:
     - DB Migration Dockerfile/Lambda with Prisma
     - Mysql Serverless Aurora RDS
     - SNS Topic to automatic and manual pull SQS Queue
-- Code Styles Rules
+- Code Style Rules
   - ESLint
   - Prettier
+- REST Endpoints
+- Graphql Endpoint
+- Prisma ORM
+- Cron maintenance jobs
+- An event bus/queue
+- Npm workspaces
+
+## Project Structure
+The project is structured around the principals of the onion/hexagonal architecture.
+- https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/
+- https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)
+
+Basically, the core package has no external dependencies and defines the interfaces that it will need implemented. These are services and core business logic that wouldn't change if there were infrastructrue changes.
+
+The infrastructure packages implement the interfaces defined in the core.
+These packages give access to repositories, logging frameworks, etc.
+External dependencies will probably be utilized in these packages.
+
+The dependency container ties the core and infrastructure packages together.
+This package knows everything about how things are tied together and can give different interface implementations based on environments or other rules.
+
+The apps packages expose the functionality of the project. These are things that have to run, like endpoint servers, or chron jobs. They ask the dependency container for objects.
+
 
 
 
