@@ -1,5 +1,11 @@
-import {LogLevel} from '../dtos/enums';
 import Principal from '../dtos/principal';
+
+export enum LogLevel {
+  ERROR = 0,
+  WARN = 1,
+  INFO = 2,
+  DEBUG = 3,
+}
 
 export interface ILoggableClass {
   className(): string;

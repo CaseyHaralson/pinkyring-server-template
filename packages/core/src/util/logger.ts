@@ -1,5 +1,4 @@
-import {LogLevel} from '../dtos/enums';
-import {ILogHandler, LogContext} from '../interfaces/ILog';
+import {ILogHandler, LogContext, LogLevel} from '../interfaces/ILog';
 
 export default class Logger {
   private _iLogHandler;

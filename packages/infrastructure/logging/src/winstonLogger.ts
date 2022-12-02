@@ -1,6 +1,10 @@
 import winston, {format, transports} from 'winston';
-import {ILogHandler, LogContext} from '@pinkyring/core/interfaces/ILog';
-import {Environment, LogLevel} from '@pinkyring/core/dtos/enums';
+import {
+  ILogHandler,
+  LogContext,
+  LogLevel,
+} from '@pinkyring/core/interfaces/ILog';
+import {Environment} from '@pinkyring/core/dtos/enums';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '@pinkyring/core/interfaces/IConfig';
 

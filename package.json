@@ -6,7 +6,7 @@
     "everything": "npm run build && npm run generate:env && docker compose -f docker-compose.run-everything.yml up -d",
     "everything:stop": "docker compose -f docker-compose.run-everything.yml down",
     "infra": "docker compose up -d",
-    "infra:down": "docker compose down",
+    "infra:stop": "docker compose down",
     "merge-check": "npm run lint && npm run prettier:check && npm run test:unit && npm run test:it",
     "build:clean": "npx rimraf ./packages/**/build && npx rimraf ./packages/**/tsconfig.tsbuildinfo",
     "build": "tsc -b",
