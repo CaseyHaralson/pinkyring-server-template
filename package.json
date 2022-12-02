@@ -16,6 +16,7 @@
     "test:it": "npm run build && npx jest --config packages/tests/jest.config.it.js",
     "prisma:generate": "npm run prisma:before && npx prisma generate && npm run prisma:after",
     "prisma:deploy": "npm run prisma:before && npx prisma migrate deploy && npm run prisma:after",
+    "prisma:seed": "npm run prisma:before && npx prisma db seed && npm run prisma:after",
     "prisma:before": "cd packages/infrastructure/relationaldb",
     "prisma:after": "cd ../../../"
   },

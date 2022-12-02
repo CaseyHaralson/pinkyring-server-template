@@ -29,8 +29,8 @@ services:
     volumes:
       - rabbitmq:/var/lib/rabbitmq
   
-  apps-api-graphql:
-    container_name: apps-api-graphql
+  app-api-graphql:
+    container_name: app-api-graphql
     build:
       context: ./docker
       dockerfile: Dockerfile.app
@@ -40,8 +40,8 @@ services:
     volumes:
       - ./:/code
   
-  apps-api-rest:
-    container_name: apps-api-rest
+  app-api-rest:
+    container_name: app-api-rest
     build:
       context: ./docker
       dockerfile: Dockerfile.app
@@ -51,34 +51,24 @@ services:
     volumes:
       - ./:/code
   
-  apps-chron-jobs:
-    container_name: apps-chron-jobs
+  app-chron-jobs:
+    container_name: app-chron-jobs
     build:
       context: ./docker
       dockerfile: Dockerfile.app
     working_dir: /code/packages/apps/chron-jobs
     volumes:
       - ./:/code
+  
+  prisma:
+    container_name: prisma
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.prisma
+    working_dir: /code
+    volumes:
+      - ./:/code
 
 volumes:
   mysql:
   rabbitmq:
-
-# api:
-#   container_name: api-container
-#   build:
-#     context: ./docker
-#     dockerfile: Dockerfile.api
-#   ports:
-#     - 3000:3000
-#   working_dir: /code/packages/apps/api
-#   volumes:
-#     - ./:/code
-
-# wait-for-example:
-#   container_name: wait-for-example
-#   image: alpine:3.16.2
-#   command: sh -c './wait-for.sh www.eficode.com:80 -- echo "Eficode site is up"'
-#   working_dir: /code
-#   volumes:
-#     - ./:/code
