@@ -28,23 +28,34 @@ This project comes with the following:
 
 ## Project Structure
 The project is structured around the principals of the onion/hexagonal architecture.
+It uses npm workspaces to separate functionality into different packages.
 - https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/
 - https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)
 
-Basically, the core package has no external dependencies and defines the interfaces that it will need implemented. These are services and core business logic that wouldn't change if there were infrastructrue changes.
+Basically, the **core package** has no external dependencies and defines the interfaces that it will need implemented. These are services and core business logic that wouldn't change if there were infrastructure changes.
 
-The infrastructure packages implement the interfaces defined in the core.
+The **infrastructure packages** implement the interfaces defined in the core.
 These packages give access to repositories, logging frameworks, etc.
 External dependencies will probably be utilized in these packages.
 
-The dependency container ties the core and infrastructure packages together.
+The **dependency container** ties the core and infrastructure packages together.
 This package knows everything about how things are tied together and can give different interface implementations based on environments or other rules.
 
-The apps packages expose the functionality of the project. These are things that have to run, like endpoint servers, or chron jobs. They ask the dependency container for objects.
+The **apps packages** expose the functionality of the project. These are things that have to run, like endpoint servers, event listeners, or chron jobs. They ask the dependency container for objects.
 
+## Getting Started
+Note: you will need docker installed.
 
+### Run Everything Locally
+1. Install dependencies:
 
+`npm install`
 
+2. Run the correct docker compose file:
+
+`npm run everything`
+
+### Development Mode
 
 
 
