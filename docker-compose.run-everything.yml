@@ -52,8 +52,8 @@ services:
       - ./:/code
   
   # don't run the chron jobs app because there isn't anything to see
-  # app-chron-jobs:
-  #   container_name: app-chron-jobs
+  # app-cron-jobs:
+  #   container_name: app-cron-jobs
   #   build:
   #     context: ./docker
   #     dockerfile: Dockerfile.app

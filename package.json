@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "everything": "npm run build && docker compose -f docker-compose.run-everything.yml up -d",
+    "everything": "npm run build && npm run generate:env && docker compose -f docker-compose.run-everything.yml up -d",
     "everything:stop": "docker compose -f docker-compose.run-everything.yml down",
     "merge-check": "npm run lint && npm run prettier:check && npm run test:unit && npm run test:it",
     "build:clean": "npx rimraf ./packages/**/build && npx rimraf ./packages/**/tsconfig.tsbuildinfo",
@@ -17,7 +17,8 @@
     "test:it": "npm run build && npx jest --config packages/tests/jest.config.it.js",
     "prisma:generate": "cd packages/infrastructure/relationaldb && npx prisma generate",
     "prisma:deploy": "cd packages/infrastructure/relationaldb && npx prisma migrate deploy",
-    "prisma:seed": "cd packages/infrastructure/relationaldb && npx prisma db seed"
+    "prisma:seed": "cd packages/infrastructure/relationaldb && npx prisma db seed",
+    "generate:env": "node ./.env-maker.js"
   },
   "workspaces": [
     "packages/**/*"

@@ -1,7 +1,7 @@
 # <%= projectName %>
 
 This project was created with the Pinkyring project creator.
-Please check that documentation to create another project or to remove pre-installed code from this project.
+Please check that documentation to create another project or to remove some pre-installed code from this project.
 https://github.com/CaseyHaralson/pinkyring
 
 This project comes with the following:
