@@ -1,7 +1,7 @@
 # <%= projectName %>
 
 This project was created with the Pinkyring project creator.
-Please check that documentation to create another project or to remove pre-installed code.
+Please check that documentation to create another project or to remove pre-installed code from this project.
 https://github.com/CaseyHaralson/pinkyring
 
 This project comes with the following:
@@ -22,9 +22,9 @@ This project comes with the following:
 - REST Endpoints
 - Graphql Endpoint
 - Prisma ORM
+- Winston Logging
 - Cron maintenance jobs
 - An event bus/queue
-- Npm workspaces
 
 ## Project Structure
 The project is structured around the principals of the onion/hexagonal architecture.
@@ -51,11 +51,14 @@ Note: you will need docker installed.
 
 `npm install`
 
-2. Run the correct docker compose file:
+2. Build everything, create the database, and run the apps:
 
 `npm run everything`
 
-### Development Mode
+### Exploring Everything
+
+
+## Development Mode
 
 
 

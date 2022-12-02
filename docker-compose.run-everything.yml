@@ -28,6 +28,37 @@ services:
       - 15672:15672
     volumes:
       - rabbitmq:/var/lib/rabbitmq
+  
+  apps-api-graphql:
+    container_name: apps-api-graphql
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.app
+    ports:
+      - 4000:4000
+    working_dir: /code/packages/apps/api-graphql
+    volumes:
+      - ./:/code
+  
+  apps-api-rest:
+    container_name: apps-api-rest
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.app
+    ports:
+      - 3000:3000
+    working_dir: /code/packages/apps/api-rest
+    volumes:
+      - ./:/code
+  
+  apps-chron-jobs:
+    container_name: apps-chron-jobs
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.app
+    working_dir: /code/packages/apps/chron-jobs
+    volumes:
+      - ./:/code
 
 volumes:
   mysql:

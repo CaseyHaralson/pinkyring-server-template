@@ -1,9 +1,0 @@
-FROM node:16-alpine
-
-RUN npm install nodemon --global
-
-CMD nodemon --exec npm run start \
-  --watch bin \
-  --watch './../../core/build/**/*' \
-  --watch './../../infrastructure/relationaldb/build/**/*' \
-  --watch './build/**/*'
