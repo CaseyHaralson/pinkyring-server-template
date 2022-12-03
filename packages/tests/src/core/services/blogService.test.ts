@@ -8,6 +8,7 @@ import EventHelper from '@pinkyring/core/util/eventHelper';
 import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
 import ConfigHelper from '@pinkyring/core/util/configHelper';
 import Principal from '@pinkyring/core/interfaces/IPrincipal';
+import ISessionHandler from '@pinkyring/core/interfaces/ISession';
 
 describe('blog service unit tests', () => {
   const baseParams = mock<IBaseServiceParams>();
@@ -17,6 +18,7 @@ describe('blog service unit tests', () => {
     baseParams,
     mock<IIdempotentRequestRepository>()
   );
+  baseParams.sessionHandler = mock<ISessionHandler>();
   baseParams.idempotentRequestHelper = idempotentRequestHelper;
   baseParams.eventHelper = mock<EventHelper>();
   const blogRepoMock = mock<IBlogRepository>();
@@ -34,6 +36,12 @@ describe('blog service unit tests', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         requestFunc: any
       ) => {
+        return requestFunc();
+      }
+    );
+    baseParams.sessionHandler.newSessionIfNotExists = jest.fn(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (_: Principal, requestFunc: any) => {
         return requestFunc();
       }
     );
