@@ -20,6 +20,7 @@ export default class EventRepository
   }
 
   async publishEvent(event: BaseEvent): Promise<void> {
+    this._logger.info(`Entering the publish event method`);
     const connection = await connect(
       this.getConfigValue(CONFIGKEYNAME_RABBITMQ_URL)
     );

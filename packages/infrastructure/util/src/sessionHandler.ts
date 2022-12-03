@@ -4,6 +4,7 @@ import {createNamespace, getNamespace, Namespace} from 'cls-hooked';
 import {v4 as uuidv4} from 'uuid';
 
 const NAMESPACE_NAME = 'session';
+const SESSION_VALUES = 'values';
 
 export default class SessionHandler implements ISessionHandler {
   newSessionIfNotExists<T>(
@@ -15,7 +16,7 @@ export default class SessionHandler implements ISessionHandler {
       return func();
     } else {
       return namespace.runPromise(async () => {
-        namespace.set('values', {
+        namespace.set(SESSION_VALUES, {
           sessionId: uuidv4(),
           principal: principal,
         } as Session);
@@ -34,13 +35,13 @@ export default class SessionHandler implements ISessionHandler {
   }
 
   private sessionExists(namespace: Namespace) {
-    const values = namespace.get('values');
+    const values = namespace.get(SESSION_VALUES);
     if (values !== undefined) return true;
     return false;
   }
 
   getSession(): Session {
     const namespace = getNamespace(NAMESPACE_NAME);
-    return namespace?.get('values') as Session;
+    return namespace?.get(SESSION_VALUES) as Session;
   }
 }
