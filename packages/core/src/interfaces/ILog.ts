@@ -13,6 +13,7 @@ export interface ILoggableClass {
 
 export interface ILogHandler {
   log(level: LogLevel, context: LogContext, message: string): void;
+  logNew(level: LogLevel, context: NewLogContext, message: string): void;
 }
 
 export interface BaseLogContext {
@@ -24,4 +25,10 @@ export interface LogContext extends BaseLogContext {
   currentObj: ILoggableClass;
   methodName: string;
   subject?: string;
+}
+
+export interface NewLogContext {
+  principal: Principal;
+  requestId: string;
+  currentObj: ILoggableClass;
 }

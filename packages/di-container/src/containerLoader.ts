@@ -15,6 +15,7 @@ import BlogRepository from '@pinkyring/infrastructure_relationaldb/blogRepositor
 import MaintenanceService from '@pinkyring/core/services/maintenanceService';
 import PrismaClientFactory from '@pinkyring/infrastructure_relationaldb/util/prismaClientFactory';
 import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
+import SessionHandler from '@pinkyring/infrastructure_util/sessionHandler';
 
 export default function loadContainer(container: AwilixContainer) {
   loadConfigHelper(container);
@@ -66,9 +67,9 @@ const loadGenericItems = function (container: AwilixContainer) {
   // base class parameters and base service parameters
   container.register({
     logger: asClass(Logger),
-    iLogHandler: asFunction(() => {
+    logHandler: asFunction(() => {
       const logger = new WinstonLogger({
-        logger: asValue(null) as unknown as Logger, // can't include a logger in Winston because that creates a circular dependency, because Winston IS the logger
+        logger: null as unknown as Logger, // can't include a logger in Winston because that creates a circular dependency, because Winston IS the logger
         configHelper: container.cradle.configHelper as ConfigHelper,
       } as IBaseParams);
       return logger;
@@ -82,12 +83,14 @@ const loadGenericItems = function (container: AwilixContainer) {
     idempotentRequestHelper: asClass(IdempotentRequestHelper),
     idempotentRequestRepository: asClass(IdempotentRequestRepository),
     eventHelper: asClass(EventHelper),
+    sessionHandler: asClass(SessionHandler),
     baseServiceParams: asFunction(() => {
       return {
         logger: container.cradle.logger,
         configHelper: container.cradle.configHelper,
         idempotentRequestHelper: container.cradle.idempotentRequestHelper,
         eventHelper: container.cradle.eventHelper,
+        sessionHandler: container.cradle.sessionHandler,
       } as IBaseServiceParams;
     }),
   });

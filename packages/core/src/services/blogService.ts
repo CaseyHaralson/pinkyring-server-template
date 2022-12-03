@@ -16,16 +16,23 @@ export default class BlogService extends BaseService {
   }
 
   async getBlogPosts(principal: Principal, {ids}: {ids?: string[]}) {
-    const lc = {
-      principal: principal,
-      currentObj: this,
-      methodName: 'getBlogPosts',
-    } as LogContext;
-    this._logger.info(lc, 'entering the get blog posts function');
+    return await this.session(principal, async () => {
+      this._logger.test('entering the get blog posts function');
+
+      return await this._blogRepository.getBlogPosts({ids});
+    });
+    // const lc = {
+    //   principal: principal,
+    //   currentObj: this,
+    //   methodName: 'getBlogPosts',
+    // } as LogContext;
+    // this._logger.info(lc, 'entering the get blog posts function');
+
+    // this._logger.test('entering the get blog posts function');
 
     // can use principal to authorize request
 
-    return await this._blogRepository.getBlogPosts({ids});
+    // return await this._blogRepository.getBlogPosts({ids});
   }
 
   async getAuthors(principal: Principal, {ids}: {ids?: string[]}) {

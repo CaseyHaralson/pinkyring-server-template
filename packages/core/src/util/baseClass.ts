@@ -21,6 +21,10 @@ export default class BaseClass implements ILoggableClass {
     this._className = className;
     this._logger = baseParams.logger;
 
+    if (this._logger) {
+      this._logger.setLoggableClass(this);
+    }
+
     if (configKeys) {
       this.registerNeededConfigurations(configKeys);
     }
