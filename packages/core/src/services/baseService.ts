@@ -41,6 +41,15 @@ export default class BaseService extends BaseClass {
     );
   }
 
+  /**
+   * Makes the request idempotent.
+   * Returns the same response as the original for each subsequent duplicate request.
+   * @param principal the current security principal
+   * @param methodName the name of the method that is making the idempotent request
+   * @param requestId the id of the request as specified by the client
+   * @param requestFunc the function that should only be called once
+   * @returns the result of the idempotent function
+   */
   protected async idempotentRequest<T>(
     principal: Principal,
     methodName: string,

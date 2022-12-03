@@ -7,6 +7,7 @@ const CONFIGKEYNAME_IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS =
 const CONFIGKEYNAME_IDEMPOTENT_REQUESTS_TIMEDOUT_SECONDS =
   'IDEMPOTENT_REQUESTS_TIMEDOUT_SECONDS';
 
+/** Class to help make idempotent requests */
 export default class IdempotentRequestHelper extends BaseClass {
   private _idempotentRequestRepository;
   constructor(
@@ -24,6 +25,18 @@ export default class IdempotentRequestHelper extends BaseClass {
     this._idempotentRequestRepository = idempotentRequestRepository;
   }
 
+  /**
+   * Handles making the request idempotent.
+   * It will make the request once and then return the same result for every subsequent duplicate request.
+   * If there is an issue in the original request, it will treat the next duplicate request as an original.
+   * If another duplicate request is made before the first original request can complete, it will wait till the first request completes and then return the same result as the original request.
+   * @param principal the current security principal
+   * @param originatingClassName the name of the class that is making the idempotent request
+   * @param originatingMethodName the name of the method that is making the idempotent request
+   * @param requestId the id of the request as specified by the client
+   * @param requestFunc the function that should only be called once
+   * @returns the result of the idempotent function
+   */
   async handleIdempotentRequest<T>(
     principal: Principal,
     originatingClassName: string,
@@ -175,6 +188,14 @@ export default class IdempotentRequestHelper extends BaseClass {
     });
   }
 
+  /**
+   * Makes a specific id based on the principal, class, method, and request.
+   * @param principal the current security principal
+   * @param originatingClassName the name of the class that is making the idempotent request
+   * @param originatingMethodName the name of the method that is making the idempotent request
+   * @param requestId the id of the request as specified by the client
+   * @returns
+   */
   specifyRequestId(
     principal: Principal,
     originatingClassName: string,
