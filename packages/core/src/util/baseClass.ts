@@ -22,7 +22,7 @@ export default class BaseClass implements ILoggableClass {
     this._logger = baseParams.logger;
 
     if (this._logger) {
-      this._logger.setLoggableClass(this);
+      this.setLoggerValues();
     }
 
     if (configKeys) {
@@ -32,6 +32,10 @@ export default class BaseClass implements ILoggableClass {
 
   className(): string {
     return this._className;
+  }
+
+  private setLoggerValues() {
+    this._logger.setLoggableClass(this);
   }
 
   private registerNeededConfigurations(configKeys: ConfigKey[]) {

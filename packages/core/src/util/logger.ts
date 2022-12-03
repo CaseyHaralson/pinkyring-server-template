@@ -3,7 +3,6 @@ import {
   ILogHandler,
   LogContext,
   LogLevel,
-  NewLogContext,
 } from '../interfaces/ILog';
 import ISessionHandler from '../interfaces/ISession';
 
@@ -20,29 +19,33 @@ export default class Logger {
     this._loggableClass = currentObj;
   }
 
-  error(context: LogContext, message: string) {
+  error(message: string) {
+    const context = this.getLogContext();
     this._logHandler.log(LogLevel.ERROR, context, message);
   }
 
-  warn(context: LogContext, message: string) {
+  warn(message: string) {
+    const context = this.getLogContext();
     this._logHandler.log(LogLevel.WARN, context, message);
   }
 
-  info(context: LogContext, message: string) {
+  info(message: string) {
+    const context = this.getLogContext();
     this._logHandler.log(LogLevel.INFO, context, message);
   }
 
-  debug(context: LogContext, message: string) {
+  debug(message: string) {
+    const context = this.getLogContext();
     this._logHandler.log(LogLevel.DEBUG, context, message);
   }
 
-  test(message: string) {
+  private getLogContext() {
     const session = this._sessionHandler.getSession();
     const context = {
+      sessionId: session.sessionId,
       principal: session.principal,
-      requestId: session.requestId,
       currentObj: this._loggableClass,
-    } as NewLogContext;
-    this._logHandler.logNew(LogLevel.DEBUG, context, message);
+    } as LogContext;
+    return context;
   }
 }

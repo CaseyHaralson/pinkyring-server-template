@@ -1,22 +1,46 @@
 import Principal from '@pinkyring/core/interfaces/IPrincipal';
 import ISessionHandler, {Session} from '@pinkyring/core/interfaces/ISession';
-import {createNamespace, getNamespace} from 'cls-hooked';
+import {createNamespace, getNamespace, Namespace} from 'cls-hooked';
+import {v4 as uuidv4} from 'uuid';
+
+const NAMESPACE_NAME = 'session';
 
 export default class SessionHandler implements ISessionHandler {
-  newSession<T>(principal: Principal, func: () => Promise<T>): Promise<T> {
-    const session = createNamespace('session');
-    return session.runPromise(async () => {
-      session.set('values', {
-        principal: principal,
-        requestId: '1234',
-      } as Session);
+  newSessionIfNotExists<T>(
+    principal: Principal,
+    func: () => Promise<T>
+  ): Promise<T> {
+    const namespace = this.createNamespaceIfNotExists();
+    if (this.sessionExists(namespace)) {
+      return func();
+    } else {
+      return namespace.runPromise(async () => {
+        namespace.set('values', {
+          sessionId: uuidv4(),
+          principal: principal,
+        } as Session);
 
-      return await func();
-    });
+        return await func();
+      });
+    }
+  }
+
+  private createNamespaceIfNotExists() {
+    let namespace = getNamespace(NAMESPACE_NAME);
+    if (namespace === undefined) {
+      namespace = createNamespace(NAMESPACE_NAME);
+    }
+    return namespace;
+  }
+
+  private sessionExists(namespace: Namespace) {
+    const values = namespace.get('values');
+    if (values !== undefined) return true;
+    return false;
   }
 
   getSession(): Session {
-    const session = getNamespace('session');
-    return session?.get('values') as Session;
+    const namespace = getNamespace(NAMESPACE_NAME);
+    return namespace?.get('values') as Session;
   }
 }

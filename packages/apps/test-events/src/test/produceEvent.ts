@@ -1,5 +1,5 @@
 import {EventType} from '@pinkyring/core/dtos/events';
-import {BaseLogContext} from '@pinkyring/core/interfaces/ILog';
+// import {BaseLogContext} from '@pinkyring/core/interfaces/ILog';
 import {UnknownPrincipal} from '@pinkyring/core/interfaces/IPrincipal';
 import Container from '@pinkyring/di-container/container';
 
@@ -10,16 +10,16 @@ if (args.length == 0) {
   console.log(`Usage: npm run event:produce <message>`);
   process.exitCode = 1;
 } else {
-  const blc = {
-    principal: UnknownPrincipal,
-  } as BaseLogContext;
+  // const blc = {
+  //   principal: UnknownPrincipal,
+  // } as BaseLogContext;
 
   const eventHelper = Container.resolveEventHelper();
 
   const message = args[0];
   console.log(`Publishing test event with message: ${message}`);
 
-  eventHelper.publishEvent(blc, {
+  eventHelper.publishEvent({
     eventType: EventType.TEST_EVENT,
     eventData: {
       message: message,

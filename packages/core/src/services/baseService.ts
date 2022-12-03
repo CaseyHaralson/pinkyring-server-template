@@ -1,7 +1,6 @@
 import {BaseEvent} from '../dtos/events';
 import Principal from '../interfaces/IPrincipal';
 import {ConfigKey} from '../interfaces/IConfig';
-import {BaseLogContext} from '../interfaces/ILog';
 import BaseClass, {IBaseParams} from '../util/baseClass';
 import EventHelper from '../util/eventHelper';
 import IdempotentRequestHelper from '../util/idempotentRequestHelper';
@@ -24,11 +23,22 @@ export default class BaseService extends BaseClass {
     this._baseServiceParams = baseServiceParams;
   }
 
+  /**
+   * Wraps every proceeding function call into the same session.
+   * This should be the first thing called in a public service function and should wrap the rest of that function's logic.
+   *
+   * @param principal the current principal
+   * @param func the main function that needs to be run
+   * @returns returns the func result
+   */
   protected async session<T>(
     principal: Principal,
     func: () => Promise<T>
   ): Promise<T> {
-    return this._baseServiceParams.sessionHandler.newSession(principal, func);
+    return this._baseServiceParams.sessionHandler.newSessionIfNotExists(
+      principal,
+      func
+    );
   }
 
   protected async idempotentRequest<T>(
@@ -46,10 +56,7 @@ export default class BaseService extends BaseClass {
     );
   }
 
-  protected async publishEvent(
-    blc: BaseLogContext,
-    event: BaseEvent
-  ): Promise<boolean> {
-    return await this._baseServiceParams.eventHelper.publishEvent(blc, event);
+  protected async publishEvent(event: BaseEvent): Promise<boolean> {
+    return await this._baseServiceParams.eventHelper.publishEvent(event);
   }
 }

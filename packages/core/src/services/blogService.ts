@@ -2,7 +2,6 @@ import {Author, BlogPost} from '../dtos/blogPost';
 import {BlogPostAddedEvent, EventType} from '../dtos/events';
 import Principal from '../interfaces/IPrincipal';
 import IBlogRepository from '../interfaces/IBlogRepository';
-import {LogContext} from '../interfaces/ILog';
 import BaseService, {IBaseServiceParams} from './baseService';
 
 export default class BlogService extends BaseService {
@@ -17,51 +16,34 @@ export default class BlogService extends BaseService {
 
   async getBlogPosts(principal: Principal, {ids}: {ids?: string[]}) {
     return await this.session(principal, async () => {
-      this._logger.test('entering the get blog posts function');
+      this._logger.info('entering the get blog posts function');
+
+      // can use principal to authorize request
 
       return await this._blogRepository.getBlogPosts({ids});
     });
-    // const lc = {
-    //   principal: principal,
-    //   currentObj: this,
-    //   methodName: 'getBlogPosts',
-    // } as LogContext;
-    // this._logger.info(lc, 'entering the get blog posts function');
-
-    // this._logger.test('entering the get blog posts function');
-
-    // can use principal to authorize request
-
-    // return await this._blogRepository.getBlogPosts({ids});
   }
 
   async getAuthors(principal: Principal, {ids}: {ids?: string[]}) {
-    const lc = {
-      principal: principal,
-      currentObj: this,
-      methodName: 'getAuthors',
-    } as LogContext;
-    this._logger.info(lc, 'entering the get authors function');
+    return await this.session(principal, async () => {
+      this._logger.info('entering the get authors function');
 
-    // can use principal to authorize request
+      // can use principal to authorize request
 
-    return await this._blogRepository.getAuthors({ids});
+      return await this._blogRepository.getAuthors({ids});
+    });
   }
 
-  addAuthor(principal: Principal, requestId: string, author: Author) {
-    const lc = {
-      principal: principal,
-      currentObj: this,
-      methodName: 'addAuthor',
-      requestId: requestId,
-    } as LogContext;
-    this._logger.info(lc, 'entering the add author function');
+  async addAuthor(principal: Principal, requestId: string, author: Author) {
+    return await this.session(principal, async () => {
+      this._logger.info('entering the add author function');
 
-    // can use principal to authorize request
+      // can use principal to authorize request
 
-    return this.idempotentRequest(principal, 'addAuthor', requestId, () => {
-      this._logger.info(lc, 'calling the repo to add the author');
-      return this._blogRepository.addAuthor(author);
+      return this.idempotentRequest(principal, 'addAuthor', requestId, () => {
+        this._logger.info('calling the repo to add the author');
+        return this._blogRepository.addAuthor(author);
+      });
     });
   }
 
@@ -70,41 +52,37 @@ export default class BlogService extends BaseService {
     requestId: string,
     blogPost: BlogPost
   ) {
-    const lc = {
-      principal: principal,
-      currentObj: this,
-      methodName: 'addBlogPost',
-      requestId: requestId,
-    } as LogContext;
-    this._logger.info(lc, 'entering the add blog post function');
+    return await this.session(principal, async () => {
+      this._logger.info('entering the add blog post function');
 
-    // can use principal to authorize request
+      // can use principal to authorize request
 
-    let blogPostAdded = false;
-    const requestResult = await this.idempotentRequest(
-      principal,
-      'addBlogPost',
-      requestId,
-      async () => {
-        this._logger.info(lc, 'calling the repo to add the blog post');
-        const result = await this._blogRepository.addBlogPost(blogPost);
-        blogPostAdded = result != undefined;
-        return result;
+      let blogPostAdded = false;
+      const requestResult = await this.idempotentRequest(
+        principal,
+        'addBlogPost',
+        requestId,
+        async () => {
+          this._logger.info('calling the repo to add the blog post');
+          const result = await this._blogRepository.addBlogPost(blogPost);
+          blogPostAdded = result != undefined;
+          return result;
+        }
+      );
+
+      if (blogPostAdded) {
+        this._logger.info('publishing the blog post added event');
+        await this.publishEvent({
+          eventType: EventType.BLOG_POST_ADDED,
+          eventData: {
+            authorId: requestResult.authorId,
+            blogPostId: requestResult.id,
+          },
+        } as BlogPostAddedEvent);
       }
-    );
 
-    if (blogPostAdded) {
-      this._logger.info(lc, 'publishing the blog post added event');
-      await this.publishEvent(lc, {
-        eventType: EventType.BLOG_POST_ADDED,
-        eventData: {
-          authorId: requestResult.authorId,
-          blogPostId: requestResult.id,
-        },
-      } as BlogPostAddedEvent);
-    }
-
-    return requestResult;
+      return requestResult;
+    });
   }
 
   async updateBlogPost(
@@ -112,24 +90,20 @@ export default class BlogService extends BaseService {
     requestId: string,
     blogPost: BlogPost
   ) {
-    const lc = {
-      principal: principal,
-      currentObj: this,
-      methodName: 'updateBlogPost',
-      requestId: requestId,
-    } as LogContext;
-    this._logger.info(lc, 'entering the update blog post function');
+    return await this.session(principal, async () => {
+      this._logger.info('entering the update blog post function');
 
-    // can use principal to authorize request
+      // can use principal to authorize request
 
-    return this.idempotentRequest(
-      principal,
-      'updateBlogPost',
-      requestId,
-      () => {
-        this._logger.info(lc, 'calling the repo to update the author');
-        return this._blogRepository.updateBlogPost(blogPost);
-      }
-    );
+      return this.idempotentRequest(
+        principal,
+        'updateBlogPost',
+        requestId,
+        () => {
+          this._logger.info('calling the repo to update the author');
+          return this._blogRepository.updateBlogPost(blogPost);
+        }
+      );
+    });
   }
 }

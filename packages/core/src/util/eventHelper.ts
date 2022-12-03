@@ -1,6 +1,5 @@
 import {BaseEvent} from '../dtos/events';
 import IEventRepository from '../interfaces/IEventRepository';
-import {BaseLogContext, LogContext} from '../interfaces/ILog';
 import BaseClass, {IBaseParams} from './baseClass';
 
 export default class EventHelper extends BaseClass {
@@ -10,21 +9,14 @@ export default class EventHelper extends BaseClass {
     this._eventRepository = eventRepository;
   }
 
-  async publishEvent(blc: BaseLogContext, event: BaseEvent): Promise<boolean> {
+  async publishEvent(event: BaseEvent): Promise<boolean> {
     try {
       await this._eventRepository.publishEvent(event);
       return true;
     } catch (e) {
-      const lc = {
-        ...blc,
-        currentObj: this,
-        methodName: 'publishEvent',
-      } as LogContext;
       this._logger.error(
-        lc,
         `Error publishing event: ${JSON.stringify(event)} ; error: ${e}`
       );
-
       return false;
     }
   }

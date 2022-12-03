@@ -3,7 +3,6 @@ import {
   ILogHandler,
   LogContext,
   LogLevel,
-  NewLogContext,
 } from '@pinkyring/core/interfaces/ILog';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '@pinkyring/core/interfaces/IConfig';
@@ -14,6 +13,7 @@ const CONFIGKEYNAME_PROJECT_VERSION = `${CONFIGKEYNAME_PROJECTDATA_PREFIX}VERSIO
 
 // when changing the log format
 // make sure that whatever is parsing the logs can handle the new format
+
 const logFormat = format.printf((info) => {
   let s = '';
   s = `${info.timestamp}`;
@@ -41,14 +41,11 @@ const logFormat = format.printf((info) => {
   }
 
   s += info.metadata.context?.currentObj
-    ? `${info.metadata.context.currentObj.className()}`
-    : `Unknown Class`;
-  s += info.metadata.context?.methodName
-    ? `.${info.metadata.context.methodName}]`
-    : `.Unknown Function]`;
+    ? `${info.metadata.context.currentObj.className()}]`
+    : `Unknown Class]`;
 
-  if (info.metadata.context?.requestId) {
-    s += `[Request:${info.metadata.context.requestId}]`;
+  if (info.metadata.context?.sessionId) {
+    s += `[Session:${info.metadata.context.sessionId}]`;
     s += ': ';
   } else {
     s += '[]: ';
@@ -104,26 +101,6 @@ export default class WinstonLogger extends BaseClass implements ILogHandler {
   }
 
   log(level: LogLevel, context: LogContext, message: string): void {
-    const meta = {
-      env: this.getEnvironment(),
-      projectName: this.getConfigValue(CONFIGKEYNAME_PROJECT_NAME),
-      projectVersion: this.getConfigValue(CONFIGKEYNAME_PROJECT_VERSION),
-      packageName: process.env.npm_package_name,
-      packageVersion: process.env.npm_package_version,
-      context: context,
-    };
-
-    if (level == LogLevel.ERROR) this._realLogger.error(message, meta);
-    else if (level == LogLevel.WARN) this._realLogger.warn(message, meta);
-    else if (level == LogLevel.INFO) this._realLogger.info(message, meta);
-    else if (level == LogLevel.DEBUG) this._realLogger.debug(message, meta);
-  }
-
-  logNew(level: LogLevel, context: NewLogContext, message: string) {
-    // console.log(
-    //   `New Log Context: ${JSON.stringify(context)}; Message: ${message}`
-    // );
-
     const meta = {
       env: this.getEnvironment(),
       projectName: this.getConfigValue(CONFIGKEYNAME_PROJECT_NAME),
