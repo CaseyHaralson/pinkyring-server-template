@@ -1,5 +1,5 @@
 {
-  "name": "@pinkyring/apps_test-events",
+  "name": "@pinkyring/apps_event-handlers",
   "main": "build/app.js",
   "scripts": {
     "build": "tsc -b",

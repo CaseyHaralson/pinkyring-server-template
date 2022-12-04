@@ -30,7 +30,7 @@
     "@pinkyring/apps_api-graphql": "*",
     "@pinkyring/apps_api-rest": "*",
     "@pinkyring/apps_cron-jobs": "*",
-    "@pinkyring/apps_test-events": "*",
+    "@pinkyring/apps_event-handlers": "*",
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
     "@pinkyring/infrastructure_aws_lambdas": "*",

@@ -22,7 +22,7 @@
       "path": "./packages/apps/cron-jobs"
     },
     {
-      "path": "./packages/apps/test-events"
+      "path": "./packages/apps/event-handlers"
     },
     {
       "path": "./packages/core"

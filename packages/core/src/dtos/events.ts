@@ -1,7 +1,6 @@
 export const EVENT_BUS_NAME = 'PINKYRING';
 
 export enum EventType {
-  TEST_EVENT = 'test.event',
   BLOG_POST_ADDED = 'blogpost.added',
 }
 
