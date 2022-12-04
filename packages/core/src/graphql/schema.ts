@@ -5,6 +5,7 @@ import Principal from '../interfaces/IPrincipal';
 import BlogService from '../services/blogService';
 import {IDataLoader, IDataLoaderConstructable} from './IDataLoader';
 
+/** The project graphql type definitions */
 export const typeDefs = `#graphql
   type BlogPost {
     id: String
@@ -41,6 +42,7 @@ export const typeDefs = `#graphql
   }
 `;
 
+/** Context object that should be loaded and injected into the resolver functions. */
 export interface IContext {
   principal: Principal;
   blogService: BlogService;
@@ -48,6 +50,7 @@ export interface IContext {
   authorDataLoader?: IDataLoader<string, Author>;
 }
 
+/** The project graphql data resolvers */
 export const resolvers = {
   Query: {
     blogPosts(_: any, args: any, context: IContext, info: any) {
@@ -88,6 +91,7 @@ export const resolvers = {
   },
 };
 
+/** Make sure the data loaders in the context are created before they are used */
 function createDataLoaders(context: IContext) {
   if (context.authorDataLoader === undefined) {
     context.authorDataLoader = new context.dataLoaderConstructable<
@@ -103,6 +107,7 @@ function createDataLoaders(context: IContext) {
   }
 }
 
+/** Helper function to map data-loaded objects back to their source request keys */
 function mapObjectsToKeys<T extends BaseObject>(
   keys: readonly string[],
   objs: T[]

@@ -1,3 +1,7 @@
+/**
+ * Interface for a graphql dataloader constructable object.
+ * This object should provide batch loading functionality.
+ */
 export interface IDataLoaderConstructable {
   new <K, V>(batchLoaderFn: BatchLoadFn<K, V>): IDataLoader<K, V>;
 }
