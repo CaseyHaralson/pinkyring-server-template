@@ -65,6 +65,11 @@ export default class BaseService extends BaseClass {
     );
   }
 
+  /**
+   * Publishes an event to the underlying event system.
+   * @param event the event to publish
+   * @returns a boolean indicating if the publish was successful
+   */
   protected async publishEvent(event: BaseEvent): Promise<boolean> {
     return await this._baseServiceParams.eventHelper.publishEvent(event);
   }
