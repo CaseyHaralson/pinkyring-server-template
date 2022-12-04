@@ -1,4 +1,5 @@
 import Principal from '@pinkyring/core/interfaces/IPrincipal';
+import {v4 as uuidv4} from 'uuid';
 
 /**
  * Resolves security principals based on the information defined in the resolve function.
@@ -11,7 +12,7 @@ export default class PrincipalResolver {
   resolve() {
     return {
       identity: {
-        id: 'some_identity_id',
+        id: uuidv4(),
         name: 'some_identity_name',
       },
       roles: [

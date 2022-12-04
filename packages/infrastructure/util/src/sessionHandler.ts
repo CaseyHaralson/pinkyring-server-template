@@ -3,7 +3,7 @@ import ISessionHandler, {Session} from '@pinkyring/core/interfaces/ISession';
 import {createNamespace, getNamespace, Namespace} from 'cls-hooked';
 import {v4 as uuidv4} from 'uuid';
 
-const NAMESPACE_NAME = 'session';
+const NAMESPACE_NAME = 'pinkyring.session';
 const SESSION_VALUES = 'values';
 
 export default class SessionHandler implements ISessionHandler {

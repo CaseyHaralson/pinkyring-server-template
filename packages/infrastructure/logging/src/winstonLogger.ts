@@ -96,6 +96,29 @@ export default class WinstonLogger extends BaseClass implements ILogHandler {
         new transports.Console({
           format: consoleFormat,
         }),
+        // new transports.File({
+        //   filename: 'session-log.txt',
+        //   level: 'debug',
+        //   format: format.combine(
+        //     format.printf((info) => {
+        //       let s = '';
+        //       s = `${info.timestamp}`;
+        //       s += ' ';
+        //       if (info.metadata.context?.sessionId) {
+        //         s += `[Session:${info.metadata.context.sessionId}]`;
+        //         s += ': ';
+        //       } else {
+        //         s += '[]: ';
+        //       }
+        //       if (info.metadata.context?.principal) {
+        //         s += `Principal Identity Id: ${JSON.stringify(
+        //           info.metadata.context?.principal.identity.id
+        //         )}`;
+        //       }
+        //       return s;
+        //     })
+        //   ),
+        // }),
       ],
     });
   }
