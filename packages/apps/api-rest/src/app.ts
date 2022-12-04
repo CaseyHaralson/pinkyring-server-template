@@ -1,5 +1,6 @@
 import express from 'express';
 import container from '@pinkyring/di-container/container';
+import {EventType, EVENT_BUS_NAME} from '@pinkyring/core/dtos/events';
 
 // ======================================
 // Get configurations
@@ -22,6 +23,42 @@ app.use(express.json()); // to support JSON-encoded bodies
 
 app.get('/', (req, res) => {
   res.send('hello world!');
+});
+
+app.get('/authors', async (req, res) => {
+  const service = container.resolveBlogService();
+  const principal = container.resolvePrincipalResolver().resolve();
+  res.send(await service.getAuthors(principal, {}));
+});
+
+app.get('/blogPosts', async (req, res) => {
+  const service = container.resolveBlogService();
+  const principal = container.resolvePrincipalResolver().resolve();
+  res.send(await service.getBlogPosts(principal, {}));
+});
+
+app.post('/event/queue/new', async (req, res) => {
+  const newQueueName = req.body.name;
+  const eventHelper = container.resolveEventHelper();
+  res.send(
+    await eventHelper.createQueue(
+      newQueueName,
+      EVENT_BUS_NAME,
+      EventType.BLOG_POST_ADDED
+    )
+  );
+});
+
+app.post('/event/:queueName/grab', async (req, res) => {
+  const queueName = req.params.queueName;
+  const eventHelper = container.resolveEventHelper();
+  const numEventsInQueue = await eventHelper.getNumEventsInQueue(queueName);
+  const event = await eventHelper.getEventFromQueue(queueName);
+
+  res.send({
+    approximateNumEventsInQueue: numEventsInQueue,
+    event: event,
+  });
 });
 
 // app.get('/test', (req, res) => {

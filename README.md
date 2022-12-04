@@ -25,7 +25,7 @@ This project comes with the following:
 - Prisma Database Stuff
 - Winston Logging
 - Cron maintenance jobs
-- An event bus/queue
+- Event bus/queue interactions
 
 ## Project Structure
 
@@ -80,6 +80,8 @@ Notes for later:
 
 - core, no dependencies, using orm...
 - principal
+- things internal to the project need to implement baseclass and services need to implement baseservice.
+- things internal to the project get their dependencies resolved by the di container, things external to the project can use one of the specialized functions defined by the di container
 -
 
 First time you run:
