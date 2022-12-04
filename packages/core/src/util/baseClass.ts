@@ -16,6 +16,12 @@ export default class BaseClass implements ILoggableClass {
   private _baseParams;
   private _className;
   protected _logger;
+  /**
+   *
+   * @param baseParams base params
+   * @param className the name of the class that is extending the BaseClass
+   * @param configKeys the keys for any configurations that will be needed
+   */
   constructor(
     baseParams: IBaseParams,
     className: string,
@@ -34,6 +40,7 @@ export default class BaseClass implements ILoggableClass {
     }
   }
 
+  /** returns the name of the class */
   className(): string {
     return this._className;
   }
@@ -46,10 +53,16 @@ export default class BaseClass implements ILoggableClass {
     this._baseParams.configHelper.registerNeededConfigurations(configKeys);
   }
 
+  /**
+   * Gets the config value for a key.
+   * @param keyName the key that needs to be retrieved
+   * @returns the configured value
+   */
   protected getConfigValue(keyName: string) {
     return this._baseParams.configHelper.getConfigValue(keyName);
   }
 
+  /** Returns the configured environment type for where the project is running. */
   protected getEnvironment() {
     return this._baseParams.configHelper.getEnvironment();
   }

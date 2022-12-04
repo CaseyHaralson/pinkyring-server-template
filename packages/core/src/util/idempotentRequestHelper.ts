@@ -205,6 +205,7 @@ export default class IdempotentRequestHelper extends BaseClass {
     return `${principal.identity.id}.${originatingClassName}.${originatingMethodName}.${requestId}`;
   }
 
+  /** Maintenance function to remove old idempotent requests. */
   async cleanOldIdempotentRequests() {
     const hours = this.getConfigValue(
       CONFIGKEYNAME_IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS

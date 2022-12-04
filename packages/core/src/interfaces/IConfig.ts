@@ -1,6 +1,13 @@
+/** Keys used to get configuration values */
 export interface ConfigKey {
+  /** the key used in the config */
   name: string;
+  /** should the key always come from a secret? */
   isSecret?: boolean;
+  /**
+   * should the value be loaded into the environment?
+   * (probably don't need to set this except for very specific circumstances)
+   */
   loadIntoEnv?: boolean;
 }
 

@@ -18,6 +18,12 @@ export interface IBaseServiceParams extends IBaseParams {
  */
 export default class BaseService extends BaseClass {
   protected _baseServiceParams;
+  /**
+   *
+   * @param baseServiceParams base service params
+   * @param className the name of the class that is extending the BaseService
+   * @param configKeys they keys for any configurations that will be needed
+   */
   constructor(
     baseServiceParams: IBaseServiceParams,
     className: string,
