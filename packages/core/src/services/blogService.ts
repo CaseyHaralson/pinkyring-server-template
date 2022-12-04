@@ -4,6 +4,7 @@ import Principal from '../interfaces/IPrincipal';
 import IBlogRepository from '../interfaces/IBlogRepository';
 import BaseService, {IBaseServiceParams} from './baseService';
 
+/** Exposes blog functions for the project. */
 export default class BlogService extends BaseService {
   private _blogRepository;
   constructor(
@@ -14,6 +15,12 @@ export default class BlogService extends BaseService {
     this._blogRepository = blogRepository;
   }
 
+  /**
+   * Gets blog posts based on the filters.
+   * @param principal the current security principal
+   * @param param1
+   * @returns a list of blog posts that match the filters
+   */
   async getBlogPosts(principal: Principal, {ids}: {ids?: string[]}) {
     return await this.session(principal, async () => {
       this._logger.info('entering the get blog posts function');
@@ -24,6 +31,12 @@ export default class BlogService extends BaseService {
     });
   }
 
+  /**
+   * Gets blog authors based on the filters.
+   * @param principal the current security principal
+   * @param param1
+   * @returns a list of authors that match the filters
+   */
   async getAuthors(principal: Principal, {ids}: {ids?: string[]}) {
     return await this.session(principal, async () => {
       this._logger.info('entering the get authors function');
@@ -34,6 +47,13 @@ export default class BlogService extends BaseService {
     });
   }
 
+  /**
+   * Add an author.
+   * @param principal the current security principal
+   * @param requestId an id to make sure the request is handled idempotently
+   * @param author the author data
+   * @returns the author
+   */
   async addAuthor(principal: Principal, requestId: string, author: Author) {
     return await this.session(principal, async () => {
       this._logger.info('entering the add author function');
@@ -47,6 +67,13 @@ export default class BlogService extends BaseService {
     });
   }
 
+  /**
+   * Add a blog post. Also publishes the event if any other services are interested.
+   * @param principal the current security principal
+   * @param requestId an id to make sure the request is handled idempotently
+   * @param blogPost the blog post data
+   * @returns the blog post
+   */
   async addBlogPost(
     principal: Principal,
     requestId: string,
@@ -85,6 +112,13 @@ export default class BlogService extends BaseService {
     });
   }
 
+  /**
+   * Updates a blog post.
+   * @param principal the current security principal
+   * @param requestId an id to make sure the request is handled idempotently
+   * @param blogPost the updated blog post data
+   * @returns the blog post
+   */
   async updateBlogPost(
     principal: Principal,
     requestId: string,

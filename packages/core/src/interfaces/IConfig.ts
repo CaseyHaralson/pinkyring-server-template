@@ -11,13 +11,16 @@ export interface ConfigKey {
   loadIntoEnv?: boolean;
 }
 
+/** A repository where secret configurations can be retrieved */
 export interface ISecretRepository {
   getSecret(key: string): string | undefined;
 }
 
+/** A configuration file reader */
 export interface IConfigFileReader {
   getValue(key: string): string | undefined;
   addValueToEnv(key: string): void;
 }
 
+/** The config key prefix for retrieving data from the project package.json file */
 export const CONFIGKEYNAME_PROJECTDATA_PREFIX = 'PROJECTDATA.';

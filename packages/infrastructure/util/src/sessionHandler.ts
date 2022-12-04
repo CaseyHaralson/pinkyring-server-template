@@ -1,10 +1,12 @@
 import Principal from '@pinkyring/core/interfaces/IPrincipal';
-import ISessionHandler, {Session} from '@pinkyring/core/interfaces/ISession';
+import ISessionHandler, {
+  SessionData,
+} from '@pinkyring/core/interfaces/ISession';
 import {createNamespace, getNamespace, Namespace} from 'cls-hooked';
 import {v4 as uuidv4} from 'uuid';
 
 const NAMESPACE_NAME = 'pinkyring.session';
-const SESSION_VALUES = 'values';
+const SESSION_DATA = 'session.data';
 
 // can't extend the BaseClass because one of the the base class parameters needs this as a parameter
 export default class SessionHandler implements ISessionHandler {
@@ -17,10 +19,10 @@ export default class SessionHandler implements ISessionHandler {
       return func();
     } else {
       return namespace.runPromise(async () => {
-        namespace.set(SESSION_VALUES, {
+        namespace.set(SESSION_DATA, {
           sessionId: uuidv4(),
           principal: principal,
-        } as Session);
+        } as SessionData);
 
         return await func();
       });
@@ -36,13 +38,13 @@ export default class SessionHandler implements ISessionHandler {
   }
 
   private sessionExists(namespace: Namespace) {
-    const values = namespace.get(SESSION_VALUES);
-    if (values !== undefined) return true;
+    const data = namespace.get(SESSION_DATA);
+    if (data !== undefined) return true;
     return false;
   }
 
-  getSession(): Session {
+  getSessionData(): SessionData {
     const namespace = getNamespace(NAMESPACE_NAME);
-    return namespace?.get(SESSION_VALUES) as Session;
+    return namespace?.get(SESSION_DATA) as SessionData;
   }
 }

@@ -7,6 +7,7 @@ export enum LogLevel {
   DEBUG = 3,
 }
 
+/** A class that want's to use the logger should implement this interface */
 export interface ILoggableClass {
   className(): string;
 }
@@ -15,6 +16,7 @@ export interface ILogHandler {
   log(level: LogLevel, context: LogContext, message: string): void;
 }
 
+/** Data the logger can use to generate logs with context */
 export interface LogContext {
   sessionId: string;
   principal: Principal;

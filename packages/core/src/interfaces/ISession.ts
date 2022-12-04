@@ -5,10 +5,11 @@ export default interface ISessionHandler {
     principal: Principal,
     func: () => Promise<T>
   ): Promise<T>;
-  getSession(): Session;
+  getSessionData(): SessionData;
 }
 
-export interface Session {
+/** Data that can be loaded into the session and retrieved later in the session */
+export interface SessionData {
   sessionId: string;
   principal: Principal;
 }

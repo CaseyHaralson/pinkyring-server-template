@@ -9,7 +9,7 @@ import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver'
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
 /**
- * I expose services and other helpers that allow the external apps to use the core project.
+ * Exposes services and other helpers that allow the external apps to use the core project.
  */
 class Container {
   private _container;

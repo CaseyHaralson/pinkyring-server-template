@@ -35,7 +35,7 @@ export default class PrincipalResolver extends BaseClass {
    * @param machineName
    * @returns
    */
-  resolveMachineAccount(machineName: string) {
+  resolveMachinePrincipal(machineName: string) {
     return {
       identity: {
         id: uuidv4(),
