@@ -14,7 +14,10 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
 
   mysql-adminer:
-    container_name: mysql-adminer
+    container_name: mysql.adminer
+    depends_on:
+      mysql:
+        condition: service_started
     image: adminer
     restart: always
     ports:
@@ -32,7 +35,12 @@ services:
       - rabbitmq:/var/lib/rabbitmq
   
   app-api-graphql:
-    container_name: app-api-graphql
+    container_name: app.api-graphql
+    depends_on:
+      mysql:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
     build:
       context: ./docker
       dockerfile: Dockerfile.app
@@ -45,7 +53,12 @@ services:
       - "localhost:172.17.0.1"
   
   app-api-rest:
-    container_name: app-api-rest
+    container_name: app.api-rest
+    depends_on:
+      mysql:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
     build:
       context: ./docker
       dockerfile: Dockerfile.app
@@ -57,9 +70,14 @@ services:
     extra_hosts:
       - "localhost:172.17.0.1"
   
-  # needs to wait on mysql to startup before running
+  # can start immediately, so needs to wait on mysql to startup before running
   app-cron-jobs:
-    container_name: app-cron-jobs
+    container_name: app.cron-jobs
+    depends_on:
+      mysql:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
     build:
       context: ./docker
       dockerfile: Dockerfile.app
@@ -70,9 +88,14 @@ services:
       - "localhost:172.17.0.1"
     command: ../../../docker/wait-for.sh mysql:3306 -t 120 -- npm run start
 
-  # needs to wait on rabbitmq to startup before running
+  # starts immediately, so needs to wait on rabbitmq to startup before running
   app-event-handlers:
-    container_name: app-event-handlers
+    container_name: app.event-handlers
+    depends_on:
+      mysql:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
     build:
       context: ./docker
       dockerfile: Dockerfile.app
@@ -84,7 +107,10 @@ services:
     command: ../../../docker/wait-for.sh rabbitmq:5672 -t 120 -- npm run start
   
   prisma:
-    container_name: prisma
+    container_name: prisma.stops-after-running
+    depends_on:
+      mysql:
+        condition: service_started
     build:
       context: ./docker
       dockerfile: Dockerfile.prisma

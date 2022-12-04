@@ -6,6 +6,6 @@ export async function cleanOldIdempotentRequests() {
   const service = container.resolveMaintenanceService();
   const principal = container
     .resolvePrincipalResolver()
-    .resolveMachinePrincipal('cron job');
+    .resolveMachinePrincipal('cron job service');
   await service.cleanOldIdempotentRequests(principal);
 }

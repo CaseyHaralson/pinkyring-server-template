@@ -41,7 +41,12 @@ export default class PrincipalResolver extends BaseClass {
         id: uuidv4(),
         name: machineName,
       },
-      roles: [],
+      roles: [
+        {
+          id: 'some_machine_role_id',
+          name: 'machine_role',
+        },
+      ],
     } as Principal;
   }
 }

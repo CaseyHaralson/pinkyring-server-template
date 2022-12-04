@@ -7,8 +7,9 @@ import {
 import Container from '@pinkyring/di-container/container';
 
 const eventHelper = Container.resolveEventHelper();
-const principal =
-  Container.resolvePrincipalResolver().resolveMachinePrincipal('event handler');
+const principal = Container.resolvePrincipalResolver().resolveMachinePrincipal(
+  'event handler service'
+);
 
 console.log('creating a queue so we can listen for blog post added events');
 const queueName = 'blogPostAddedQ';
