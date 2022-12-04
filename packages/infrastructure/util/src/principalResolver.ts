@@ -1,10 +1,15 @@
 import Principal from '@pinkyring/core/interfaces/IPrincipal';
 import {v4 as uuidv4} from 'uuid';
+import BaseClass, {IBaseParams} from '@pinkyring/core/util/BaseClass';
 
 /**
  * Resolves security principals based on the information defined in the resolve function.
  */
-export default class PrincipalResolver {
+export default class PrincipalResolver extends BaseClass {
+  constructor(baseParams: IBaseParams) {
+    super(baseParams, 'PrincipalResolver');
+  }
+
   /**
    * Define the information necessary to resolve security principals here.
    * The apps that use this resolver can pass in the needed information in return for the security principal.

@@ -15,7 +15,8 @@ export enum Environment {
 
 const CONFIGKEYNAME_ENVIRONMENT = 'NODE_ENV';
 
-/** Helper class to get configuration values for the project from one central location */
+/** Helper class to get configuration values for the project from one central location. */
+// can't extend the BaseClass because the base class needs this object as a parameter
 export default class ConfigHelper {
   private _secretRepository;
   private _configFileReader;

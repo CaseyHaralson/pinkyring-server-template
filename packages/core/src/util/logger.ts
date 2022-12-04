@@ -6,6 +6,7 @@ import {
 } from '../interfaces/ILog';
 import ISessionHandler from '../interfaces/ISession';
 
+// can't extend the BaseClass because the base class needs this object as a parameter
 export default class Logger {
   private _logHandler;
   private _sessionHandler;
