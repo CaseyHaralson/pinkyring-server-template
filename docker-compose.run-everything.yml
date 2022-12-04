@@ -21,11 +21,12 @@ services:
       - 8080:8080
   
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3.11.2-management-alpine
-    hostname: 'persistmydata' #https://stackoverflow.com/questions/41330514/docker-rabbitmq-persistency
+    hostname: 'persistmydata' # https://stackoverflow.com/questions/41330514/docker-rabbitmq-persistency
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 5672:5672     # service endpoint
+      - 15672:15672   # UI endpoint
     volumes:
       - rabbitmq:/var/lib/rabbitmq
   
@@ -39,6 +40,8 @@ services:
     working_dir: /code/packages/apps/api-graphql
     volumes:
       - ./:/code
+    extra_hosts:
+      - "localhost:172.17.0.1"
   
   app-api-rest:
     container_name: app-api-rest
@@ -50,16 +53,34 @@ services:
     working_dir: /code/packages/apps/api-rest
     volumes:
       - ./:/code
+    extra_hosts:
+      - "localhost:172.17.0.1"
   
-  # don't run the chron jobs app because there isn't anything to see
-  # app-cron-jobs:
-  #   container_name: app-cron-jobs
-  #   build:
-  #     context: ./docker
-  #     dockerfile: Dockerfile.app
-  #   working_dir: /code/packages/apps/cron-jobs
-  #   volumes:
-  #     - ./:/code
+  # needs to wait on mysql to startup before running
+  app-cron-jobs:
+    container_name: app-cron-jobs
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.app
+    working_dir: /code/packages/apps/cron-jobs
+    volumes:
+      - ./:/code
+    extra_hosts:
+      - "localhost:172.17.0.1"
+    command: ../../../docker/wait-for.sh mysql:3306 -t 120 -- npm run start
+
+  # needs to wait on rabbitmq to startup before running
+  app-event-handlers:
+    container_name: app-event-handlers
+    build:
+      context: ./docker
+      dockerfile: Dockerfile.app
+    working_dir: /code/packages/apps/event-handlers
+    volumes:
+      - ./:/code
+    extra_hosts:
+      - "localhost:172.17.0.1"
+    command: ../../../docker/wait-for.sh rabbitmq:5672 -t 120 -- npm run start
   
   prisma:
     container_name: prisma
@@ -69,6 +90,8 @@ services:
     working_dir: /code
     volumes:
       - ./:/code
+    extra_hosts:
+      - "localhost:172.17.0.1"
     environment:
       MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL}
 

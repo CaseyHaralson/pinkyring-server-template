@@ -13,6 +13,7 @@ export default class MaintenanceService extends BaseService {
    */
   async cleanOldIdempotentRequests(principal: Principal) {
     await this.session(principal, async () => {
+      this._logger.info('entering the clean old idempotent requests function');
       await this._baseServiceParams.idempotentRequestHelper.cleanOldIdempotentRequests();
     });
   }
