@@ -31,14 +31,20 @@ app.get('/authors', async (req, res) => {
   res.send(await service.getAuthors(principal, {}));
 });
 
-app.get('/blogPosts', async (req, res) => {
+app.get('/blogposts', async (req, res) => {
   const service = container.resolveBlogService();
   const principal = container.resolvePrincipalResolver().resolve();
   res.send(await service.getBlogPosts(principal, {}));
 });
 
 app.post('/event/queue/new', async (req, res) => {
-  const newQueueName = req.body.name;
+  const newQueueName = req.body.name || req.query.name;
+  if (newQueueName === undefined) {
+    res.status(400).send({
+      message: `the queue name wasn't set`,
+    });
+  }
+
   const eventHelper = container.resolveEventHelper();
   res.send(
     await eventHelper.createQueue(
@@ -49,8 +55,14 @@ app.post('/event/queue/new', async (req, res) => {
   );
 });
 
-app.post('/event/:queueName/grab', async (req, res) => {
-  const queueName = req.params.queueName;
+app.post('/event/:queuename/grab', async (req, res) => {
+  const queueName = req.params.queuename;
+  if (queueName === undefined) {
+    res.status(400).send({
+      message: `the queue name wasn't set`,
+    });
+  }
+
   const eventHelper = container.resolveEventHelper();
   const numEventsInQueue = await eventHelper.getNumEventsInQueue(queueName);
   const event = await eventHelper.getEventFromQueue(queueName);
@@ -60,44 +72,6 @@ app.post('/event/:queueName/grab', async (req, res) => {
     event: event,
   });
 });
-
-// app.get('/test', (req, res) => {
-//   const service = container.resolveTestService();
-//   res.send(
-//     'trying to test the service: ' + service.test('a message from the api')
-//   );
-// });
-
-// app.get('/test2', (req, res) => {
-//   const service = container.resolveTestService();
-//   res.send(service.getData());
-// });
-
-// app.get('/todo', async (req, res) => {
-//   const searchText = req.query.searchText;
-//   const service = container.resolveTodoService();
-//   res.send(await service.getTodos(searchText as string));
-// });
-
-// app.post('/todo/create', async (req, res) => {
-//   const service = container.resolveTodoService();
-//   res.send(await service.createTodo(req.body));
-// });
-
-// app.post('/todo/update', async (req, res) => {
-//   const service = container.resolveTodoService();
-//   res.send(await service.updateTodo(req.body));
-// });
-
-// app.post('/todo/markComplete', async (req, res) => {
-//   const service = container.resolveTodoService();
-//   res.send(await service.markTodoCompleted(req.body));
-// });
-
-// app.post('/todo/:id/delete', async (req, res) => {
-//   const service = container.resolveTodoService();
-//   res.send(await service.deleteTodo(req.params.id));
-// });
 
 app.listen(port, () => {
   console.log(`express app listening on port ${port}`);

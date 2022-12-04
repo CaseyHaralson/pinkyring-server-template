@@ -48,7 +48,7 @@ export default class EventRepository
     await channel.assertQueue(queueName, {durable: DURABLE});
 
     if (busName) {
-      await channel.assertExchange(EVENT_BUS_NAME, 'topic', {
+      await channel.assertExchange(busName, 'topic', {
         durable: DURABLE,
       });
 

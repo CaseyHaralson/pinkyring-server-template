@@ -69,8 +69,20 @@ Note: you will need docker installed.
 After docker has everything running, you should have access to the following services:
 
 - Graphql Server: http://localhost:4000/graphql
+  - create a new blog post here to trigger events
 - Rest Server:
-  - sdf
+  - Hello world: http://localhost:3000/
+  - Get authors: http://localhost:3000/authors
+  - Get blog posts: http://localhost:3000/blogposts
+  - Several event endpoints (probably not as useful as the true event listener below)
+    - Create a queue to listen to new blog post events from graphql
+      - Post to: http://localhost:3000/event/queue/new
+      - with "name" as a query param or in the body (name=new.queue)
+    - Pick up an event from the queue you just created
+      - Post to: http://localhost:3000/event/:queuename/grab
+      - this is a post request because it changes the system
+- An event listener that is triggered from new blog post events from graphql
+  - Open the running docker container and look at the logs to see the event action
 
 ## Development Mode
 
