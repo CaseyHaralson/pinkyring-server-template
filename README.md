@@ -48,7 +48,7 @@ The **apps packages** expose the functionality of the project. These are things 
 
 ## Getting Started
 
-Note: you will need docker installed.
+Note: you will need docker installed and running.
 
 ### Run Everything Locally
 
@@ -69,7 +69,8 @@ Note: you will need docker installed.
 After docker has everything running, you should have access to the following services:
 
 - Graphql Server: http://localhost:4000/graphql
-  - create a new blog post here to trigger events
+  - queries and mutations
+  - note: create a new blog post here to trigger events
 - Rest Server:
   - Hello world: http://localhost:3000/
   - Get authors: http://localhost:3000/authors

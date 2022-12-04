@@ -64,8 +64,10 @@ function returnGenerated(variable) {
 }
 
 function generatePassword() {
+  // unsafe chars:
+  // #@ (in mysql/prisma)
   const chars =
-    '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    '0123456789abcdefghijklmnopqrstuvwxyz!$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const passwordLength = 12;
 
   let password = '';
