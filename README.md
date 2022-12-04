@@ -83,6 +83,8 @@ After docker has everything running, you should have access to the following ser
       - this is a post request because it changes the system
 - An event listener that is triggered from new blog post events from graphql
   - Open the running docker container and look at the logs to see the event action
+- A cron service
+  - Open the running docker container and look at the logs to see the action
 
 ## Development Mode
 

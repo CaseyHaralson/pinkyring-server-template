@@ -21,11 +21,13 @@ services:
       - 8080:8080
   
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3.11.2-management-alpine
-    hostname: 'persistmydata' #https://stackoverflow.com/questions/41330514/docker-rabbitmq-persistency
+    restart: always
+    hostname: 'persistmydata' # https://stackoverflow.com/questions/41330514/docker-rabbitmq-persistency
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 5672:5672     # service endpoint
+      - 15672:15672   # management interface
     volumes:
       - rabbitmq:/var/lib/rabbitmq
 
