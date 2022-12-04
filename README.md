@@ -89,7 +89,38 @@ After docker has everything running, you should have access to the following ser
 
 ## Development Mode
 
-- will need to run prisma generate locally to make sure it matches the environment
+Note: you will need docker installed and running.
+
+### Setup
+
+1. Install dependencies:
+
+`npm install`
+
+2. Build project:
+
+`npm run build`
+
+3. Create the local .env file:
+
+`npm run generate:env`
+
+4. Run the infrastructure:
+
+`npm run infra`
+
+5. Generate database stuff:
+    1. Generate prisma client locally (to make sure it matches your environment): `npm run prisma:generate`
+    2. Deploy the database schema: `npm run prisma:deploy`
+    3. Seed the database: `npm run prisma:seed`
+
+6. Navigate to one of the apps packages (packages/apps/api-graphql for example) and then run start:
+
+`npm run start`
+
+### Making Changes
+
+
 
 Notes for later:
 

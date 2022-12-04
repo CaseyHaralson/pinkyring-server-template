@@ -50,7 +50,7 @@ services:
     volumes:
       - ./:/code
     extra_hosts:
-      - "localhost:172.17.0.1"
+      - "localhost:172.17.0.1"  # lets the docker containers connect to infra via localhost like running from outside docker
   
   app-api-rest:
     container_name: app.api-rest
@@ -68,9 +68,8 @@ services:
     volumes:
       - ./:/code
     extra_hosts:
-      - "localhost:172.17.0.1"
+      - "localhost:172.17.0.1"  # lets the docker containers connect to infra via localhost like running from outside docker
   
-  # can start immediately, so needs to wait on mysql to startup before running
   app-cron-jobs:
     container_name: app.cron-jobs
     depends_on:
@@ -85,10 +84,10 @@ services:
     volumes:
       - ./:/code
     extra_hosts:
-      - "localhost:172.17.0.1"
+      - "localhost:172.17.0.1"  # lets the docker containers connect to infra via localhost like running from outside docker
+    # can start immediately, so needs to wait on mysql to startup before running
     command: ../../../docker/wait-for.sh mysql:3306 -t 120 -- npm run start
 
-  # starts immediately, so needs to wait on rabbitmq to startup before running
   app-event-handlers:
     container_name: app.event-handlers
     depends_on:
@@ -103,7 +102,8 @@ services:
     volumes:
       - ./:/code
     extra_hosts:
-      - "localhost:172.17.0.1"
+      - "localhost:172.17.0.1"  # lets the docker containers connect to infra via localhost like running from outside docker
+    # starts immediately, so needs to wait on rabbitmq to startup before running
     command: ../../../docker/wait-for.sh rabbitmq:5672 -t 120 -- npm run start
   
   prisma:
@@ -118,7 +118,7 @@ services:
     volumes:
       - ./:/code
     extra_hosts:
-      - "localhost:172.17.0.1"
+      - "localhost:172.17.0.1"  # lets the docker containers connect to infra via localhost like running from outside docker
     environment:
       MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL}
 
