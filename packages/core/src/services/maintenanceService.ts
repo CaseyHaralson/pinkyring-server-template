@@ -1,3 +1,4 @@
+import Principal from '../interfaces/IPrincipal';
 import BaseService, {IBaseServiceParams} from './baseService';
 
 export default class MaintenanceService extends BaseService {
@@ -5,7 +6,9 @@ export default class MaintenanceService extends BaseService {
     super(baseServiceParams, 'MaintenanceService');
   }
 
-  async cleanOldIdempotentRequests() {
-    await this._baseServiceParams.idempotentRequestHelper.cleanOldIdempotentRequests();
+  async cleanOldIdempotentRequests(principal: Principal) {
+    await this.session(principal, async () => {
+      await this._baseServiceParams.idempotentRequestHelper.cleanOldIdempotentRequests();
+    });
   }
 }

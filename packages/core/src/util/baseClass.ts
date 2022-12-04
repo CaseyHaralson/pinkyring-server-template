@@ -8,6 +8,10 @@ export interface IBaseParams {
   configHelper: ConfigHelper;
 }
 
+/**
+ * The base class for any internal classes in the project.
+ * Gives access to a logger, central configurations, and the environment type.
+ */
 export default class BaseClass implements ILoggableClass {
   private _baseParams;
   private _className;

@@ -2,5 +2,8 @@ import container from '@pinkyring/di-container/container';
 
 export async function cleanOldIdempotentRequests() {
   const service = container.resolveMaintenanceService();
-  await service.cleanOldIdempotentRequests();
+  const principal = container
+    .resolvePrincipalResolver()
+    .resolveMachineAccount('cron job');
+  await service.cleanOldIdempotentRequests(principal);
 }

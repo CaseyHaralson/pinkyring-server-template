@@ -1,12 +1,15 @@
 import {PrismaClient} from '@prisma/client';
 import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
 import {PrismaClientKnownRequestError} from '@prisma/client/runtime';
+import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 
 export default class IdempotentRequestRepository
+  extends BaseClass
   implements IIdempotentRequestRepository
 {
   private _prismaClient;
-  constructor(prismaClient: PrismaClient) {
+  constructor(baseParams: IBaseParams, prismaClient: PrismaClient) {
+    super(baseParams, 'IdempotentRequestRepository');
     this._prismaClient = prismaClient;
   }
 

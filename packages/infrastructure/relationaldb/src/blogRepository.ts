@@ -1,10 +1,15 @@
 import IBlogRepository from '@pinkyring/core/interfaces/IBlogRepository';
 import {BlogPost, Author} from '@pinkyring/core/dtos/blogPost';
 import {PrismaClient} from '@prisma/client';
+import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 
-export default class BlogRepository implements IBlogRepository {
+export default class BlogRepository
+  extends BaseClass
+  implements IBlogRepository
+{
   private _prismaClient;
-  constructor(prismaClient: PrismaClient) {
+  constructor(baseParams: IBaseParams, prismaClient: PrismaClient) {
+    super(baseParams, 'BlogRepository');
     this._prismaClient = prismaClient;
   }
   async getBlogPosts({ids}: {ids?: string[] | undefined}): Promise<BlogPost[]> {

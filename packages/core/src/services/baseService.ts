@@ -12,6 +12,10 @@ export interface IBaseServiceParams extends IBaseParams {
   sessionHandler: ISessionHandler;
 }
 
+/**
+ * The base service for all service classes.
+ * Adds several helpful functions and wraps some object calls so the extending services don't have to think about it.
+ */
 export default class BaseService extends BaseClass {
   protected _baseServiceParams;
   constructor(

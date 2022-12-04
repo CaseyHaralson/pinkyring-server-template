@@ -23,4 +23,20 @@ export default class PrincipalResolver {
       ],
     } as Principal;
   }
+
+  /**
+   * Resolves a machine security principal.
+   * Define the information needed to resolve that sort of security principal here.
+   * @param machineName
+   * @returns
+   */
+  resolveMachineAccount(machineName: string) {
+    return {
+      identity: {
+        id: uuidv4(),
+        name: machineName,
+      },
+      roles: [],
+    } as Principal;
+  }
 }
