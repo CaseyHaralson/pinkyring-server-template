@@ -16,6 +16,7 @@ import MaintenanceService from '@pinkyring/core/services/maintenanceService';
 import PrismaClientFactory from '@pinkyring/infrastructure_relationaldb/util/prismaClientFactory';
 import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
 import SessionHandler from '@pinkyring/infrastructure_util/sessionHandler';
+import SubscriptionService from '@pinkyring/core/services/subscriptionService';
 
 export default function loadContainer(container: AwilixContainer) {
   loadConfigHelper(container);
@@ -104,6 +105,7 @@ const loadGenericItems = function (container: AwilixContainer) {
     maintenanceService: asClass(MaintenanceService),
     blogService: asClass(BlogService),
     blogRepository: asClass(BlogRepository),
+    subscriptionService: asClass(SubscriptionService),
   });
 
   container.register({

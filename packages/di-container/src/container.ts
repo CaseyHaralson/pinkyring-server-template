@@ -5,6 +5,7 @@ import ConfigHelper from '@pinkyring/core/util/configHelper';
 import MaintenanceService from '@pinkyring/core/services/maintenanceService';
 import loadContainer from './containerLoader';
 import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
+import SubscriptionService from '@pinkyring/core/services/subscriptionService';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -25,6 +26,10 @@ class Container {
 
   resolveMaintenanceService() {
     return this._container.cradle.maintenanceService as MaintenanceService;
+  }
+
+  resolveSubscriptionService() {
+    return this._container.cradle.subscriptionService as SubscriptionService;
   }
 
   /**
