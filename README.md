@@ -76,13 +76,13 @@ After docker has everything running, you should have access to the following ser
   - Get authors: http://localhost:3000/authors
   - Get blog posts: http://localhost:3000/blogposts
   - Several event endpoints (probably not as useful as the true event listener below)
-    - Create a queue to listen to new blog post events from graphql
+    - Create a queue to listen to new blog post events
       - Post to: http://localhost:3000/event/queue/new
       - with "name" as a query param or in the body (name=new.queue)
     - Pick up an event from the queue you just created
       - Post to: http://localhost:3000/event/:queuename/grab
       - this is a post request because it changes the system
-- An event listener that is triggered from new blog post events from graphql
+- An event listener that is triggered from new blog post events
   - Open the running docker container and look at the logs to see the event action
 - A cron jobs service
   - Open the running docker container and look at the logs to see the action
