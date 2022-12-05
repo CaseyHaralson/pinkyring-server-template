@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Author, BaseObject, BlogPost} from '../dtos/blogPost';
+import {Author, BaseDTO, BlogPost} from '../dtos/blogPost';
 import Principal from '../interfaces/IPrincipal';
 import BlogService from '../services/blogService';
 import {IDataLoader, IDataLoaderConstructable} from './IDataLoader';
@@ -108,7 +108,7 @@ function createDataLoaders(context: IContext) {
 }
 
 /** Helper function to map data-loaded objects back to their source request keys */
-function mapObjectsToKeys<T extends BaseObject>(
+function mapObjectsToKeys<T extends BaseDTO>(
   keys: readonly string[],
   objs: T[]
 ) {

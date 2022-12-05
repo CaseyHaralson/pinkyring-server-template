@@ -60,6 +60,9 @@ export default class BlogService extends BaseService {
 
       // can use principal to authorize request
 
+      // validate the author name is unique
+      // validate<Author>(author, create)
+
       return this.idempotentRequest(principal, 'addAuthor', requestId, () => {
         this._logger.info('calling the repo to add the author');
         return this._blogRepository.addAuthor(author);

@@ -1,7 +1,8 @@
 import IBlogRepository from '@pinkyring/core/interfaces/IBlogRepository';
 import {BlogPost, Author} from '@pinkyring/core/dtos/blogPost';
-import {PrismaClient} from '@prisma/client';
+import {Prisma, PrismaClient} from '@prisma/client';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
+import {PrismaClientKnownRequestError} from '@prisma/client/runtime/index';
 
 export default class BlogRepository
   extends BaseClass
@@ -37,12 +38,20 @@ export default class BlogRepository
   }
 
   async addAuthor(author: Author): Promise<Author> {
-    const dbAuthor = await this._prismaClient.author.create({
-      data: {
-        name: author.name,
-      },
-    });
-    return dbAuthor;
+    try {
+      const dbAuthor = await this._prismaClient.author.create({
+        data: {
+          name: author.name,
+        },
+      });
+      return dbAuthor;
+    } catch (e) {
+      if (e instanceof PrismaClientKnownRequestError) {
+        const error = e as PrismaClientKnownRequestError;
+        console.log(error);
+      }
+      throw e;
+    }
   }
 
   async addBlogPost(blogPost: BlogPost) {
