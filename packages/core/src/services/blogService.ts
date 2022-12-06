@@ -60,8 +60,16 @@ export default class BlogService extends BaseService {
 
       // can use principal to authorize request
 
+      // data validations
+      // authorValidator.validate(author, circumstance = create)
+
+      // repository validations
+      // employee can have plan
       // validate the author name is unique
-      // validate<Author>(author, create)
+      // repo.validate(author, [list of repo validations, like name.unique, ])
+
+      // validation error interface?
+      //
 
       return this.idempotentRequest(principal, 'addAuthor', requestId, () => {
         this._logger.info('calling the repo to add the author');

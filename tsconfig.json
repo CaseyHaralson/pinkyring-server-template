@@ -49,6 +49,9 @@
       "path": "./packages/infrastructure/util"
     },
     {
+      "path": "./packages/infrastructure/validations"
+    },
+    {
       "path": "./packages/tests"
     }
   ],

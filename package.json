@@ -40,7 +40,8 @@
     "@pinkyring/infrastructure_logging": "*",
     "@pinkyring/infrastructure_queue": "*",
     "@pinkyring/infrastructure_relationaldb": "*",
-    "@pinkyring/infrastructure_util": "*"
+    "@pinkyring/infrastructure_util": "*",
+    "@pinkyring/infrastructure_validations": "*"
   },
   "devDependencies": {
     "@pinkyring/tests": "*",
