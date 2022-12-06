@@ -37,6 +37,9 @@
       "path": "./packages/infrastructure/aws/snqs"
     },
     {
+      "path": "./packages/infrastructure/data-validations"
+    },
+    {
       "path": "./packages/infrastructure/logging"
     },
     {
@@ -47,9 +50,6 @@
     },
     {
       "path": "./packages/infrastructure/util"
-    },
-    {
-      "path": "./packages/infrastructure/validations"
     },
     {
       "path": "./packages/tests"

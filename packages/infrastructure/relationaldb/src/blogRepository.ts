@@ -5,7 +5,7 @@ import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {PrismaClientKnownRequestError} from '@prisma/client/runtime/index';
 import {
   isNullish,
-  UndefinedError,
+  UndefinedValueError,
 } from '@pinkyring/core/interfaces/IDataValidator';
 
 export default class BlogRepository
@@ -42,7 +42,7 @@ export default class BlogRepository
   }
 
   async addAuthor(author: Author): Promise<Author> {
-    if (isNullish(author.name)) throw new UndefinedError();
+    if (isNullish(author.name)) throw new UndefinedValueError();
 
     try {
       const dbAuthor = await this._prismaClient.author.create({

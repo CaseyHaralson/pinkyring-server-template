@@ -8,7 +8,7 @@ export interface IDataValidator<T> {
  * Throws an error about a value being undefined or null.
  * Reminds you to run data validation checks before using the value.
  */
-export class UndefinedError extends Error {
+export class UndefinedValueError extends Error {
   constructor() {
     super(
       'A value is null or undefined. Make sure the value is in the data validation checks before trying to use this value.'
