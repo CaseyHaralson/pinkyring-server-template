@@ -1,5 +1,5 @@
 export interface BaseDTO {
-  id: string;
+  id?: string;
 }
 
 export interface BlogPost extends BaseDTO {
@@ -14,5 +14,5 @@ export interface BlogPost extends BaseDTO {
 
 export interface Author extends BaseDTO {
   //id: string;
-  name: string;
+  name?: string;
 }

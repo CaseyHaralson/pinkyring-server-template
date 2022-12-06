@@ -1,54 +1,29 @@
 import {Author} from '@pinkyring/core/dtos/blogPost';
-import {object, string} from 'yup';
+import {object, ObjectSchema, string} from 'yup';
+import {BASE_DATA_ACTIONS, DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
+import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
 
 export default class AuthorDataValidator implements IDataValidator<Author> {
   // test the validation and see what that looks like
-  // and test that you can override the schema depending on circumstance
-  validate(author: Author, circumstance: CIRCUMSTANCE) {
-    const schema = this.getSchema(circumstance);
-    schema.validate(author);
+  validate(author: Author, action?: DATA_ACTION) {
+    const schema: ObjectSchema<Author> = this.getSchema(action);
+    schema.validate(author, {
+      abortEarly: false,
+    });
   }
 
-  private getSchema(circumstance: CIRCUMSTANCE) {
-    const test = {
-      id: string(),
-      name: string(),
+  private getSchema(action?: DATA_ACTION) {
+    const def = {
+      id: string().optional(),
+      name: string().optional(),
     };
 
-    if (circumstance === BASE_CIRCUMSTANCE.CREATE) {
-      test.id = test.id.optional();
-      test.name = test.name.required();
-    } else if (circumstance === BASE_CIRCUMSTANCE.UPDATE) {
-      test.id = test.id.required();
-      test.name = test.name.optional();
+    if (action === BASE_DATA_ACTIONS.CREATE) {
+      def.name = def.name.required();
+    } else if (action === BASE_DATA_ACTIONS.UPDATE) {
+      def.id = def.id.required();
     }
 
-    return object(test);
-  }
-
-  private test() {
-    const author = {
-      name: 'some author',
-    } as Author;
-
-    this.validate(author, BASE_CIRCUMSTANCE.CREATE);
+    return object(def);
   }
 }
-
-// put this in the interfaces
-export interface IDataValidator<T> {
-  validate(t: T, circumstance: CIRCUMSTANCE): void;
-}
-
-// put these in DTOs
-export enum BASE_CIRCUMSTANCE {
-  CREATE = 'BASE_CIRCUMSTANCE.CREATE',
-  UPDATE = 'BASE_CIRCUMSTANCE.UPDATE',
-  DELETE = 'BASE_CIRCUMSTANCE.DELETE',
-}
-
-export enum EXTENDED_CIRCUMSTANCE {
-  SPECIFIC_UPDATE = 'EXTENDED_CIRCUMSTANCE.SPECIFIC_UPDATE',
-}
-
-export type CIRCUMSTANCE = BASE_CIRCUMSTANCE | EXTENDED_CIRCUMSTANCE;

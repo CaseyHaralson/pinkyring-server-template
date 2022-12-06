@@ -1,8 +1,12 @@
 import IBlogRepository from '@pinkyring/core/interfaces/IBlogRepository';
 import {BlogPost, Author} from '@pinkyring/core/dtos/blogPost';
-import {Prisma, PrismaClient} from '@prisma/client';
+import {PrismaClient} from '@prisma/client';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {PrismaClientKnownRequestError} from '@prisma/client/runtime/index';
+import {
+  isNullish,
+  UndefinedError,
+} from '@pinkyring/core/interfaces/IDataValidator';
 
 export default class BlogRepository
   extends BaseClass
@@ -38,6 +42,8 @@ export default class BlogRepository
   }
 
   async addAuthor(author: Author): Promise<Author> {
+    if (isNullish(author.name)) throw new UndefinedError();
+
     try {
       const dbAuthor = await this._prismaClient.author.create({
         data: {

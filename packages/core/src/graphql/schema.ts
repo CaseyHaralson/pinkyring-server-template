@@ -113,7 +113,9 @@ function mapObjectsToKeys<T extends BaseDTO>(
   objs: T[]
 ) {
   const map: {[key: string]: T} = {};
-  objs.forEach((item) => [(map[item.id] = item)]);
+  objs.forEach((item) => {
+    if (item.id) map[item.id] = item;
+  });
 
   return keys.map((key) => map[key]);
 }
