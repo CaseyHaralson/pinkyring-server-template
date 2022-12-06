@@ -1,7 +1,14 @@
 import {DATA_ACTION} from '../dtos/dataActions';
 
+/** Interface for running validations against a type */
 export interface IDataValidator<T> {
-  validate(t: T, action?: DATA_ACTION): void;
+  /**
+   * Validate the type with respect to some data action being performed.
+   * An exception is thrown if the type doesn't pass the validation.
+   * @param t the type to validate
+   * @param action the action that wants to be performed on the type after the validation is performed
+   */
+  validate(t: T, action: DATA_ACTION): void;
 }
 
 /**
@@ -11,7 +18,7 @@ export interface IDataValidator<T> {
 export class UndefinedValueError extends Error {
   constructor() {
     super(
-      'A value is null or undefined. Make sure the value is in the data validation checks before trying to use this value.'
+      'A value is null or undefined. Make sure the value is in the data validation checks and you run validations before trying to use this value.'
     );
   }
 }

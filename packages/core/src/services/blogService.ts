@@ -3,16 +3,21 @@ import {BlogPostAddedEvent, EventType} from '../dtos/events';
 import Principal from '../interfaces/IPrincipal';
 import IBlogRepository from '../interfaces/IBlogRepository';
 import BaseService, {IBaseServiceParams} from './baseService';
+import {IDataValidator} from '../interfaces/IDataValidator';
+import {BASE_DATA_ACTIONS} from '../dtos/dataActions';
 
 /** Exposes blog functions for the project. */
 export default class BlogService extends BaseService {
   private _blogRepository;
+  private _authorDataValidator;
   constructor(
     baseServiceParams: IBaseServiceParams,
-    blogRepository: IBlogRepository
+    blogRepository: IBlogRepository,
+    authorDataValidator: IDataValidator<Author>
   ) {
     super(baseServiceParams, 'BlogService');
     this._blogRepository = blogRepository;
+    this._authorDataValidator = authorDataValidator;
   }
 
   /**
@@ -62,6 +67,7 @@ export default class BlogService extends BaseService {
 
       // data validations
       // authorValidator.validate(author, circumstance = create)
+      this._authorDataValidator.validate(author, BASE_DATA_ACTIONS.CREATE);
 
       // repository validations
       // employee can have plan
