@@ -17,7 +17,8 @@ import PrismaClientFactory from '@pinkyring/infrastructure_relationaldb/util/pri
 import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
 import SessionHandler from '@pinkyring/infrastructure_util/sessionHandler';
 import SubscriptionService from '@pinkyring/core/services/subscriptionService';
-import AuthorDataLoader from '@pinkyring/infrastructure_data-validations/authorDataValidator';
+import AuthorDataValidator from '@pinkyring/infrastructure_data-validations/authorDataValidator';
+import BlogPostDataValidator from '@pinkyring/infrastructure_data-validations/blogPostDataValidator';
 
 export default function loadContainer(container: AwilixContainer) {
   loadConfigHelper(container);
@@ -63,7 +64,7 @@ const loadServerItems = function (container: AwilixContainer) {
 // ====================================
 
 // ====================================
-//        load gerneric items
+//        load generic items
 
 const loadGenericItems = function (container: AwilixContainer) {
   // base class parameters and base service parameters
@@ -107,7 +108,8 @@ const loadGenericItems = function (container: AwilixContainer) {
     blogService: asClass(BlogService),
     blogRepository: asClass(BlogRepository),
     subscriptionService: asClass(SubscriptionService),
-    authorDataValidator: asClass(AuthorDataLoader),
+    authorDataValidator: asClass(AuthorDataValidator),
+    blogPostDataValidator: asClass(BlogPostDataValidator),
   });
 
   container.register({

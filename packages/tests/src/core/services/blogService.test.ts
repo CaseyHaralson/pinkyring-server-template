@@ -10,7 +10,7 @@ import ConfigHelper from '@pinkyring/core/util/configHelper';
 import Principal from '@pinkyring/core/interfaces/IPrincipal';
 import ISessionHandler from '@pinkyring/core/interfaces/ISession';
 import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
-import {Author} from '@pinkyring/core/dtos/blogPost';
+import {Author, BlogPost} from '@pinkyring/core/dtos/blogPost';
 
 describe('blog service unit tests', () => {
   const baseParams = mock<IBaseServiceParams>();
@@ -25,10 +25,12 @@ describe('blog service unit tests', () => {
   baseParams.eventHelper = mock<EventHelper>();
   const blogRepoMock = mock<IBlogRepository>();
   const authorDataValidator = mock<IDataValidator<Author>>();
+  const blogPostDataValidator = mock<IDataValidator<BlogPost>>();
   const blogService = new BlogService(
     baseParams,
     blogRepoMock,
-    authorDataValidator
+    authorDataValidator,
+    blogPostDataValidator
   );
   const principal = mock<Principal>();
 

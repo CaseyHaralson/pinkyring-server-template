@@ -10,14 +10,17 @@ import {BASE_DATA_ACTIONS} from '../dtos/dataActions';
 export default class BlogService extends BaseService {
   private _blogRepository;
   private _authorDataValidator;
+  private _blogPostDataValidator;
   constructor(
     baseServiceParams: IBaseServiceParams,
     blogRepository: IBlogRepository,
-    authorDataValidator: IDataValidator<Author>
+    authorDataValidator: IDataValidator<Author>,
+    blogPostDataValidator: IDataValidator<BlogPost>
   ) {
     super(baseServiceParams, 'BlogService');
     this._blogRepository = blogRepository;
     this._authorDataValidator = authorDataValidator;
+    this._blogPostDataValidator = blogPostDataValidator;
   }
 
   /**
@@ -107,6 +110,11 @@ export default class BlogService extends BaseService {
     return await this.session(principal, async () => {
       this._logger.info('entering the add blog post function');
 
+      await this._blogPostDataValidator.validate(
+        blogPost,
+        BASE_DATA_ACTIONS.CREATE
+      );
+
       // can use principal to authorize request
 
       let blogPostAdded = false;
@@ -151,6 +159,11 @@ export default class BlogService extends BaseService {
   ) {
     return await this.session(principal, async () => {
       this._logger.info('entering the update blog post function');
+
+      await this._blogPostDataValidator.validate(
+        blogPost,
+        BASE_DATA_ACTIONS.UPDATE
+      );
 
       // can use principal to authorize request
 
