@@ -1,4 +1,4 @@
-import {Author, BaseDTO, BlogPost} from '../dtos/blogPost';
+import {Author, BlogPost} from '../dtos/blogPost';
 
 export default interface IBlogRepository {
   getBlogPosts({ids}: {ids?: string[]}): Promise<BlogPost[]>;
@@ -6,10 +6,6 @@ export default interface IBlogRepository {
   addAuthor(author: Author): Promise<Author>;
   addBlogPost(blogPost: BlogPost): Promise<BlogPost>;
   updateBlogPost(blogPost: BlogPost): Promise<BlogPost>;
-}
-
-export interface IValidateData<T extends BaseDTO> {
-  validate(data: T): void;
 }
 
 // validate base object data (int, date, string length, etc)

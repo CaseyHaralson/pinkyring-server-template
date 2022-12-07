@@ -1,5 +1,5 @@
 import {BlogPost} from '@pinkyring/core/dtos/blogPost';
-import {BASE_DATA_ACTIONS, DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
+import {DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
 import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
 import {object, string} from 'yup';
 import BaseDataValidator from './baseDataValidator';
@@ -27,11 +27,11 @@ export default class BlogPostDataValidator
       authorId: string().optional(),
     };
 
-    if (action === BASE_DATA_ACTIONS.CREATE) {
+    if (action === DATA_ACTION.CREATE) {
       def.title = def.title.required();
       def.text = def.text.required();
       def.authorId = def.authorId.required();
-    } else if (action === BASE_DATA_ACTIONS.UPDATE) {
+    } else if (action === DATA_ACTION.UPDATE) {
       def.id = def.id.required();
     }
 

@@ -1,6 +1,6 @@
 import {Author} from '@pinkyring/core/dtos/blogPost';
 import {object, string} from 'yup';
-import {BASE_DATA_ACTIONS, DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
+import {DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
 import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
 import BaseDataValidator from './baseDataValidator';
 
@@ -10,6 +10,7 @@ export default class AuthorDataValidator
 {
   async validate(author: Author, action?: DATA_ACTION) {
     const schema = this.getSchema(action);
+
     await this.throwDataValidationErrorIfInvalid(async () => {
       await schema.validate(author, {
         abortEarly: false,
@@ -25,9 +26,9 @@ export default class AuthorDataValidator
         .optional(),
     };
 
-    if (action === BASE_DATA_ACTIONS.CREATE) {
+    if (action === DATA_ACTION.CREATE) {
       def.name = def.name.required();
-    } else if (action === BASE_DATA_ACTIONS.UPDATE) {
+    } else if (action === DATA_ACTION.UPDATE) {
       def.id = def.id.required();
     }
 

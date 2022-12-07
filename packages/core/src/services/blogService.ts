@@ -4,7 +4,7 @@ import Principal from '../interfaces/IPrincipal';
 import IBlogRepository from '../interfaces/IBlogRepository';
 import BaseService, {IBaseServiceParams} from './baseService';
 import {IDataValidator} from '../interfaces/IDataValidator';
-import {BASE_DATA_ACTIONS} from '../dtos/dataActions';
+import {DATA_ACTION} from '../dtos/dataActions';
 
 /** Exposes blog functions for the project. */
 export default class BlogService extends BaseService {
@@ -66,10 +66,7 @@ export default class BlogService extends BaseService {
     return await this.session(principal, async () => {
       this._logger.info('entering the add author function');
 
-      await this._authorDataValidator.validate(
-        author,
-        BASE_DATA_ACTIONS.CREATE
-      );
+      await this._authorDataValidator.validate(author, DATA_ACTION.CREATE);
 
       // can use principal to authorize request
 
@@ -103,10 +100,7 @@ export default class BlogService extends BaseService {
     return await this.session(principal, async () => {
       this._logger.info('entering the add blog post function');
 
-      await this._blogPostDataValidator.validate(
-        blogPost,
-        BASE_DATA_ACTIONS.CREATE
-      );
+      await this._blogPostDataValidator.validate(blogPost, DATA_ACTION.CREATE);
 
       // can use principal to authorize request
 
@@ -153,10 +147,7 @@ export default class BlogService extends BaseService {
     return await this.session(principal, async () => {
       this._logger.info('entering the update blog post function');
 
-      await this._blogPostDataValidator.validate(
-        blogPost,
-        BASE_DATA_ACTIONS.UPDATE
-      );
+      await this._blogPostDataValidator.validate(blogPost, DATA_ACTION.UPDATE);
 
       // can use principal to authorize request
 

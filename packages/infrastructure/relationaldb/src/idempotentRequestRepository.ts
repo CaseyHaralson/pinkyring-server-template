@@ -2,6 +2,7 @@ import {PrismaClient} from '@prisma/client';
 import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
 import {PrismaClientKnownRequestError} from '@prisma/client/runtime';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
+import {ERROR_CODE} from './util/prismaErrorCodes';
 
 export default class IdempotentRequestRepository
   extends BaseClass
@@ -23,7 +24,7 @@ export default class IdempotentRequestRepository
       return true;
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
-        return false;
+        if (e.code === ERROR_CODE.UNIQUE_CONSTRAINT) return false;
       }
       throw e;
     }
