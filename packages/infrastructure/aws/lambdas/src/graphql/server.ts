@@ -3,6 +3,7 @@ import {startServerAndCreateLambdaHandler} from '@as-integrations/aws-lambda';
 import {IContext, resolvers, typeDefs} from '@pinkyring/core/graphql/schema';
 import container from '@pinkyring/di-container/container';
 import DataLoader from 'dataloader';
+import {GraphQLError} from 'graphql';
 
 const server = new ApolloServer<IContext>({
   typeDefs,
@@ -18,6 +19,7 @@ export const graphqlHandler = startServerAndCreateLambdaHandler(server, {
       principal: principal,
       blogService: container.resolveBlogService(),
       dataLoaderConstructable: DataLoader,
+      knownErrorConstructable: GraphQLError,
     } as IContext;
   },
 });

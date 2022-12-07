@@ -3,6 +3,7 @@ import {createServer} from 'node:http';
 import {typeDefs, resolvers, IContext} from '@pinkyring/core/graphql/schema';
 import container from '@pinkyring/di-container/container';
 import DataLoader from 'dataloader';
+import {GraphQLError} from 'graphql';
 
 // ======================================
 // Get configurations
@@ -33,6 +34,7 @@ const yoga = createYoga({
       principal: principal,
       blogService: container.resolveBlogService(),
       dataLoaderConstructable: DataLoader,
+      knownErrorConstructable: GraphQLError,
     } as IContext;
   },
 });

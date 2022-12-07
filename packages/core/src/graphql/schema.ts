@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Author, BaseDTO, BlogPost} from '../dtos/blogPost';
+import {DataValidationError} from '../dtos/dataValidationError';
 import Principal from '../interfaces/IPrincipal';
 import BlogService from '../services/blogService';
 import {IDataLoader, IDataLoaderConstructable} from './IDataLoader';
@@ -42,11 +43,16 @@ export const typeDefs = `#graphql
   }
 `;
 
+export interface IKnownErrorConstructable {
+  new (message: string): void;
+}
+
 /** Context object that should be loaded and injected into the resolver functions. */
 export interface IContext {
   principal: Principal;
   blogService: BlogService;
   dataLoaderConstructable: IDataLoaderConstructable;
+  knownErrorConstructable: IKnownErrorConstructable;
   authorDataLoader?: IDataLoader<string, Author>;
 }
 
@@ -67,12 +73,19 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addAuthor(_: any, args: any, context: IContext, info: any) {
-      return context.blogService.addAuthor(
-        context.principal,
-        args.requestId,
-        args
-      );
+    async addAuthor(_: any, args: any, context: IContext, info: any) {
+      try {
+        return await context.blogService.addAuthor(
+          context.principal,
+          args.requestId,
+          args
+        );
+      } catch (e) {
+        if (e instanceof DataValidationError) {
+          throw new context.knownErrorConstructable(e.message);
+        }
+        throw e;
+      }
     },
     async addBlogPost(_: any, args: any, context: IContext, info: any) {
       return await context.blogService.addBlogPost(
