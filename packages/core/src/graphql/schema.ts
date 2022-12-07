@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Author, BaseDTO, BlogPost} from '../dtos/blogPost';
-import {DataValidationError} from '../dtos/dataValidationError';
-import Principal from '../interfaces/IPrincipal';
-import BlogService from '../services/blogService';
-import {IDataLoader, IDataLoaderConstructable} from './IDataLoader';
+import {BlogPost} from '../dtos/blogPost';
+import {IContext} from './IContext';
+import {createDataLoaders} from './IDataLoader';
+import {throwKnownErrors} from './IKnownErrorConstructable';
 
 /** The project graphql type definitions */
 export const typeDefs = `#graphql
@@ -43,19 +42,6 @@ export const typeDefs = `#graphql
   }
 `;
 
-export interface IKnownErrorConstructable {
-  new (message: string): void;
-}
-
-/** Context object that should be loaded and injected into the resolver functions. */
-export interface IContext {
-  principal: Principal;
-  blogService: BlogService;
-  dataLoaderConstructable: IDataLoaderConstructable;
-  knownErrorConstructable: IKnownErrorConstructable;
-  authorDataLoader?: IDataLoader<string, Author>;
-}
-
 /** The project graphql data resolvers */
 export const resolvers = {
   Query: {
@@ -74,61 +60,31 @@ export const resolvers = {
   },
   Mutation: {
     async addAuthor(_: any, args: any, context: IContext, info: any) {
-      try {
+      return await throwKnownErrors(context, async () => {
         return await context.blogService.addAuthor(
           context.principal,
           args.requestId,
           args
         );
-      } catch (e) {
-        if (e instanceof DataValidationError) {
-          throw new context.knownErrorConstructable(e.message);
-        }
-        throw e;
-      }
+      });
     },
     async addBlogPost(_: any, args: any, context: IContext, info: any) {
-      return await context.blogService.addBlogPost(
-        context.principal,
-        args.requestId,
-        args
-      );
+      return await throwKnownErrors(context, async () => {
+        return await context.blogService.addBlogPost(
+          context.principal,
+          args.requestId,
+          args
+        );
+      });
     },
     async updateBlogPost(_: any, args: any, context: IContext, info: any) {
-      return await context.blogService.updateBlogPost(
-        context.principal,
-        args.requestId,
-        args
-      );
+      return await throwKnownErrors(context, async () => {
+        return await context.blogService.updateBlogPost(
+          context.principal,
+          args.requestId,
+          args
+        );
+      });
     },
   },
 };
-
-/** Make sure the data loaders in the context are created before they are used */
-function createDataLoaders(context: IContext) {
-  if (context.authorDataLoader === undefined) {
-    context.authorDataLoader = new context.dataLoaderConstructable<
-      string,
-      Author
-    >(async (keys) => {
-      const authors = await context.blogService.getAuthors(context.principal, {
-        ids: keys as string[],
-      });
-
-      return mapObjectsToKeys(keys, authors);
-    });
-  }
-}
-
-/** Helper function to map data-loaded objects back to their source request keys */
-function mapObjectsToKeys<T extends BaseDTO>(
-  keys: readonly string[],
-  objs: T[]
-) {
-  const map: {[key: string]: T} = {};
-  objs.forEach((item) => {
-    map[item.id] = item;
-  });
-
-  return keys.map((key) => map[key]);
-}
