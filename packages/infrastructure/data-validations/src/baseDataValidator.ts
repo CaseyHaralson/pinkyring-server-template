@@ -1,4 +1,4 @@
-import {DataValidationError} from '@pinkyring/core/interfaces/IDataValidator';
+import {DataValidationError} from '@pinkyring/core/dtos/dataValidationError';
 import {ValidationError} from 'yup';
 
 export default class BaseDataValidator {

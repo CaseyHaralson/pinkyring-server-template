@@ -29,14 +29,3 @@ export function isNullish<T>(
 ): value is undefined | null {
   return <T>value === undefined && <T>value === null;
 }
-
-/** The error type that will be thrown when data doesn't pass their validations. */
-export class DataValidationError extends Error {
-  errors;
-  constructor(errors: string[]) {
-    const message = errors.join('; ');
-    super(message);
-    this.errors = errors;
-    this.name = 'DataValidationError';
-  }
-}

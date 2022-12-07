@@ -3,7 +3,7 @@ import {BlogPost, Author} from '@pinkyring/core/dtos/blogPost';
 import {PrismaClient} from '@prisma/client';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {PrismaClientKnownRequestError} from '@prisma/client/runtime/index';
-import {DataValidationError} from '@pinkyring/core/interfaces/IDataValidator';
+import {DataValidationError} from '@pinkyring/core/dtos/dataValidationError';
 import {ERROR_CODE} from './util/prismaErrorCodes';
 
 export default class BlogRepository
