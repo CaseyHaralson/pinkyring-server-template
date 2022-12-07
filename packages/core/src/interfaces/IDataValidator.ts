@@ -4,11 +4,11 @@ import {DATA_ACTION} from '../dtos/dataActions';
 export interface IDataValidator<T> {
   /**
    * Validate the type with respect to some data action being performed.
-   * An exception is thrown if the type doesn't pass the validation.
+   * An error of type DataValidationError is thrown if the type doesn't pass the validation.
    * @param t the type to validate
    * @param action the action that wants to be performed on the type after the validation is performed
    */
-  validate(t: T, action: DATA_ACTION): void;
+  validate(t: T, action: DATA_ACTION): Promise<void>;
 }
 
 /**
@@ -28,4 +28,15 @@ export function isNullish<T>(
   value: T | undefined | null
 ): value is undefined | null {
   return <T>value === undefined && <T>value === null;
+}
+
+/** The error type that will be thrown when data doesn't pass their validations. */
+export class DataValidationError extends Error {
+  errors;
+  constructor(errors: string[]) {
+    const message = errors.join('; ');
+    super(message);
+    this.errors = errors;
+    this.name = 'DataValidationError';
+  }
 }

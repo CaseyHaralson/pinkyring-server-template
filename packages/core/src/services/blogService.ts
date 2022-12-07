@@ -67,7 +67,15 @@ export default class BlogService extends BaseService {
 
       // data validations
       // authorValidator.validate(author, circumstance = create)
-      this._authorDataValidator.validate(author, BASE_DATA_ACTIONS.CREATE);
+      // try {
+      await this._authorDataValidator.validate(
+        author,
+        BASE_DATA_ACTIONS.CREATE
+      );
+      // } catch (e) {
+      //   console.log(e);
+      //   throw e;
+      // }
 
       // repository validations
       // employee can have plan

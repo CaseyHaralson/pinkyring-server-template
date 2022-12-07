@@ -1,21 +1,32 @@
 import {Author} from '@pinkyring/core/dtos/blogPost';
-import {object, ObjectSchema, string} from 'yup';
+import {object, ObjectSchema, string, ValidationError} from 'yup';
 import {BASE_DATA_ACTIONS, DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
-import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
+import {
+  DataValidationError,
+  IDataValidator,
+} from '@pinkyring/core/interfaces/IDataValidator';
+import BaseDataValidator from './baseDataValidator';
 
-export default class AuthorDataValidator implements IDataValidator<Author> {
-  // test the validation and see what that looks like
-  validate(author: Author, action?: DATA_ACTION) {
+export default class AuthorDataValidator
+  extends BaseDataValidator
+  implements IDataValidator<Author>
+{
+  async validate(author: Author, action?: DATA_ACTION) {
     const schema: ObjectSchema<Author> = this.getSchema(action);
-    schema.validate(author, {
-      abortEarly: false,
+    await this.throwDataValidationErrorIfInvalid(async () => {
+      await schema.validate(author, {
+        abortEarly: false,
+      });
     });
   }
 
-  private getSchema(action?: DATA_ACTION) {
+  public getSchema(action?: DATA_ACTION) {
     const def = {
       id: string().optional(),
-      name: string().optional(),
+      name: string()
+        .min(1, `the author name can't be blank`)
+        .max(191, 'the author name must be shorter than 192 characters')
+        .optional(),
     };
 
     if (action === BASE_DATA_ACTIONS.CREATE) {
