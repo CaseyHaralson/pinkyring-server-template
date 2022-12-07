@@ -66,19 +66,12 @@ export default class BlogService extends BaseService {
     return await this.session(principal, async () => {
       this._logger.info('entering the add author function');
 
-      // can use principal to authorize request
-
-      // data validations
-      // authorValidator.validate(author, circumstance = create)
-      // try {
       await this._authorDataValidator.validate(
         author,
         BASE_DATA_ACTIONS.CREATE
       );
-      // } catch (e) {
-      //   console.log(e);
-      //   throw e;
-      // }
+
+      // can use principal to authorize request
 
       // repository validations
       // employee can have plan

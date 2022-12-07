@@ -1,14 +1,14 @@
 import {DATA_ACTION} from '../dtos/dataActions';
 
-/** Interface for running validations against a type */
+/** Interface for running validations against data */
 export interface IDataValidator<T> {
   /**
-   * Validate the type with respect to some data action being performed.
-   * An error of type DataValidationError is thrown if the type doesn't pass the validation.
-   * @param t the type to validate
-   * @param action the action that wants to be performed on the type after the validation is performed
+   * Validate the data with respect to some action being performed.
+   * An error of type DataValidationError is thrown if the data doesn't pass the validation.
+   * @param data the data to validate
+   * @param action the action that wants to be performed on the data after the validation is performed
    */
-  validate(t: T, action: DATA_ACTION): Promise<void>;
+  validate(data: T, action: DATA_ACTION): Promise<void>;
 }
 
 /**

@@ -17,7 +17,7 @@ export default class PrincipalResolver extends BaseClass {
   resolve() {
     return {
       identity: {
-        id: uuidv4(),
+        id: 'some_identity_id',
         name: 'some_identity_name',
       },
       roles: [
