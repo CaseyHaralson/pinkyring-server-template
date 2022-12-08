@@ -49,8 +49,9 @@ services:
     working_dir: /code/packages/apps/api-graphql
     volumes:
       - ./:/code
-    extra_hosts:
-      - "localhost:172.17.0.1"  # lets the docker containers connect to infra via localhost like running from outside docker
+    environment:
+      MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL_DOCKER}
+      RABBITMQ_URL: ${RABBITMQ_URL_DOCKER}
   
   app-api-rest:
     container_name: app.api-rest
@@ -67,8 +68,9 @@ services:
     working_dir: /code/packages/apps/api-rest
     volumes:
       - ./:/code
-    extra_hosts:
-      - "localhost:172.17.0.1"  # lets the docker containers connect to infra via localhost like running from outside docker
+    environment:
+      MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL_DOCKER}
+      RABBITMQ_URL: ${RABBITMQ_URL_DOCKER}
   
   app-cron-jobs:
     container_name: app.cron-jobs
@@ -83,8 +85,9 @@ services:
     working_dir: /code/packages/apps/cron-jobs
     volumes:
       - ./:/code
-    extra_hosts:
-      - "localhost:172.17.0.1"  # lets the docker containers connect to infra via localhost like running from outside docker
+    environment:
+      MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL_DOCKER}
+      RABBITMQ_URL: ${RABBITMQ_URL_DOCKER}
     # can start immediately, so needs to wait on mysql to startup before running
     command: ../../../docker/wait-for.sh mysql:3306 -t 120 -- npm run start
 
@@ -101,8 +104,9 @@ services:
     working_dir: /code/packages/apps/event-handlers
     volumes:
       - ./:/code
-    extra_hosts:
-      - "localhost:172.17.0.1"  # lets the docker containers connect to infra via localhost like running from outside docker
+    environment:
+      MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL_DOCKER}
+      RABBITMQ_URL: ${RABBITMQ_URL_DOCKER}
     # starts immediately, so needs to wait on rabbitmq to startup before running
     command: ../../../docker/wait-for.sh rabbitmq:5672 -t 120 -- npm run start
   
@@ -117,10 +121,8 @@ services:
     working_dir: /code
     volumes:
       - ./:/code
-    extra_hosts:
-      - "localhost:172.17.0.1"  # lets the docker containers connect to infra via localhost like running from outside docker
     environment:
-      MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL}
+      MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL_DOCKER}
 
 volumes:
   mysql:

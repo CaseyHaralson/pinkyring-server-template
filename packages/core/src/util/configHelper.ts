@@ -89,6 +89,10 @@ export default class ConfigHelper {
   /**
    * Gets the configuration by key.
    * The key must be registered before it can be retrieved.
+   *
+   * If the key is registered as secret, then the value will only be retrieved from the secret repo.
+   * Else, the value is retrieved from the environment first, then from the .env file.
+   *
    * @param keyName the key that needs to retrieved
    * @returns the value found in the configuration source
    */
