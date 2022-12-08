@@ -1,3 +1,0 @@
-export enum ERROR_CODE {
-  UNIQUE_CONSTRAINT = 'P2002',
-}

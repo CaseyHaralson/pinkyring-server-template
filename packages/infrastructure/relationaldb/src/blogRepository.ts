@@ -2,9 +2,7 @@ import IBlogRepository from '@pinkyring/core/interfaces/IBlogRepository';
 import {BlogPost, Author} from '@pinkyring/core/dtos/blogPost';
 import {PrismaClient} from '@prisma/client';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
-import {PrismaClientKnownRequestError} from '@prisma/client/runtime/index';
-import {DataValidationError} from '@pinkyring/core/dtos/dataValidationError';
-import {ERROR_CODE} from './util/prismaErrorCodes';
+import {throwDataValidationErrors} from './util/prismaErrors';
 
 export default class BlogRepository
   extends BaseClass
@@ -40,24 +38,18 @@ export default class BlogRepository
   }
 
   async addAuthor(author: Author): Promise<Author> {
-    try {
+    return await throwDataValidationErrors(async () => {
       const dbAuthor = await this._prismaClient.author.create({
         data: {
           name: author.name,
         },
       });
       return dbAuthor;
-    } catch (e) {
-      if (e instanceof PrismaClientKnownRequestError) {
-        if (e.code === ERROR_CODE.UNIQUE_CONSTRAINT)
-          uniqueConstraintError(e.meta?.target as string);
-      }
-      throw e;
-    }
+    });
   }
 
   async addBlogPost(blogPost: BlogPost) {
-    try {
+    return await throwDataValidationErrors(async () => {
       const dbBlogPost = await this._prismaClient.blogPost.create({
         data: {
           authorId: blogPost.authorId,
@@ -66,17 +58,11 @@ export default class BlogRepository
         },
       });
       return dbBlogPost;
-    } catch (e) {
-      if (e instanceof PrismaClientKnownRequestError) {
-        if (e.code === ERROR_CODE.UNIQUE_CONSTRAINT)
-          uniqueConstraintError(e.meta?.target as string);
-      }
-      throw e;
-    }
+    });
   }
 
   async updateBlogPost(blogPost: BlogPost) {
-    try {
+    return await throwDataValidationErrors(async () => {
       const dbBlogPost = await this._prismaClient.blogPost.update({
         where: {
           id: blogPost.id,
@@ -87,23 +73,6 @@ export default class BlogRepository
         },
       });
       return dbBlogPost;
-    } catch (e) {
-      if (e instanceof PrismaClientKnownRequestError) {
-        if (e.code === ERROR_CODE.UNIQUE_CONSTRAINT)
-          uniqueConstraintError(e.meta?.target as string);
-      }
-      throw e;
-    }
-  }
-}
-
-function uniqueConstraintError(target: string) {
-  if (target === 'Author_name_key') {
-    throw new DataValidationError([`the author name must be unique`]);
-  }
-  if (target === 'BlogPost_authorId_title_key') {
-    throw new DataValidationError([
-      `the blog post title must be unique per author`,
-    ]);
+    });
   }
 }

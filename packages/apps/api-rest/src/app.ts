@@ -81,7 +81,7 @@ app.post('/event/:queuename/grab', async (req, res) => {
 });
 
 /** Handle DataValidationErrors and mark the status as 400 before sending the error back to the client */
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof DataValidationError) {
     res.status(400).send(error);
   } else next(error);
