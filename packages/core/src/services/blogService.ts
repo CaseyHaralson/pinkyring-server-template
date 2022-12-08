@@ -29,13 +29,13 @@ export default class BlogService extends BaseService {
    * @param param1
    * @returns a list of blog posts that match the filters
    */
-  async getBlogPosts(principal: Principal, {ids}: {ids?: string[]}) {
+  async getBlogPosts(principal: Principal, criteria: BlogPostSearchCriteria) {
     return await this.session(principal, async () => {
       this._logger.info('entering the get blog posts function');
 
       // can use principal to authorize request
 
-      return await this._blogRepository.getBlogPosts({ids});
+      return await this._blogRepository.getBlogPosts(criteria);
     });
   }
 
@@ -45,13 +45,13 @@ export default class BlogService extends BaseService {
    * @param param1
    * @returns a list of authors that match the filters
    */
-  async getAuthors(principal: Principal, {ids}: {ids?: string[]}) {
+  async getAuthors(principal: Principal, criteria: AuthorSearchCriteria) {
     return await this.session(principal, async () => {
       this._logger.info('entering the get authors function');
 
       // can use principal to authorize request
 
-      return await this._blogRepository.getAuthors({ids});
+      return await this._blogRepository.getAuthors(criteria);
     });
   }
 
@@ -154,4 +154,15 @@ export default class BlogService extends BaseService {
       );
     });
   }
+}
+
+export interface BlogPostSearchCriteria {
+  ids?: string[];
+  authorId?: string;
+  title?: string;
+}
+
+export interface AuthorSearchCriteria {
+  ids?: string[];
+  name?: string;
 }

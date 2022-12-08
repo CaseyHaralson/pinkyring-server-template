@@ -3,6 +3,10 @@ import {BlogPost, Author} from '@pinkyring/core/dtos/blogPost';
 import {PrismaClient} from '@prisma/client';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {throwDataValidationErrors} from './util/prismaErrors';
+import {
+  AuthorSearchCriteria,
+  BlogPostSearchCriteria,
+} from '@pinkyring/core/services/blogService';
 
 export default class BlogRepository
   extends BaseClass
@@ -13,28 +17,24 @@ export default class BlogRepository
     super(baseParams, 'BlogRepository');
     this._prismaClient = prismaClient;
   }
-  async getBlogPosts({ids}: {ids?: string[] | undefined}): Promise<BlogPost[]> {
-    const blogPosts =
-      ids === undefined
-        ? await this._prismaClient.blogPost.findMany()
-        : await this._prismaClient.blogPost.findMany({
-            where: {
-              id: {in: ids},
-            },
-          });
-    return blogPosts as unknown as BlogPost[];
+
+  async getBlogPosts(criteria: BlogPostSearchCriteria): Promise<BlogPost[]> {
+    return await this._prismaClient.blogPost.findMany({
+      where: {
+        id: {in: criteria.ids},
+        authorId: criteria.authorId,
+        title: {contains: criteria.title},
+      },
+    });
   }
 
-  async getAuthors({ids}: {ids?: string[] | undefined}): Promise<Author[]> {
-    const authors =
-      ids === undefined
-        ? await this._prismaClient.author.findMany()
-        : await this._prismaClient.author.findMany({
-            where: {
-              id: {in: ids},
-            },
-          });
-    return authors as unknown as Author[];
+  async getAuthors(criteria: AuthorSearchCriteria): Promise<Author[]> {
+    return await this._prismaClient.author.findMany({
+      where: {
+        id: {in: criteria.ids},
+        name: {contains: criteria.name},
+      },
+    });
   }
 
   async addAuthor(author: Author): Promise<Author> {
