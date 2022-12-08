@@ -1,6 +1,7 @@
-import express from 'express';
+import express, {NextFunction, Response, Request} from 'express';
 import container from '@pinkyring/di-container/container';
 import {EventType, EVENT_BUS_NAME} from '@pinkyring/core/dtos/events';
+import {DataValidationError} from '@pinkyring/core/dtos/dataValidationError';
 
 // ======================================
 // Get configurations
@@ -25,16 +26,22 @@ app.get('/', (req, res) => {
   res.send('hello world!');
 });
 
-app.get('/authors', async (req, res) => {
+app.get('/authors', async (req, res, next) => {
   const service = container.resolveBlogService();
   const principal = container.resolvePrincipalResolver().resolve();
-  res.send(await service.getAuthors(principal, {}));
+  service
+    .getAuthors(principal, {})
+    .then((result) => res.send(result))
+    .catch((e) => next(e));
 });
 
-app.get('/blogposts', async (req, res) => {
+app.get('/blogposts', async (req, res, next) => {
   const service = container.resolveBlogService();
   const principal = container.resolvePrincipalResolver().resolve();
-  res.send(await service.getBlogPosts(principal, {}));
+  service
+    .getBlogPosts(principal, {})
+    .then((result) => res.send(result))
+    .catch((e) => next(e));
 });
 
 app.post('/event/queue/new', async (req, res) => {
@@ -71,6 +78,13 @@ app.post('/event/:queuename/grab', async (req, res) => {
     approximateNumEventsInQueue: numEventsInQueue,
     event: event,
   });
+});
+
+/** Handle DataValidationErrors and mark the status as 400 before sending the error back to the client */
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+  if (error instanceof DataValidationError) {
+    res.status(400).send(error);
+  } else next(error);
 });
 
 app.listen(port, () => {

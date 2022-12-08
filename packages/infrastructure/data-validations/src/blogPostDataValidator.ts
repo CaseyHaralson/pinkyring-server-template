@@ -10,6 +10,7 @@ export default class BlogPostDataValidator
 {
   async validate(blogPost: BlogPost, action?: DATA_ACTION) {
     const schema = this.getSchema(action);
+
     await this.throwDataValidationErrorIfInvalid(async () => {
       await schema.validate(blogPost, {
         abortEarly: false,
