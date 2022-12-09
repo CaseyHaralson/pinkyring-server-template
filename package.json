@@ -18,11 +18,6 @@
     "test:unit": "npm run build && npx jest --config packages/tests/jest.config.unit.js",
     "test:unit:watch": "npx jest --config packages/tests/jest.config.unit.ts.js --watch",
     "test:it": "npm run build && npx jest --config packages/tests/jest.config.it.js",
-    "prisma:generate": "cd packages/infrastructure/relationaldb && npx prisma generate",
-    "prisma:deploy": "npm run prisma:env && cd packages/infrastructure/relationaldb && npx prisma migrate deploy && cd ../../../ && npm run prisma:env:remove",
-    "prisma:env": "npx copyfiles .env packages/infrastructure/relationaldb",
-    "prisma:env:remove": "npx rimraf packages/infrastructure/relationaldb/.env",
-    "prisma:seed": "cd packages/infrastructure/relationaldb && npx prisma db seed",
     "prisma": "cd packages/infrastructure/relationaldb/prisma && node ./run-prisma-command.js"
   },
   "workspaces": [

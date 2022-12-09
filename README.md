@@ -110,9 +110,9 @@ Note: you will need docker installed and running.
 `npm run infra`
 
 5. Generate database stuff:
-    1. Generate prisma client locally (to make sure it matches your environment): `npm run prisma:generate`
-    2. Deploy the database schema: `npm run prisma:deploy`
-    3. Seed the database: `npm run prisma:seed`
+    1. Generate prisma client locally (to make sure it matches your environment): `npm run prisma generate`
+    2. Deploy the database schema: `npm run prisma migrate deploy`
+    3. Seed the database: `npm run prisma db seed`
 
 6. Navigate to one of the apps packages (packages/apps/api-graphql for example) and then run start:
 

@@ -6,4 +6,4 @@ FROM node:16-alpine
 # then wait for mysql to start
 # and then deploy the schema and seed the database
 
-CMD npm run prisma:generate && ./docker/wait-for.sh mysql:3306 -- npm run prisma:deploy && npm run prisma:seed
+CMD npm run prisma generate && ./docker/wait-for.sh mysql:3306 -- npm run prisma migrate deploy && npm run prisma db seed
