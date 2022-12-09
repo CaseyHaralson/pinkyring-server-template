@@ -3,20 +3,35 @@ import {v4 as uuidv4} from 'uuid';
 
 describe('todo service integration tests', () => {
   const service = container.resolveBlogService();
+  const helperRepo = container.resolveIntegrationTestHelperRepository();
   const eventHelper = container.resolveEventHelper();
 
+  const principal = container
+    .resolvePrincipalResolver()
+    .resolveMachinePrincipal('blogService integration tester');
+
   beforeEach(async () => {
-    // delete test authors
     // delete test blog posts
-    // delete idempotent requests
+    const testBlogPosts = await service.getBlogPosts(principal, {
+      title: 'integration test title',
+    });
+    testBlogPosts.forEach(async (blogPost) => {
+      await helperRepo.deleteBlogPost(blogPost.id);
+    });
+
+    // delete test authors
+    const testAuthors = await service.getAuthors(principal, {
+      name: 'integration test author',
+    });
+    testAuthors.forEach(async (author) => {
+      await helperRepo.deleteAuthor(author.id);
+    });
+
     // what about bus/queue stuff?
   });
 
   describe(`get blog posts function`, () => {
     test('should return blog posts', async () => {
-      const principal = container
-        .resolvePrincipalResolver()
-        .resolveMachinePrincipal('blogService integration tester');
       const blogPosts = await service.getBlogPosts(principal, {});
 
       expect(blogPosts.length).toBeGreaterThan(0);
@@ -25,9 +40,6 @@ describe('todo service integration tests', () => {
 
   describe(`get authors function`, () => {
     test('should return authors', async () => {
-      const principal = container
-        .resolvePrincipalResolver()
-        .resolveMachinePrincipal('blogService integration tester');
       const authors = await service.getAuthors(principal, {});
 
       expect(authors.length).toBeGreaterThan(0);
@@ -36,13 +48,10 @@ describe('todo service integration tests', () => {
 
   describe(`add author function`, () => {
     test('should add and return author', async () => {
-      const principal = container
-        .resolvePrincipalResolver()
-        .resolveMachinePrincipal('blogService integration tester');
       const requestId = uuidv4();
       const author = await service.addAuthor(principal, requestId, {
         id: '',
-        name: 'new it author',
+        name: 'integration test author',
       });
 
       expect(author).not.toBe(null);
@@ -58,9 +67,6 @@ describe('todo service integration tests', () => {
 
   describe(`add blog post function`, () => {
     test('should add and return blog post', async () => {
-      const principal = container
-        .resolvePrincipalResolver()
-        .resolveMachinePrincipal('blogService integration tester');
       const authors = await service.getAuthors(principal, {});
 
       const requestId = uuidv4();
@@ -71,6 +77,44 @@ describe('todo service integration tests', () => {
         text: 'integration test text',
         createdAt: new Date(),
         updatedAt: new Date(),
+      });
+
+      expect(blogPost).not.toBe(null);
+      expect(blogPost).not.toBe(undefined);
+
+      const foundBlogPosts = await service.getBlogPosts(principal, {
+        ids: [blogPost.id],
+      });
+      expect(foundBlogPosts.length).toBe(1);
+      expect(foundBlogPosts[0].authorId).toBe(blogPost.authorId);
+      expect(foundBlogPosts[0].title).toBe(blogPost.title);
+      expect(foundBlogPosts[0].text).toBe(blogPost.text);
+    });
+  });
+
+  describe(`update blog post function`, () => {
+    test('should update and return blog post', async () => {
+      const authors = await service.getAuthors(principal, {});
+
+      const createRequestId = uuidv4();
+      const createBlogPost = await service.addBlogPost(
+        principal,
+        createRequestId,
+        {
+          id: '',
+          authorId: authors[0].id,
+          title: 'integration test title',
+          text: 'integration test text',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }
+      );
+
+      const requestId = uuidv4();
+      const blogPost = await service.updateBlogPost(principal, requestId, {
+        ...createBlogPost,
+        title: 'updated integration test title',
+        text: 'updated integration test text',
       });
 
       expect(blogPost).not.toBe(null);

@@ -1,11 +1,12 @@
 import {createContainer, AwilixContainer} from 'awilix';
 import BlogService from '@pinkyring/core/services/blogService';
 import EventHelper from '@pinkyring/core/util/eventHelper';
-import ConfigHelper from '@pinkyring/core/util/configHelper';
+import ConfigHelper, {Environment} from '@pinkyring/core/util/configHelper';
 import MaintenanceService from '@pinkyring/core/services/maintenanceService';
 import loadContainer from './containerLoader';
 import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
 import SubscriptionService from '@pinkyring/core/services/subscriptionService';
+import IntegrationTestHelperRepository from '@pinkyring/infrastructure_relationaldb/integrationTestHelperRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -58,6 +59,22 @@ class Container {
   resolveEventHelper() {
     return this._container.cradle.eventHelper as EventHelper;
   }
+
+  // ==================================================
+  //             TEST ENVIRONMENT ONLY
+
+  /** Test environment only: Resolves the configured IntegrationTestHelperRepository. */
+  resolveIntegrationTestHelperRepository() {
+    if (this.resolveConfigHelper().getEnvironment() !== Environment.TEST) {
+      throw new Error(
+        `This can only be resolved in the test environment. This shouldn't be used during regular development.`
+      );
+    }
+    return this._container.cradle
+      .integrationTestHelperRepository as IntegrationTestHelperRepository;
+  }
+
+  // ==================================================
 }
 
 loadContainer(awilix_container);

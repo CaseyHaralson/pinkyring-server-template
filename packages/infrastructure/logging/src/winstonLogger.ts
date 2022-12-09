@@ -84,7 +84,11 @@ export default class WinstonLogger extends BaseClass implements ILogHandler {
 
     this._realLogger = winston.createLogger({
       level:
-        this.getEnvironment() === Environment.PRODUCTION ? 'info' : 'debug',
+        this.getEnvironment() === Environment.PRODUCTION
+          ? 'info'
+          : this.getEnvironment() === Environment.TEST
+          ? 'warn'
+          : 'debug',
       format: format.combine(
         format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}),
         // Format the metadata object
