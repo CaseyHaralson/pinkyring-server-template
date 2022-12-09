@@ -24,7 +24,10 @@ export default function loadContainer(container: AwilixContainer) {
   loadConfigHelper(container);
   const configHelper = container.cradle.configHelper as ConfigHelper;
 
-  if (configHelper.getEnvironment() === Environment.DEVELOPMENT) {
+  if (
+    configHelper.getEnvironment() === Environment.DEVELOPMENT ||
+    configHelper.getEnvironment() === Environment.TEST
+  ) {
     loadLocalItems(container);
   } else {
     loadServerItems(container);
@@ -37,7 +40,7 @@ const loadConfigHelper = function (container: AwilixContainer) {
   container.register({
     configHelper: asClass(ConfigHelper),
     configFileReader: asClass(ConfigFileReader).singleton(),
-    secretRepository: asValue(null), // currently not using a secrets repo for this project
+    secretRepository: asValue(null), // load a secrets repo here if you need it
   });
 };
 

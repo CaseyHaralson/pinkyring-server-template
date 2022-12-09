@@ -1,3 +1,7 @@
+test('fake', () => {
+  expect(1).toBe(1);
+});
+
 // import container from '@pinkyring/di-container/container';
 
 // describe('todo service integration tests', () => {

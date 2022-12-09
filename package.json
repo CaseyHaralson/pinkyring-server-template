@@ -8,10 +8,10 @@
     "generate:env": "node ./.env-maker.js",
     "infra": "docker compose up -d",
     "infra:stop": "docker compose down",
-    "merge-check": "npm run lint && npm run prettier:check && npm run test:unit && npm run test:it",
-    "build:clean": "npx rimraf ./packages/**/build && npx rimraf ./packages/**/tsconfig.tsbuildinfo",
     "build": "tsc -b",
     "build:watch": "tsc -b -w",
+    "build:clean": "npx rimraf ./packages/**/build && npx rimraf ./packages/**/tsconfig.tsbuildinfo",
+    "merge-check": "npm run lint && npm run prettier:check && npm run test:unit && npm run test:it",
     "prettier": "npx prettier --write .",
     "prettier:check": "npx prettier --check .",
     "lint": "npx eslint . --report-unused-disable-directives --max-warnings=0",
@@ -40,14 +40,10 @@
   },
   "devDependencies": {
     "@pinkyring/tests": "*",
-    "@types/jest": "^29.2.0",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "eslint": "^8.26.0",
-    "jest": "^29.2.2",
-    "jest-mock-extended": "^3.0.1",
     "prettier": "2.7.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^29.0.3",
     "typescript": "^4.8.4"
   }
 }

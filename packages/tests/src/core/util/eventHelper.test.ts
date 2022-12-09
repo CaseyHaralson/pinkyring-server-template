@@ -4,7 +4,6 @@ import EventHelper from '@pinkyring/core/util/eventHelper';
 import {mock, mockReset} from 'jest-mock-extended';
 import ConfigHelper from '@pinkyring/core/util/configHelper';
 import IEventRepository from '@pinkyring/core/interfaces/IEventRepository';
-// import {BaseLogContext} from '@pinkyring/core/interfaces/ILog';
 import {BaseEvent} from '@pinkyring/core/dtos/events';
 
 describe('event helper unit tests', () => {
@@ -20,7 +19,6 @@ describe('event helper unit tests', () => {
 
   describe('publish event function', () => {
     test('should call repository', async () => {
-      // const blc = {} as BaseLogContext;
       const event = {} as BaseEvent;
       await eventHelper.publishEvent(event);
 
@@ -29,7 +27,6 @@ describe('event helper unit tests', () => {
     });
 
     test('should return true on success', async () => {
-      // const blc = {} as BaseLogContext;
       const event = {} as BaseEvent;
       const result = await eventHelper.publishEvent(event);
 
@@ -41,7 +38,6 @@ describe('event helper unit tests', () => {
         throw new Error('some error');
       });
 
-      // const blc = {} as BaseLogContext;
       const event = {} as BaseEvent;
       const result = await eventHelper.publishEvent(event);
 

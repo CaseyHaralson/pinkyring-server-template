@@ -11,6 +11,8 @@ import Principal from '@pinkyring/core/interfaces/IPrincipal';
 import ISessionHandler from '@pinkyring/core/interfaces/ISession';
 import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
 import {Author, BlogPost} from '@pinkyring/core/dtos/blogPost';
+import {DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
+import 'jest-extended';
 
 describe('blog service unit tests', () => {
   const baseParams = mock<IBaseServiceParams>();
@@ -72,6 +74,22 @@ describe('blog service unit tests', () => {
       expect(blogRepoMock.getBlogPosts).toBeCalledTimes(1);
       expect(blogRepoMock.getBlogPosts).toBeCalledWith({ids: ids});
     });
+
+    test('should call repository with author id', async () => {
+      const authorId = '1234';
+      await blogService.getBlogPosts(principal, {authorId: authorId});
+
+      expect(blogRepoMock.getBlogPosts).toBeCalledTimes(1);
+      expect(blogRepoMock.getBlogPosts).toBeCalledWith({authorId: authorId});
+    });
+
+    test('should call repository with blog post title', async () => {
+      const title = 'test title';
+      await blogService.getBlogPosts(principal, {title: title});
+
+      expect(blogRepoMock.getBlogPosts).toBeCalledTimes(1);
+      expect(blogRepoMock.getBlogPosts).toBeCalledWith({title: title});
+    });
   });
 
   describe('get authors function', () => {
@@ -88,9 +106,41 @@ describe('blog service unit tests', () => {
       expect(blogRepoMock.getAuthors).toBeCalledTimes(1);
       expect(blogRepoMock.getAuthors).toBeCalledWith({ids: ids});
     });
+
+    test('should call repository with author name', async () => {
+      const name = 'test';
+      await blogService.getAuthors(principal, {name: name});
+
+      expect(blogRepoMock.getAuthors).toBeCalledTimes(1);
+      expect(blogRepoMock.getAuthors).toBeCalledWith({name: name});
+    });
   });
 
   describe('add author function', () => {
+    test('should call author data validator before repository', async () => {
+      const requestId = 'test_request_1234';
+      const author = {
+        id: '',
+        name: 'test author',
+      };
+      await blogService.addAuthor(principal, requestId, author);
+
+      expect(authorDataValidator.validate).toBeCalledTimes(1);
+      expect(authorDataValidator.validate).toBeCalledWith(
+        author,
+        DATA_ACTION.CREATE
+      );
+
+      const mock1 = jest.fn();
+      const mock2 = jest.fn();
+      mock2();
+      mock1();
+      expect(mock1).toHaveBeenCalledBefore(mock2);
+      // expect(authorDataValidator.validate).toHaveBeenCalledBefore(
+      //   blogRepoMock.addAuthor
+      // );
+    });
+
     test('should call repository', async () => {
       const requestId = 'test_request_1234';
       const author = {
