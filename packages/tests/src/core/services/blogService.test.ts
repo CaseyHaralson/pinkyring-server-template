@@ -58,6 +58,8 @@ describe('blog service unit tests', () => {
     );
     mockReset(baseParams.eventHelper);
     mockReset(blogRepoMock);
+    mockReset(authorDataValidator);
+    mockReset(blogPostDataValidator);
   });
 
   describe('get blog posts function', () => {
@@ -130,15 +132,9 @@ describe('blog service unit tests', () => {
         author,
         DATA_ACTION.CREATE
       );
-
-      const mock1 = jest.fn();
-      const mock2 = jest.fn();
-      mock2();
-      mock1();
-      expect(mock1).toHaveBeenCalledBefore(mock2);
-      // expect(authorDataValidator.validate).toHaveBeenCalledBefore(
-      //   blogRepoMock.addAuthor
-      // );
+      expect(authorDataValidator.validate).toHaveBeenCalledBefore(
+        blogRepoMock.addAuthor as jest.MockInstance<unknown, unknown[]>
+      );
     });
 
     test('should call repository', async () => {
@@ -164,6 +160,11 @@ describe('blog service unit tests', () => {
       expect(idempotentRequestHelper.handleIdempotentRequest).toBeCalledTimes(
         1
       );
+      expect(
+        idempotentRequestHelper.handleIdempotentRequest
+      ).toHaveBeenCalledBefore(
+        blogRepoMock.addAuthor as jest.MockInstance<unknown, unknown[]>
+      );
     });
   });
 
@@ -177,6 +178,28 @@ describe('blog service unit tests', () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
+    });
+
+    test('should call blog post data validator before repository', async () => {
+      const requestId = 'test_request_1234';
+      const blogPost = {
+        id: '',
+        title: 'test title',
+        text: 'test text',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        authorId: 'authorId',
+      };
+      await blogService.addBlogPost(principal, requestId, blogPost);
+
+      expect(blogPostDataValidator.validate).toBeCalledTimes(1);
+      expect(blogPostDataValidator.validate).toBeCalledWith(
+        blogPost,
+        DATA_ACTION.CREATE
+      );
+      expect(blogPostDataValidator.validate).toHaveBeenCalledBefore(
+        blogRepoMock.addBlogPost as jest.MockInstance<unknown, unknown[]>
+      );
     });
 
     test('should call repository', async () => {
@@ -210,6 +233,11 @@ describe('blog service unit tests', () => {
       expect(idempotentRequestHelper.handleIdempotentRequest).toBeCalledTimes(
         1
       );
+      expect(
+        idempotentRequestHelper.handleIdempotentRequest
+      ).toHaveBeenCalledBefore(
+        blogRepoMock.addBlogPost as jest.MockInstance<unknown, unknown[]>
+      );
     });
 
     test('should publish a blog post added event', async () => {
@@ -229,6 +257,28 @@ describe('blog service unit tests', () => {
   });
 
   describe('update blog post function', () => {
+    test('should call blog post data validator before repository', async () => {
+      const requestId = 'test_request_1234';
+      const blogPost = {
+        id: '',
+        title: 'test title',
+        text: 'test text',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        authorId: 'authorId',
+      };
+      await blogService.updateBlogPost(principal, requestId, blogPost);
+
+      expect(blogPostDataValidator.validate).toBeCalledTimes(1);
+      expect(blogPostDataValidator.validate).toBeCalledWith(
+        blogPost,
+        DATA_ACTION.UPDATE
+      );
+      expect(blogPostDataValidator.validate).toHaveBeenCalledBefore(
+        blogRepoMock.updateBlogPost as jest.MockInstance<unknown, unknown[]>
+      );
+    });
+
     test('should call repository', async () => {
       const requestId = 'test_request_1234';
       const blogPost = {
@@ -259,6 +309,11 @@ describe('blog service unit tests', () => {
 
       expect(idempotentRequestHelper.handleIdempotentRequest).toBeCalledTimes(
         1
+      );
+      expect(
+        idempotentRequestHelper.handleIdempotentRequest
+      ).toHaveBeenCalledBefore(
+        blogRepoMock.updateBlogPost as jest.MockInstance<unknown, unknown[]>
       );
     });
   });
