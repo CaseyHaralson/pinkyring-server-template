@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:18-alpine
 
 # have to run prisma generate in the environment where prisma will run
 # so it can use the correct environment files (windows, linux, or whatever)
