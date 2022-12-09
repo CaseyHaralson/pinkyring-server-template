@@ -33,6 +33,8 @@ services:
       - 15672:15672   # management interface
     volumes:
       - rabbitmq:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
 
 volumes:
   mysql:

@@ -1,3 +1,9 @@
 FROM node:16-alpine
 
+# have to run prisma generate in the environment where prisma will run
+# so it can use the correct environment files (windows, linux, or whatever)
+
+# then wait for mysql to start
+# and then deploy the schema and seed the database
+
 CMD npm run prisma:generate && ./docker/wait-for.sh mysql:3306 -- npm run prisma:deploy && npm run prisma:seed
