@@ -21,7 +21,9 @@ if (commandsThatDontNeedLocalEnv.includes(argString.toLowerCase())) {
 if (makeLocalEnvFile) {
   // copy the .env file from the parent to the prisma folder
   // sometimes prisma needs the local .env file, and sometimes it doesn't
-  //console.log(`copying the .env file from the parent to the prisma folder`);
+  console.log(
+    `Copying the .env file from the parent to the prisma folder for this command`
+  );
   shell.exec(`cd ../ && npm run prisma:env`);
 }
 
@@ -31,6 +33,6 @@ shell.exec(`cd ../ && npx prisma ${argString}`);
 
 if (makeLocalEnvFile) {
   // delete the prisma .env file
-  //console.log(`removing the prisma .env file`);
+  console.log(`Removing the prisma .env file`);
   shell.exec(`cd ../ && npm run prisma:env:remove`);
 }
