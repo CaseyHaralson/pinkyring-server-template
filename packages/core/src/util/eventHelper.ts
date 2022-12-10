@@ -41,23 +41,12 @@ export default class EventHelper extends BaseClass {
    * Will listen for messages in a queue and call the handlerFunc when new messages arrive.
    * @param queueName the name of the queue to listen to
    * @param handlerFunc The function that should be called when new messages arrive. The function should return true if the message is handled.
-   * @returns a connection to the underlying event system that should be closed when the listener is finished
    */
   async listenForEvents(
     queueName: string,
     handlerFunc: (event: BaseEvent) => Promise<boolean>
   ) {
-    return await this._eventRepository.listenForEvents(queueName, handlerFunc);
-  }
-
-  /**
-   * Closes the connection to the underlying event system.
-   * @param eventListenerConnection the connection that is being held
-   */
-  async closeEventListenerConnection(eventListenerConnection: unknown) {
-    await this._eventRepository.closeEventListenerConnection(
-      eventListenerConnection
-    );
+    await this._eventRepository.listenForEvents(queueName, handlerFunc);
   }
 
   /**

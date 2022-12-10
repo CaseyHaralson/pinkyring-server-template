@@ -34,7 +34,6 @@ export default class EventRepository
       Buffer.from(JSON.stringify(event))
     );
     this.closeConnectionAfterTimeout(connection);
-    //await this.closeConnection(connection);
   }
 
   async createQueue(
@@ -59,13 +58,12 @@ export default class EventRepository
     }
 
     this.closeConnectionAfterTimeout(connection);
-    //await this.closeConnection(connection);
   }
 
   async listenForEvents(
     queueName: string,
     handlerFunc: (event: BaseEvent) => Promise<boolean>
-  ): Promise<unknown> {
+  ) {
     const connection = await connect(
       this.getConfigValue(CONFIGKEYNAME_RABBITMQ_URL)
     );
@@ -87,11 +85,6 @@ export default class EventRepository
         noAck: false,
       }
     );
-    return channel;
-  }
-
-  async closeEventListenerConnection(eventListenerConnection: unknown) {
-    await this.closeConnection(eventListenerConnection as Connection);
   }
 
   async getEventFromQueue(queueName: string) {
@@ -124,10 +117,6 @@ export default class EventRepository
     const queue = await channel.assertQueue(queueName, {durable: DURABLE});
     this.closeConnectionAfterTimeout(connection);
     return queue.messageCount;
-  }
-
-  private async closeConnection(connection: Connection) {
-    await connection.close();
   }
 
   private closeConnectionAfterTimeout(connection: Connection) {

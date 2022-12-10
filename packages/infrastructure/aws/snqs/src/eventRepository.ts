@@ -52,10 +52,6 @@ export default class EventRepository
     throw new Error('Method not implemented.');
   }
 
-  closeEventListenerConnection(): Promise<void> {
-    throw new Error('Method not implemented.');
-  }
-
   async getEventFromQueue(queueName: string): Promise<BaseEvent | null> {
     let queueUrl = undefined;
     if (queueName === 'ManualPullQueue') {

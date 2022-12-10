@@ -10,8 +10,7 @@ export default interface IEventRepository {
   listenForEvents(
     queueName: string,
     handlerFunc: (event: BaseEvent) => Promise<boolean>
-  ): Promise<unknown>;
-  closeEventListenerConnection(eventListenerConnection: unknown): Promise<void>;
+  ): Promise<void>;
   getEventFromQueue(queueName: string): Promise<BaseEvent | null>;
   getNumEventsInQueue(queueName: string): Promise<number>;
 }
