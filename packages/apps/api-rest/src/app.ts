@@ -1,5 +1,7 @@
-import express from 'express';
+import express, {NextFunction, Response, Request} from 'express';
 import container from '@pinkyring/di-container/container';
+import {EventType, EVENT_BUS_NAME} from '@pinkyring/core/dtos/events';
+import {DataValidationError} from '@pinkyring/core/dtos/dataValidationError';
 
 // ======================================
 // Get configurations
@@ -24,42 +26,65 @@ app.get('/', (req, res) => {
   res.send('hello world!');
 });
 
-app.get('/test', (req, res) => {
-  const service = container.resolveTestService();
+app.get('/authors', async (req, res, next) => {
+  const service = container.resolveBlogService();
+  const principal = container.resolvePrincipalResolver().resolve();
+  service
+    .getAuthors(principal, {})
+    .then((result) => res.send(result))
+    .catch((e) => next(e));
+});
+
+app.get('/blogposts', async (req, res, next) => {
+  const service = container.resolveBlogService();
+  const principal = container.resolvePrincipalResolver().resolve();
+  service
+    .getBlogPosts(principal, {})
+    .then((result) => res.send(result))
+    .catch((e) => next(e));
+});
+
+app.post('/event/queue/new', async (req, res) => {
+  const newQueueName = req.body.name || req.query.name;
+  if (newQueueName === undefined) {
+    res.status(400).send({
+      message: `the queue name wasn't set`,
+    });
+  }
+
+  const eventHelper = container.resolveEventHelper();
   res.send(
-    'trying to test the service: ' + service.test('a message from the api')
+    await eventHelper.createQueue(
+      newQueueName,
+      EVENT_BUS_NAME,
+      EventType.BLOG_POST_ADDED
+    )
   );
 });
 
-app.get('/test2', (req, res) => {
-  const service = container.resolveTestService();
-  res.send(service.getData());
+app.post('/event/:queuename/grab', async (req, res) => {
+  const queueName = req.params.queuename;
+  if (queueName === undefined) {
+    res.status(400).send({
+      message: `the queue name wasn't set`,
+    });
+  }
+
+  const eventHelper = container.resolveEventHelper();
+  const numEventsInQueue = await eventHelper.getNumEventsInQueue(queueName);
+  const event = await eventHelper.getEventFromQueue(queueName);
+
+  res.send({
+    approximateNumEventsInQueue: numEventsInQueue,
+    event: event,
+  });
 });
 
-app.get('/todo', async (req, res) => {
-  const searchText = req.query.searchText;
-  const service = container.resolveTodoService();
-  res.send(await service.getTodos(searchText as string));
-});
-
-app.post('/todo/create', async (req, res) => {
-  const service = container.resolveTodoService();
-  res.send(await service.createTodo(req.body));
-});
-
-app.post('/todo/update', async (req, res) => {
-  const service = container.resolveTodoService();
-  res.send(await service.updateTodo(req.body));
-});
-
-app.post('/todo/markComplete', async (req, res) => {
-  const service = container.resolveTodoService();
-  res.send(await service.markTodoCompleted(req.body));
-});
-
-app.post('/todo/:id/delete', async (req, res) => {
-  const service = container.resolveTodoService();
-  res.send(await service.deleteTodo(req.params.id));
+/** Handle DataValidationErrors and mark the status as 400 before sending the error back to the client */
+app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
+  if (error instanceof DataValidationError) {
+    res.status(400).send(error);
+  } else next(error);
 });
 
 app.listen(port, () => {

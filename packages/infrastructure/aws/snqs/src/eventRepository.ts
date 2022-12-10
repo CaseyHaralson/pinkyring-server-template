@@ -3,8 +3,6 @@ import {BaseEvent, EventType} from '@pinkyring/core/dtos/events';
 import {SNS} from '@aws-sdk/client-sns';
 import {SQS} from '@aws-sdk/client-sqs';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
-import {LogContext} from '@pinkyring/core/interfaces/ILog';
-import {UnknownPrincipal} from '@pinkyring/core/util/principalResolver';
 
 const CONFIGKEYNAME_AWS_REGION = 'AWS_REGION'; // env variable set by AWS
 const CONFIGKEYNAME_BLOGPOST_ADDED_TOPIC_ARN = 'BLOGPOST_ADDED_TOPIC_ARN';
@@ -55,12 +53,6 @@ export default class EventRepository
   }
 
   async getEventFromQueue(queueName: string): Promise<BaseEvent | null> {
-    const lc = {
-      principal: UnknownPrincipal,
-      currentObj: this,
-      methodName: 'getEventFromQueue',
-    } as LogContext;
-
     let queueUrl = undefined;
     if (queueName === 'ManualPullQueue') {
       queueUrl = this.getConfigValue(CONFIGKEYNAME_MANUAL_PULL_QUEUE_URL);
@@ -71,7 +63,7 @@ export default class EventRepository
         region: this.getConfigValue(CONFIGKEYNAME_AWS_REGION),
       });
 
-      this._logger.debug(lc, `Trying to get a message from the queue...`);
+      this._logger.debug(`Trying to get a message from the queue...`);
       const messageOutput = await client.receiveMessage({
         QueueUrl: queueUrl,
         MaxNumberOfMessages: 1,
@@ -80,37 +72,28 @@ export default class EventRepository
       const messages = messageOutput.Messages;
 
       if (messages) {
-        this._logger.debug(lc, `Received ${messages.length} messages`);
+        this._logger.debug(`Received ${messages.length} messages`);
         for (const message of messages) {
-          this._logger.debug(lc, `Got message: ${JSON.stringify(message)}`);
+          this._logger.debug(`Got message: ${JSON.stringify(message)}`);
           const messageBody = message.Body;
 
           if (messageBody) {
             const messageBodyObj = JSON.parse(messageBody);
 
-            this._logger.debug(lc, `Trying to get event from the message`);
+            this._logger.debug(`Trying to get event from the message`);
             const event = JSON.parse(messageBodyObj.Message) as BaseEvent;
-            this._logger.debug(
-              lc,
-              `Parsed event from record: ${event.eventType}`
-            );
+            this._logger.debug(`Parsed event from record: ${event.eventType}`);
             return event;
           }
         }
       } else {
-        this._logger.debug(lc, `Didn't receive any messages...`);
+        this._logger.debug(`Didn't receive any messages...`);
       }
     }
     return null;
   }
 
   async getNumEventsInQueue(queueName: string): Promise<number> {
-    const lc = {
-      principal: UnknownPrincipal,
-      currentObj: this,
-      methodName: 'getEventFromQueue',
-    } as LogContext;
-
     let queueUrl = undefined;
     if (queueName === 'ManualPullQueue') {
       queueUrl = this.getConfigValue(CONFIGKEYNAME_MANUAL_PULL_QUEUE_URL);
@@ -121,32 +104,26 @@ export default class EventRepository
         region: this.getConfigValue(CONFIGKEYNAME_AWS_REGION),
       });
 
-      this._logger.debug(lc, `Trying to get attributes from the queue...`);
+      this._logger.debug(`Trying to get attributes from the queue...`);
       const attributes = await client.getQueueAttributes({
         QueueUrl: queueUrl,
         AttributeNames: ['ApproximateNumberOfMessages'],
       });
 
       this._logger.debug(
-        lc,
         `Received the following attributes: ${JSON.stringify(attributes)}`
       );
 
       this._logger.debug(
-        lc,
         `Trying to parse the number of messages from the attributes...`
       );
       const numMessages =
         attributes.Attributes?.['ApproximateNumberOfMessages'];
       if (numMessages) {
-        this._logger.debug(
-          lc,
-          `There are ~${numMessages} messages in the queue`
-        );
+        this._logger.debug(`There are ~${numMessages} messages in the queue`);
         return Number(numMessages);
       } else {
         this._logger.debug(
-          lc,
           `Couldn't parse the number of messages in the queue...`
         );
       }

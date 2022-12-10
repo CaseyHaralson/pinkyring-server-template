@@ -11,79 +11,31 @@ services:
     volumes:
       - mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
 
   mysql-adminer:
-    container_name: mysql-adminer
+    container_name: mysql.adminer
+    depends_on:
+      mysql:
+        condition: service_started
     image: adminer
     restart: always
     ports:
       - 8080:8080
   
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3.11.2-management-alpine
-    hostname: 'persistmydata' #https://stackoverflow.com/questions/41330514/docker-rabbitmq-persistency
+    restart: always
+    hostname: 'persistmydata' # https://stackoverflow.com/questions/41330514/docker-rabbitmq-persistency
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 5672:5672     # service endpoint
+      - 15672:15672   # management interface
     volumes:
       - rabbitmq:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
 
 volumes:
   mysql:
   rabbitmq:
-
-# api:
-#   container_name: api-container
-#   build:
-#     context: ./docker
-#     dockerfile: Dockerfile.api
-#   ports:
-#     - 3000:3000
-#   working_dir: /code/packages/apps/api
-#   volumes:
-#     - ./:/code
-
-# read-secrets:
-#   image: centos:7
-#   entrypoint: 'cat /run/secrets/test-secret'
-#   secrets:
-#     - test-secret
-
-# secrets:
-#   test-secret:
-#     file: ./secrets.txt
-
-# builder:
-#   container_name: builder-container
-#   build:
-#     context: ./docker
-#     dockerfile: Dockerfile.builder
-#   working_dir: /code
-#   volumes:
-#     - ./:/code
-
-# dynamodb:
-#   container_name: dynamodb-local
-#   image: amazon/dynamodb-local:1.20.0
-#   command: -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal
-#   ports:
-#     - 8000:8000
-#   volumes:
-#     - dynamodb:/home/dynamodblocal
-
-# dynamodb-admin:
-#   container_name: dynamodb-admin
-#   image: node:16-alpine
-#   command: "sh -c 'npm install -g dynamodb-admin
-#     && DYNAMO_ENDPOINT=http://localhost:8000 AWS_REGION=eu-west-1 AWS_ACCESS_KEY_ID=local AWS_SECRET_ACCESS_KEY=local dynamodb-admin'"
-#   ports:
-#     - 8001:8001
-
-# wait-for-example:
-#   container_name: wait-for-example
-#   image: alpine:3.16.2
-#   command: sh -c './wait-for.sh www.eficode.com:80 -- echo "Eficode site is up"'
-#   working_dir: /code
-#   volumes:
-#     - ./:/code

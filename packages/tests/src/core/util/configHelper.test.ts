@@ -1,9 +1,8 @@
-import {Environment} from '@pinkyring/core/dtos/enums';
 import {
   IConfigFileReader,
   ISecretRepository,
 } from '@pinkyring/core/interfaces/IConfig';
-import ConfigHelper from '@pinkyring/core/util/configHelper';
+import ConfigHelper, {Environment} from '@pinkyring/core/util/configHelper';
 import {mock, mockReset} from 'jest-mock-extended';
 
 describe('config helper unit tests', () => {

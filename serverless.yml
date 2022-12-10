@@ -70,35 +70,6 @@ custom:
         - Ref: 'AWS::AccountId'
         - 'cluster'
         - !Ref AuroraDBCluster
-
-functions:
-  test-test:
-    handler: ./packages/infrastructure/aws/lambdas/build/test/test.handler
-    events:
-      - httpApi:
-          path: /
-          method: GET
-
-  test-getData:
-    handler: ./packages/infrastructure/aws/lambdas/build/test/getData.handler
-    events:
-      - httpApi:
-          path: /getData
-          method: GET
-  
-  todo-getTodos:
-    handler: ./packages/infrastructure/aws/lambdas/build/todo/getTodos.handler
-    events:
-      - httpApi:
-          path: /todo/getTodos
-          method: GET
-  
-  todo-createTodo:
-    handler: ./packages/infrastructure/aws/lambdas/build/todo/createTodo.handler
-    events:
-      - httpApi:
-          path: /todo/createTodo
-          method: POST
   
   graphql:
     handler: ./packages/infrastructure/aws/lambdas/build/graphql/server.graphqlHandler
@@ -113,7 +84,6 @@ functions:
   DBMigration:
     image:
       name: db-migration-runner
-    # role: DBMigrationRole
   
   blogPostAddedEvent:
     handler: ./packages/infrastructure/aws/lambdas/build/events/blogPostAdded.handler
@@ -140,7 +110,6 @@ resources:
   - ${file(serverless/resources/vpc.yml)}
   - ${file(serverless/resources/rds.yml)}
   - ${file(serverless/resources/queue.yml)}
-  #- ${file(serverless/resources/custom/dbmigration.yml)}
 
 package:
   patterns:

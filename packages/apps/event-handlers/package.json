@@ -1,0 +1,12 @@
+{
+  "name": "@pinkyring/apps_event-handlers",
+  "main": "build/app.js",
+  "scripts": {
+    "build": "tsc -b",
+    "start": "node ."
+  },
+  "dependencies": {
+    "@pinkyring/core": "*",
+    "@pinkyring/di-container": "*"
+  }
+}

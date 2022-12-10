@@ -1,8 +1,8 @@
-export interface BaseObject {
+export interface BaseDTO {
   id: string;
 }
 
-export interface BlogPost extends BaseObject {
+export interface BlogPost extends BaseDTO {
   //id: string;
   title: string;
   text: string;
@@ -12,7 +12,7 @@ export interface BlogPost extends BaseObject {
   authorId: string;
 }
 
-export interface Author extends BaseObject {
+export interface Author extends BaseDTO {
   //id: string;
   name: string;
 }

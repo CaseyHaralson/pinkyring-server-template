@@ -22,7 +22,7 @@
       "path": "./packages/apps/cron-jobs"
     },
     {
-      "path": "./packages/apps/test-events"
+      "path": "./packages/apps/event-handlers"
     },
     {
       "path": "./packages/core"
@@ -35,6 +35,9 @@
     },
     {
       "path": "./packages/infrastructure/aws/snqs"
+    },
+    {
+      "path": "./packages/infrastructure/data-validations"
     },
     {
       "path": "./packages/infrastructure/logging"

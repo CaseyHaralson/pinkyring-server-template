@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Author, BaseObject, BlogPost} from '../dtos/blogPost';
-import Principal from '../dtos/principal';
-import BlogService from '../services/blogService';
-import {IDataLoader, IDataLoaderConstructable} from './IDataLoader';
+import {BlogPost} from '../dtos/blogPost';
+import {IContext} from './IContext';
+import {createDataLoaders} from './IDataLoader';
+import {throwKnownErrors} from './IKnownErrorConstructable';
 
+/** The project graphql type definitions */
 export const typeDefs = `#graphql
   type BlogPost {
     id: String
@@ -20,8 +21,8 @@ export const typeDefs = `#graphql
   }
 
   type Query {
-    blogPosts: [BlogPost]
-    authors: [Author]
+    blogPosts(authorId: String, title: String): [BlogPost]
+    authors(name: String): [Author]
   }
 
   type Mutation {
@@ -41,13 +42,7 @@ export const typeDefs = `#graphql
   }
 `;
 
-export interface IContext {
-  principal: Principal;
-  blogService: BlogService;
-  dataLoaderConstructable: IDataLoaderConstructable;
-  authorDataLoader?: IDataLoader<string, Author>;
-}
-
+/** The project graphql data resolvers */
 export const resolvers = {
   Query: {
     blogPosts(_: any, args: any, context: IContext, info: any) {
@@ -64,51 +59,32 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addAuthor(_: any, args: any, context: IContext, info: any) {
-      return context.blogService.addAuthor(
-        context.principal,
-        args.requestId,
-        args
-      );
+    async addAuthor(_: any, args: any, context: IContext, info: any) {
+      return await throwKnownErrors(context, async () => {
+        return await context.blogService.addAuthor(
+          context.principal,
+          args.requestId,
+          args
+        );
+      });
     },
     async addBlogPost(_: any, args: any, context: IContext, info: any) {
-      return await context.blogService.addBlogPost(
-        context.principal,
-        args.requestId,
-        args
-      );
+      return await throwKnownErrors(context, async () => {
+        return await context.blogService.addBlogPost(
+          context.principal,
+          args.requestId,
+          args
+        );
+      });
     },
     async updateBlogPost(_: any, args: any, context: IContext, info: any) {
-      return await context.blogService.updateBlogPost(
-        context.principal,
-        args.requestId,
-        args
-      );
+      return await throwKnownErrors(context, async () => {
+        return await context.blogService.updateBlogPost(
+          context.principal,
+          args.requestId,
+          args
+        );
+      });
     },
   },
 };
-
-function createDataLoaders(context: IContext) {
-  if (context.authorDataLoader === undefined) {
-    context.authorDataLoader = new context.dataLoaderConstructable<
-      string,
-      Author
-    >(async (keys) => {
-      const authors = await context.blogService.getAuthors(context.principal, {
-        ids: keys as string[],
-      });
-
-      return mapObjectsToKeys(keys, authors);
-    });
-  }
-}
-
-function mapObjectsToKeys<T extends BaseObject>(
-  keys: readonly string[],
-  objs: T[]
-) {
-  const map: {[key: string]: T} = {};
-  objs.forEach((item) => [(map[item.id] = item)]);
-
-  return keys.map((key) => map[key]);
-}

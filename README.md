@@ -1,44 +1,185 @@
-# pinkyring
+# <%= projectName %>
 
-First time you run:
-- run "docker compose -f pre-start.yml up"
-- then run "docker compose up -d"
+This project was created with the Pinkyring project creator.
+Please check that documentation to create another project or to remove some pre-installed code from this project.
+https://github.com/CaseyHaralson/pinkyring
 
-To make code changes:
-- run "npm install"
-  - this can't be used from inside docker because the workspace node_modules packages need to be symlinked and that can't happen from inside docker
-  - will need node installed
+This project comes with the following as a starting point:
 
-To watch test code changes, you will need to open two terminals:
-- run "npm run build:watch" in one
-- run "npm run test:unit:watch" in the other (this will only rerun tests after a test file changes)
+- Github Workflows
+  - CodeQL Analysis
+  - Serverless Framework Deploy and Teardown into AWS
+  - CI with unit and integration tests, and style/linting checks
+- Serverless Framework
+  - Configuration to deploy the following to AWS:
+    - REST Lambdas
+    - GraphQL Lambda
+    - DB Migration Dockerfile/Lambda with Prisma
+    - Mysql Serverless Aurora RDS
+    - SNS Topic to automatic and manual pull SQS Queue
+- Code Style Rules
+  - ESLint
+  - Prettier
+- REST Endpoints
+- Graphql Endpoint
+- Prisma Database Stuff
+- Winston Logging
+- Cron maintenance jobs
+- Event bus/queue interactions
 
-Installing new npm packages to a workspace package:
-- run "npm install _npm_package_ --save -w packages/_workspace_package_name_"
+## Project Structure
 
-For prisma:
-- need to make a .env file in the interface-implementations package
-- can copy the .env.example file and fill in the values
+The project is structured around the principals of the onion/hexagonal architecture.
+It uses npm workspaces to separate functionality into different packages.
 
-Removing docker volumes created during docker compose:
-- docker compose -f __composefile.yml__ up -d
-- docker compose -f __composefile.yml__ down -v
+- https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/
+- https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)
 
-Rebuilding container with compose (build and recreate after the up):
-- docker compose up --build --force-recreate -d
+Basically, the **core package** has no external dependencies and defines the interfaces that it will need implemented. These are services and core business logic that wouldn't change if there were infrastructure changes.
 
-VS Code typescript intellisense isn't working after some change:
-- when you have a typescript file open, open the command palette (ctrl + shift + p)
-- TypeScript: Restart TS server
+The **infrastructure packages** implement the interfaces defined in the core.
+These packages give access to repositories, logging frameworks, etc.
+External dependencies will probably be utilized in these packages.
 
-To run the api package:
-- change directory to the api package project
-- run "npm run start"
+The **dependency container** ties the core and infrastructure packages together.
+This package knows everything about how things are tied together and can give different interface implementations based on environments or other rules. It also exposes services and other helpers so the apps can have access to these objects.
 
-Apps can ask for services and utils exposed by the di-container.
-Anything internal can ask for things via their class constructor and the di-container will inject the correct thing at runtime.
+The **apps packages** expose the functionality of the project. These are things that need to run, like endpoint servers, event listeners, or chron jobs. They ask the dependency container for objects.
 
-Idempotent requests are requests that need to only have an effect once, but will return the same result every time they are called.
-Idempotent requests should be as small as possible too.
+## Getting Started
 
+Note: you will need docker installed and running.
+
+### Run Everything Locally
+
+1. Install dependencies:
+
+`npm install`
+
+2. Build everything, create the database, and run the apps:
+
+`npm run everything`
+
+3. When you are finished exploring:
+
+`npm run everything:stop`
+
+### Exploring Everything
+
+After docker has everything running, you should have access to the following services:
+
+- Graphql Server: http://localhost:4000/graphql
+  - queries and mutations
+  - note: create a new blog post here to trigger events
+- Rest Server:
+  - Hello world: http://localhost:3000/
+  - Get authors: http://localhost:3000/authors
+  - Get blog posts: http://localhost:3000/blogposts
+  - Several event endpoints (maybe not as useful as the true event listener below)
+    - Create a queue to listen to new blog post events
+      - Post to: http://localhost:3000/event/queue/new
+      - with "name" as a query param or in the body (name=new.queue)
+    - Pick up an event from the queue you just created
+      - Post to: http://localhost:3000/event/:queuename/grab
+      - this is a post request because it changes the system
+- An event listener that is triggered from new blog post events
+  - Open the running docker container and look at the logs to see the event action
+- A cron jobs service running maintenance jobs
+  - Open the running docker container and look at the logs to see the action
+
+## Development Mode
+
+Note: you will need docker installed and running.
+
+### Setup
+
+1. Install dependencies:
+
+`npm install`
+
+2. Build project:
+
+`npm run build`
+
+3. Create the local .env file:
+
+`npm run generate:env`
+
+4. Run the infrastructure:
+
+`npm run infra`
+
+5. Generate database stuff:
+    1. Generate prisma client locally (to make sure it matches your environment): `npm run prisma generate`
+    2. Deploy the database schema: `npm run prisma migrate deploy`
+    3. Seed the database: `npm run prisma db seed`
+
+6. Navigate to one of the apps packages (packages/apps/api-graphql for example) and then run start:
+
+`npm run start`
+
+### Making Changes
+
+#### Core Services
+The BlogService in the core/services folder is an example of selecting and modifying data. The addBlogPost function also has an example of publishing an event.
+
+Everything in the project revolves around the core services so this is a good place to start for looking at how things connect.
+
+#### Security Principal
+The security principal object is defined in the core/interfaces folder. This is just a sketched in object for you to change to your situation.
+
+There is a security principal resolver in the infrastructure/util package. This package can be used to install external dependencies so you can resolve security objects that work with your system.
+
+#### Session
+The session is currently used as a way of passing data around for logging. The ISession interface in the core/interfaces folder defines what data is in the session. The SessionHandler in the infrastructure/util package creates and serves out session data.
+
+#### Idempotent Requests
+Idempotent requests are requests that need to only have an effect once, but will return the same result every time they are called. Making idempotent requests as small as possible can help with timeout and failure issues.
+
+The idempotent request helper will take a requestId from the client and save the result of the request. It will then return that same result if it receives that requestId again. The request is unique by a combination of principal, service, function, and requestId.
+
+#### Graphql
+The main Graphql files are in the core/graphql folder. The schema file defines the types and resolvers. The IContext file is used to load necessary services and objects into the resolvers. And, lastly, the IDataLoader can be used for data and batch loading objects.
+
+The graphql apps will need to reference the type/resolvers and load the IContext object. An example app is provided.
+
+#### Events
+Events are a way that the services can handle some things asynchronously. They are defined in the core/dtos folder. They are also a way that some external service can get access to what is happening in the project.
+
+#### Data Validations
+There is a specific package for basic data validations in the infrastructure/data-validations package. These can do validations before hitting the database and it's possible to publish this package so UI packages can run data validations before sending data to the server.
+
+There are also some data validations done at the database level. These validations can be seen in the infrastructure/relationaldb/util folder in the prismaErrors file.
+
+#### Configurations
+There is a central configuration helper that will help get configurations for the project. It tries to get configurations from the environment first, then from a .env file. 
+
+The configuration helper also allows settings to be set as "secret" which will only be able to come from a secret repository. The project template doesn't come with a secret repo so it is set as null in the di container loader. To load secrets, a file that implements the secret repository interface (from the core/interfaces/IConfig file) will need to be created and set in the di container loading function.
+
+### Notes
+
+#### Helpful Rule
+- Things internal to the main project (non-apps) can get their dependencies injected via their class constructor by the di container. External facing packages (apps) can ask the di container for things that have been specifically exposed.
+
+#### Installing New npm Packages to a Workspace Package
+`npm install <npm package> --save -w packages/<project package path>`
+
+#### Prisma Commands
+You can run prisma commands from the root project with the following command. There is a script that handles these commands and will also try to take care of keeping a local .env file in sync with the parent .env file.
+
+`npm run prisma <prisma command>`
+
+#### VS Code Typescript Intellisense
+If VS Code intellisense isn't working after some change, the following steps can help:
+
+1. `npm run build:clean`
+2. `npm run build`
+3. With a typescript file open, open the command palette (maybe ctrl + shift + p), and then select Typescript: Restart TS server
+
+## Published Package
+The project can publish several things to help other projects interface with it. The core/dtos folder and the infrastructure/data-validations packages can be published which will give access to:
+- the different object types the project is expecting
+- data validations for the different objects
+- the events that are published
+- expected errors the project can throw
 

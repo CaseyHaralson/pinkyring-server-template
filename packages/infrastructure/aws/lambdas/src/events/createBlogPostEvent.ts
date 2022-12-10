@@ -1,15 +1,15 @@
 import {BaseEvent, EventType} from '@pinkyring/core/dtos/events';
-import {BaseLogContext} from '@pinkyring/core/interfaces/ILog';
-import {UnknownPrincipal} from '@pinkyring/core/util/principalResolver';
+// import {BaseLogContext} from '@pinkyring/core/interfaces/ILog';
+// import {UnknownPrincipal} from '@pinkyring/core/interfaces/IPrincipal';
 import container from '@pinkyring/di-container/container';
 import {APIGatewayProxyResult} from 'aws-lambda';
 
 const eventHelper = container.resolveEventHelper();
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
-  const blc = {
-    principal: UnknownPrincipal,
-  } as BaseLogContext;
+  // const blc = {
+  //   principal: UnknownPrincipal,
+  // } as BaseLogContext;
 
   const event = {
     eventType: EventType.BLOG_POST_ADDED,
@@ -18,7 +18,7 @@ export const handler = async (): Promise<APIGatewayProxyResult> => {
     },
   } as BaseEvent;
 
-  const result = await eventHelper.publishEvent(blc, event);
+  const result = await eventHelper.publishEvent(event);
   return {
     statusCode: 200,
     body: JSON.stringify(result),

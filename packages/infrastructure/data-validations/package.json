@@ -1,0 +1,17 @@
+{
+  "name": "@pinkyring/infrastructure_data-validations",
+  "exports": {
+    "./*": "./build/*.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "build/*"
+      ]
+    }
+  },
+  "dependencies": {
+    "@pinkyring/core": "*",
+    "yup": "^1.0.0-beta.8"
+  }
+}

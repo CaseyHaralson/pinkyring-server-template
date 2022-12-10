@@ -1,33 +1,25 @@
 import {createContainer, AwilixContainer} from 'awilix';
-import TestService from '@pinkyring/core/services/testService';
-import TodoService from '@pinkyring/core/services/todoService';
 import BlogService from '@pinkyring/core/services/blogService';
-import PrincipalResolver from '@pinkyring/core/util/principalResolver';
 import EventHelper from '@pinkyring/core/util/eventHelper';
-import ConfigHelper from '@pinkyring/core/util/configHelper';
+import ConfigHelper, {Environment} from '@pinkyring/core/util/configHelper';
 import MaintenanceService from '@pinkyring/core/services/maintenanceService';
 import loadContainer from './containerLoader';
+import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
+import SubscriptionService from '@pinkyring/core/services/subscriptionService';
+import IntegrationTestHelperDbRepository from '@pinkyring/infrastructure_relationaldb/integrationTestHelperDbRepository';
+import IntegrationTestHelperQueueRepository from '@pinkyring/infrastructure_queue/integrationTestHelperQueueRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
+/**
+ * Exposes services and other helpers that allow the external apps to use the core project.
+ */
 class Container {
   private _container;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(container: AwilixContainer<any>) {
     this._container = container;
-  }
-
-  resolvePrincipalResolver() {
-    return this._container.cradle.principalResolver as PrincipalResolver;
-  }
-
-  resolveTestService() {
-    return this._container.cradle.testService as TestService;
-  }
-
-  resolveTodoService() {
-    return this._container.cradle.todoService as TodoService;
   }
 
   resolveBlogService() {
@@ -38,15 +30,70 @@ class Container {
     return this._container.cradle.maintenanceService as MaintenanceService;
   }
 
+  resolveSubscriptionService() {
+    return this._container.cradle.subscriptionService as SubscriptionService;
+  }
+
+  /**
+   * Resolves the configured PrincipalResolver object.
+   * This is exposed so external apps can use their knowledge of the current request to help resolve the security principal.
+   * @returns PrincipalResolver
+   */
+  resolvePrincipalResolver() {
+    return this._container.cradle.principalResolver as PrincipalResolver;
+  }
+
+  /**
+   * Resolves the configured ConfigHelper object.
+   * This is exposed so external apps can get their configurations from the same location as the rest of the project.
+   * @returns ConfigHelper
+   */
   resolveConfigHelper() {
     return this._container.cradle.configHelper as ConfigHelper;
   }
 
+  /**
+   * Resolves the configured EventHelper object.
+   * This is exposed so an event listener app can interact with the underlying event system.
+   * @returns EventHelper
+   */
   resolveEventHelper() {
     return this._container.cradle.eventHelper as EventHelper;
   }
+
+  // ==================================================
+  //             TEST ENVIRONMENT ONLY
+
+  /** Test environment only: Resolves the configured IntegrationTestHelperDbRepository. */
+  resolveIntegrationTestHelperDbRepository() {
+    if (this.resolveConfigHelper().getEnvironment() !== Environment.TEST) {
+      throw new Error(
+        `This can only be resolved in the test environment. This shouldn't be used during regular development.`
+      );
+    }
+    return this._container.cradle
+      .integrationTestHelperDbRepository as IntegrationTestHelperDbRepository;
+  }
+
+  /** Test environment only: Resolves the configured IntegrationTestHelperQueueRepository. */
+  resolveIntegrationTestHelperQueueRepository() {
+    if (this.resolveConfigHelper().getEnvironment() !== Environment.TEST) {
+      throw new Error(
+        `This can only be resolved in the test environment. This shouldn't be used during regular development.`
+      );
+    }
+    return this._container.cradle
+      .integrationTestHelperQueueRepository as IntegrationTestHelperQueueRepository;
+  }
+
+  // ==================================================
 }
 
 loadContainer(awilix_container);
+
+/**
+ * The DI container that is configured with the project objects.
+ * It exposes services and other helpers that allow the external apps to use the core project.
+ */
 const container = new Container(awilix_container);
 export default container;

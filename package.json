@@ -1,19 +1,24 @@
 {
   "name": "pinkyring",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "merge-check": "npm run lint && npm run prettier:check && npm run test:unit && npm run test:it",
-    "build:clean": "npx rimraf ./packages/**/build && npx rimraf ./packages/**/tsconfig.tsbuildinfo",
+    "everything": "npm run build && npm run generate:env && docker compose -f docker-compose.run-everything.yml up -d",
+    "everything:stop": "docker compose -f docker-compose.run-everything.yml down",
+    "generate:env": "node ./.env-maker.js",
+    "infra": "docker compose up -d",
+    "infra:stop": "docker compose down",
     "build": "tsc -b",
     "build:watch": "tsc -b -w",
+    "build:clean": "npx rimraf ./packages/**/build && npx rimraf ./packages/**/tsconfig.tsbuildinfo",
+    "merge-check": "npm run lint && npm run prettier:check && npm run test:unit && npm run test:it",
     "prettier": "npx prettier --write .",
     "prettier:check": "npx prettier --check .",
     "lint": "npx eslint . --report-unused-disable-directives --max-warnings=0",
     "test:unit": "npm run build && npx jest --config packages/tests/jest.config.unit.js",
     "test:unit:watch": "npx jest --config packages/tests/jest.config.unit.ts.js --watch",
-    "test:it": "npm run build && npx jest --config packages/tests/jest.config.it.js",
-    "prisma": "cd packages/infrastructure/relationaldb && npx prisma generate && npx prisma migrate deploy && cd ../../ && npm run test:it"
+    "test:it": "npm run build && npx jest --detectOpenHandles --config packages/tests/jest.config.it.js",
+    "prisma": "cd packages/infrastructure/relationaldb/prisma && node ./run-prisma-command.js"
   },
   "workspaces": [
     "packages/**/*"
@@ -22,11 +27,12 @@
     "@pinkyring/apps_api-graphql": "*",
     "@pinkyring/apps_api-rest": "*",
     "@pinkyring/apps_cron-jobs": "*",
-    "@pinkyring/apps_test-events": "*",
+    "@pinkyring/apps_event-handlers": "*",
     "@pinkyring/core": "*",
     "@pinkyring/di-container": "*",
     "@pinkyring/infrastructure_aws_lambdas": "*",
     "@pinkyring/infrastructure_aws_snqs": "*",
+    "@pinkyring/infrastructure_data-validations": "*",
     "@pinkyring/infrastructure_logging": "*",
     "@pinkyring/infrastructure_queue": "*",
     "@pinkyring/infrastructure_relationaldb": "*",
@@ -34,14 +40,10 @@
   },
   "devDependencies": {
     "@pinkyring/tests": "*",
-    "@types/jest": "^29.2.0",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "eslint": "^8.26.0",
-    "jest": "^29.2.2",
-    "jest-mock-extended": "^3.0.1",
     "prettier": "2.7.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^29.0.3",
     "typescript": "^4.8.4"
   }
 }

@@ -5,7 +5,7 @@
     "declaration": true,
     "sourceMap": true,
     "strict": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,6 +20,9 @@
     },
     {
       "path": "../infrastructure/aws/snqs"
+    },
+    {
+      "path": "../infrastructure/data-validations"
     },
     {
       "path": "../infrastructure/logging"

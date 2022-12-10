@@ -7,9 +7,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
       - name: '☁️ checkout repository'
         uses: actions/checkout@v3
@@ -18,7 +15,7 @@ jobs:
       - name: '🔧 setup node'
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
         timeout-minutes: 1
 
       - name: '📦 install dependencies'
@@ -29,6 +26,7 @@ jobs:
         run: npm run build
         timeout-minutes: 1
       
+      # generate the prisma files that will be needed for db migration
       - name: '🔧 setup prisma - generate'
         working-directory: ./packages/infrastructure/relationaldb
         run: npx prisma generate
@@ -50,6 +48,7 @@ jobs:
         run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         timeout-minutes: 1
 
+      # copy the prisma files that were generated in an earlier step
       - name: '🔧 pre serverless deploy - copy files'
         run: cp -r packages/infrastructure/relationaldb/prisma serverless/dbmigration/prisma
         timeout-minutes: 1

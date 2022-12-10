@@ -1,4 +1,3 @@
-import {Environment} from '../dtos/enums';
 import {
   ConfigKey,
   IConfigFileReader,
@@ -6,8 +5,18 @@ import {
 } from '../interfaces/IConfig';
 import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '../interfaces/IConfig';
 
+export enum Environment {
+  DEVELOPMENT = 'development',
+  TEST = 'test',
+  QAT = 'qat',
+  UAT = 'uat',
+  PRODUCTION = 'production',
+}
+
 const CONFIGKEYNAME_ENVIRONMENT = 'NODE_ENV';
 
+/** Helper class to get configuration values for the project from one central location. */
+// can't extend the BaseClass because the base class needs this object as a parameter
 export default class ConfigHelper {
   private _secretRepository;
   private _configFileReader;
@@ -21,6 +30,10 @@ export default class ConfigHelper {
 
   private _registeredKeys = new Map<string, ConfigKey>();
 
+  /**
+   * Registers the needed configurations and makes sure the values can be found.
+   * @param keys the configuration keys that need to be registered
+   */
   registerNeededConfigurations(keys: ConfigKey[]) {
     const missingConfigurations: string[] = [];
     let secretKeyInList = false;
@@ -73,6 +86,16 @@ export default class ConfigHelper {
     }
   }
 
+  /**
+   * Gets the configuration by key.
+   * The key must be registered before it can be retrieved.
+   *
+   * If the key is registered as secret, then the value will only be retrieved from the secret repo.
+   * Else, the value is retrieved from the environment first, then from the .env file.
+   *
+   * @param keyName the key that needs to retrieved
+   * @returns the value found in the configuration source
+   */
   getConfigValue(keyName: string): string {
     const value = this.getPossiblyUndefinedConfigValue(keyName);
     return value ?? '';
@@ -110,6 +133,7 @@ export default class ConfigHelper {
     return undefined;
   }
 
+  /** Returns the configured environment type for where the project is running. */
   getEnvironment() {
     this.registerEnvironmentAsNeededConfig();
     const env =

@@ -1,14 +1,19 @@
 import winston, {format, transports} from 'winston';
-import {ILogHandler, LogContext} from '@pinkyring/core/interfaces/ILog';
-import {Environment, LogLevel} from '@pinkyring/core/dtos/enums';
+import {
+  ILogHandler,
+  LogContext,
+  LogLevel,
+} from '@pinkyring/core/interfaces/ILog';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '@pinkyring/core/interfaces/IConfig';
+import {Environment} from '@pinkyring/core/util/configHelper';
 
 const CONFIGKEYNAME_PROJECT_NAME = `${CONFIGKEYNAME_PROJECTDATA_PREFIX}NAME`;
 const CONFIGKEYNAME_PROJECT_VERSION = `${CONFIGKEYNAME_PROJECTDATA_PREFIX}VERSION`;
 
 // when changing the log format
 // make sure that whatever is parsing the logs can handle the new format
+
 const logFormat = format.printf((info) => {
   let s = '';
   s = `${info.timestamp}`;
@@ -36,14 +41,11 @@ const logFormat = format.printf((info) => {
   }
 
   s += info.metadata.context?.currentObj
-    ? `${info.metadata.context.currentObj.className()}`
-    : `Unknown Class`;
-  s += info.metadata.context?.methodName
-    ? `.${info.metadata.context.methodName}]`
-    : `.Unknown Function]`;
+    ? `${info.metadata.context.currentObj.className()}]`
+    : `Unknown Class]`;
 
-  if (info.metadata.context?.requestId) {
-    s += `[Request:${info.metadata.context.requestId}]`;
+  if (info.metadata.context?.sessionId) {
+    s += `[Session:${info.metadata.context.sessionId}]`;
     s += ': ';
   } else {
     s += '[]: ';
@@ -82,7 +84,11 @@ export default class WinstonLogger extends BaseClass implements ILogHandler {
 
     this._realLogger = winston.createLogger({
       level:
-        this.getEnvironment() === Environment.PRODUCTION ? 'info' : 'debug',
+        this.getEnvironment() === Environment.PRODUCTION
+          ? 'info'
+          : this.getEnvironment() === Environment.TEST
+          ? 'warn'
+          : 'debug',
       format: format.combine(
         format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}),
         // Format the metadata object
@@ -94,6 +100,29 @@ export default class WinstonLogger extends BaseClass implements ILogHandler {
         new transports.Console({
           format: consoleFormat,
         }),
+        // new transports.File({
+        //   filename: 'session-log.txt',
+        //   level: 'debug',
+        //   format: format.combine(
+        //     format.printf((info) => {
+        //       let s = '';
+        //       s = `${info.timestamp}`;
+        //       s += ' ';
+        //       if (info.metadata.context?.sessionId) {
+        //         s += `[Session:${info.metadata.context.sessionId}]`;
+        //         s += ': ';
+        //       } else {
+        //         s += '[]: ';
+        //       }
+        //       if (info.metadata.context?.principal) {
+        //         s += `Principal Identity Id: ${JSON.stringify(
+        //           info.metadata.context?.principal.identity.id
+        //         )}`;
+        //       }
+        //       return s;
+        //     })
+        //   ),
+        // }),
       ],
     });
   }
