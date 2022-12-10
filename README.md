@@ -144,11 +144,22 @@ The graphql apps will need to reference the type/resolvers and load the IContext
 #### Events
 Events are a way that the services can handle some things asynchronously. They are defined in the core/dtos folder. They are also a way that some external service can get access to what is happening in the project.
 
+#### Data Validations
+There is a specific package for basic data validations in the infrastructure/data-validations package. These can do validations before hitting the database and it's possible to publish this package so UI packages can run data validations before sending data to the server.
+
+There are also some data validations done at the database level. These validations can be seen in the infrastructure/relationaldb/util folder in the prismaErrors file.
+
+#### Configurations
+There is a central configuration helper that will help get configurations for the project. It tries to get configurations from the environment first, then from a .env file. 
+
+The configuration helper also allows settings to be set as "secret" which will only be able to come from a secret repository. The project template doesn't come with a secret repo so it is set as null in the di container loader. To load secrets, a file that implements the secret repository interface (from the core/interfaces/IConfig file) will need to be created and set in the di container loading function.
+
 ## Published Package
 The project can publish several things to help other projects interface with it. The core/dtos folder and the infrastructure/data-validations packages can be published which will give access to:
 - the different object types the project is expecting
 - data validations for the different objects
 - the events that are published
+- expected errors the project can throw
 
 
 
