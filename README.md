@@ -134,6 +134,8 @@ There is a security principal resolver in the infrastructure/util package. This 
 The session is currently used as a way of passing data around for logging. The ISession interface in the core/interfaces folder defines what data is in the session. The SessionHandler in the infrastructure/util package is creating and serving out session data.
 
 #### Idempotent Requests
+Idempotent requests are requests that need to only have an effect once, but will return the same result every time they are called. Making idempotent requests as small as possible can help with timeout and failure issues.
+
 The idempotent request helper will take a requestId from the client and save the result of the request. It will then return that same result if it receives that requestId again. The request is unique by a combination of principal, service, function, and requestId.
 
 #### Graphql
@@ -154,6 +156,26 @@ There is a central configuration helper that will help get configurations for th
 
 The configuration helper also allows settings to be set as "secret" which will only be able to come from a secret repository. The project template doesn't come with a secret repo so it is set as null in the di container loader. To load secrets, a file that implements the secret repository interface (from the core/interfaces/IConfig file) will need to be created and set in the di container loading function.
 
+### Notes
+
+#### Helpful Rule
+- Things internal to the main project (non-apps) can get their dependencies injected via their class constructor by the di container. External facing packages (apps) can ask the di container for things that have been specifically exposed.
+
+#### Installing New npm Packages to a Workspace Package
+`npm install <npm package> --save -w packages/<project package path>`
+
+#### Prisma Commands
+You can run prisma commands from the root project with the following command. There is a script that handles these commands and will also try to take care of keeping a local .env file in sync with the parent .env file.
+
+`npm run prisma <prisma command>`
+
+#### VS Code Typescript Intellisense
+If VS Code intellisense isn't working after some change, the following steps can help:
+
+1. `npm run build:clean`
+2. `npm run build`
+3. With a typescript file open, open the command palette (maybe ctrl + shift + p), and then select Typescript: Restart TS server
+
 ## Published Package
 The project can publish several things to help other projects interface with it. The core/dtos folder and the infrastructure/data-validations packages can be published which will give access to:
 - the different object types the project is expecting
@@ -161,32 +183,3 @@ The project can publish several things to help other projects interface with it.
 - the events that are published
 - expected errors the project can throw
 
-
-
-
-Notes for later:
-
-- core, no dependencies, using orm...
-- principal
-- things internal to the project need to implement baseclass and services need to implement baseservice.
-- things internal to the project get their dependencies resolved by the di container, things external to the project can use one of the specialized functions defined by the di container
--
-
-
-
-Installing new npm packages to a workspace package:
-
-- run "npm install _npm_package_ --save -w packages/_workspace_package_name_"
-
-
-VS Code typescript intellisense isn't working after some change:
-
-- when you have a typescript file open, open the command palette (ctrl + shift + p)
-- TypeScript: Restart TS server
-
-
-Apps can ask for services and utils exposed by the di-container.
-Anything internal can ask for things via their class constructor and the di-container will inject the correct thing at runtime.
-
-Idempotent requests are requests that need to only have an effect once, but will return the same result every time they are called.
-Idempotent requests should be as small as possible too.
