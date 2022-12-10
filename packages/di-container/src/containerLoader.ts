@@ -19,7 +19,8 @@ import SessionHandler from '@pinkyring/infrastructure_util/sessionHandler';
 import SubscriptionService from '@pinkyring/core/services/subscriptionService';
 import AuthorDataValidator from '@pinkyring/infrastructure_data-validations/authorDataValidator';
 import BlogPostDataValidator from '@pinkyring/infrastructure_data-validations/blogPostDataValidator';
-import IntegrationTestHelperRepository from '@pinkyring/infrastructure_relationaldb/integrationTestHelperRepository';
+import IntegrationTestHelperDbRepository from '@pinkyring/infrastructure_relationaldb/integrationTestHelperDbRepository';
+import IntegrationTestHelperQueueRepository from '@pinkyring/infrastructure_queue/integrationTestHelperQueueRepository';
 
 export default function loadContainer(container: AwilixContainer) {
   loadConfigHelper(container);
@@ -65,7 +66,12 @@ const loadLocalItems = function (container: AwilixContainer) {
 
 const loadTestItems = function (container: AwilixContainer) {
   container.register({
-    integrationTestHelperRepository: asClass(IntegrationTestHelperRepository),
+    integrationTestHelperDbRepository: asClass(
+      IntegrationTestHelperDbRepository
+    ),
+    integrationTestHelperQueueRepository: asClass(
+      IntegrationTestHelperQueueRepository
+    ),
   });
 };
 

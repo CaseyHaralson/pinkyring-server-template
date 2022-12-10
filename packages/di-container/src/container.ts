@@ -6,7 +6,8 @@ import MaintenanceService from '@pinkyring/core/services/maintenanceService';
 import loadContainer from './containerLoader';
 import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
 import SubscriptionService from '@pinkyring/core/services/subscriptionService';
-import IntegrationTestHelperRepository from '@pinkyring/infrastructure_relationaldb/integrationTestHelperRepository';
+import IntegrationTestHelperDbRepository from '@pinkyring/infrastructure_relationaldb/integrationTestHelperDbRepository';
+import IntegrationTestHelperQueueRepository from '@pinkyring/infrastructure_queue/integrationTestHelperQueueRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -63,15 +64,26 @@ class Container {
   // ==================================================
   //             TEST ENVIRONMENT ONLY
 
-  /** Test environment only: Resolves the configured IntegrationTestHelperRepository. */
-  resolveIntegrationTestHelperRepository() {
+  /** Test environment only: Resolves the configured IntegrationTestHelperDbRepository. */
+  resolveIntegrationTestHelperDbRepository() {
     if (this.resolveConfigHelper().getEnvironment() !== Environment.TEST) {
       throw new Error(
         `This can only be resolved in the test environment. This shouldn't be used during regular development.`
       );
     }
     return this._container.cradle
-      .integrationTestHelperRepository as IntegrationTestHelperRepository;
+      .integrationTestHelperDbRepository as IntegrationTestHelperDbRepository;
+  }
+
+  /** Test environment only: Resolves the configured IntegrationTestHelperQueueRepository. */
+  resolveIntegrationTestHelperQueueRepository() {
+    if (this.resolveConfigHelper().getEnvironment() !== Environment.TEST) {
+      throw new Error(
+        `This can only be resolved in the test environment. This shouldn't be used during regular development.`
+      );
+    }
+    return this._container.cradle
+      .integrationTestHelperQueueRepository as IntegrationTestHelperQueueRepository;
   }
 
   // ==================================================

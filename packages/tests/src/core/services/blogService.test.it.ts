@@ -1,14 +1,24 @@
+import {
+  EVENT_BUS_NAME,
+  EventType,
+  BaseEvent,
+  BlogPostAddedEvent,
+} from '@pinkyring/core/dtos/events';
 import container from '@pinkyring/di-container/container';
 import {v4 as uuidv4} from 'uuid';
 
 describe('todo service integration tests', () => {
   const service = container.resolveBlogService();
-  const helperRepo = container.resolveIntegrationTestHelperRepository();
+  const helperDbRepo = container.resolveIntegrationTestHelperDbRepository();
+  const helperQueueRepo =
+    container.resolveIntegrationTestHelperQueueRepository();
   const eventHelper = container.resolveEventHelper();
 
   const principal = container
     .resolvePrincipalResolver()
     .resolveMachinePrincipal('blogService integration tester');
+
+  const queueName = 'integration_test_queue';
 
   beforeEach(async () => {
     // delete test blog posts
@@ -16,7 +26,7 @@ describe('todo service integration tests', () => {
       title: 'integration test title',
     });
     testBlogPosts.forEach(async (blogPost) => {
-      await helperRepo.deleteBlogPost(blogPost.id);
+      await helperDbRepo.deleteBlogPost(blogPost.id);
     });
 
     // delete test authors
@@ -24,10 +34,11 @@ describe('todo service integration tests', () => {
       name: 'integration test author',
     });
     testAuthors.forEach(async (author) => {
-      await helperRepo.deleteAuthor(author.id);
+      await helperDbRepo.deleteAuthor(author.id);
     });
 
-    // what about bus/queue stuff?
+    // delete test queue
+    await helperQueueRepo.deleteQueue(queueName);
   });
 
   describe(`get blog posts function`, () => {
@@ -89,6 +100,59 @@ describe('todo service integration tests', () => {
       expect(foundBlogPosts[0].authorId).toBe(blogPost.authorId);
       expect(foundBlogPosts[0].title).toBe(blogPost.title);
       expect(foundBlogPosts[0].text).toBe(blogPost.text);
+    });
+
+    test('should trigger queue event listener', async () => {
+      await eventHelper.createQueue(
+        queueName,
+        EVENT_BUS_NAME,
+        EventType.BLOG_POST_ADDED
+      );
+
+      let eventFromQueue: BaseEvent | undefined = undefined;
+      const connection = await eventHelper.listenForEvents(
+        queueName,
+        (event: BaseEvent) => {
+          eventFromQueue = event;
+          return Promise.resolve(true);
+        }
+      );
+
+      const authors = await service.getAuthors(principal, {});
+
+      const requestId = uuidv4();
+      const blogPost = await service.addBlogPost(principal, requestId, {
+        id: '',
+        authorId: authors[0].id,
+        title: 'integration test title',
+        text: 'integration test text',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      // wait one tick for the event to get processed
+      // and another tick for the event listener return to resolve
+      //await new Promise(process.nextTick);
+      //await new Promise(process.nextTick);
+
+      for (let i = 0; i < 10; i++) {
+        if (eventFromQueue !== undefined) {
+          break;
+        } else {
+          await new Promise(process.nextTick);
+        }
+      }
+
+      expect(eventFromQueue).not.toBe(null);
+      expect(eventFromQueue).not.toBe(undefined);
+      if (eventFromQueue !== undefined) {
+        const blogPostAddedEvent = eventFromQueue as BlogPostAddedEvent;
+        expect(blogPostAddedEvent.eventType).toBe(EventType.BLOG_POST_ADDED);
+        expect(blogPostAddedEvent.eventData.authorId).toBe(blogPost.authorId);
+        expect(blogPostAddedEvent.eventData.blogPostId).toBe(blogPost.id);
+      }
+
+      await eventHelper.closeEventListenerConnection(connection);
     });
   });
 

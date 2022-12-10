@@ -2,7 +2,7 @@ import BaseClass from '@pinkyring/core/util/baseClass';
 import {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {PrismaClient} from '@prisma/client';
 
-export default class IntegrationTestHelperRepository extends BaseClass {
+export default class IntegrationTestHelperDbRepository extends BaseClass {
   private _prismaClient;
   constructor(baseParams: IBaseParams, prismaClient: PrismaClient) {
     super(baseParams, 'IntegrationTestHelperRepository');

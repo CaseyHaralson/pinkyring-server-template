@@ -33,7 +33,8 @@ export default class EventRepository
       event.eventType,
       Buffer.from(JSON.stringify(event))
     );
-    this.closeConnection(connection);
+    //this.closeConnectionAfterTimeout(connection);
+    await this.closeConnection(connection);
   }
 
   async createQueue(
@@ -57,19 +58,20 @@ export default class EventRepository
       }
     }
 
-    this.closeConnection(connection);
+    //this.closeConnectionAfterTimeout(connection);
+    await this.closeConnection(connection);
   }
 
   async listenForEvents(
     queueName: string,
     handlerFunc: (event: BaseEvent) => Promise<boolean>
-  ) {
+  ): Promise<unknown> {
     const connection = await connect(
       this.getConfigValue(CONFIGKEYNAME_RABBITMQ_URL)
     );
     const channel = await connection.createChannel();
     await channel.assertQueue(queueName, {durable: DURABLE});
-    channel.consume(
+    await channel.consume(
       queueName,
       async function (msg) {
         if (msg) {
@@ -85,6 +87,11 @@ export default class EventRepository
         noAck: false,
       }
     );
+    return channel;
+  }
+
+  async closeEventListenerConnection(eventListenerConnection: unknown) {
+    await this.closeConnection(eventListenerConnection as Connection);
   }
 
   async getEventFromQueue(queueName: string) {
@@ -101,11 +108,11 @@ export default class EventRepository
       const content = msg.content.toString();
       const event = JSON.parse(content) as BaseEvent;
 
-      this.closeConnection(connection);
+      this.closeConnectionAfterTimeout(connection);
       return event;
     }
 
-    this.closeConnection(connection);
+    this.closeConnectionAfterTimeout(connection);
     return null;
   }
 
@@ -115,11 +122,15 @@ export default class EventRepository
     );
     const channel = await connection.createChannel();
     const queue = await channel.assertQueue(queueName, {durable: DURABLE});
-    this.closeConnection(connection);
+    this.closeConnectionAfterTimeout(connection);
     return queue.messageCount;
   }
 
-  private closeConnection(connection: Connection) {
+  private async closeConnection(connection: Connection) {
+    await connection.close();
+  }
+
+  private closeConnectionAfterTimeout(connection: Connection) {
     setTimeout(async function () {
       await connection.close();
     }, 500);
