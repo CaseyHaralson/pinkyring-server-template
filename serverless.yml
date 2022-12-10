@@ -42,9 +42,6 @@ provider:
         - Effect: Allow
           Action: SNS:Publish
           Resource: '*'
-        # - Effect: Allow
-        #   Action: sqs:ReceiveMessage
-        #   Resource: '*'
 
 custom:
   # the following should come from a secrets store
@@ -93,6 +90,7 @@ functions:
     handler: ./packages/infrastructure/aws/lambdas/build/maintenance/cleanOldIdempotentRequests.handler
     events:
       - schedule: cron(0 1 * * ? *)
+      - schedule: rate(10 minutes)
 
 resources:
   - ${file(serverless/resources/vpc.yml)}
