@@ -44,7 +44,7 @@ External dependencies will probably be utilized in these packages.
 The **dependency container** ties the core and infrastructure packages together.
 This package knows everything about how things are tied together and can give different interface implementations based on environments or other rules.
 
-The **apps packages** expose the functionality of the project. These are things that have to run, like endpoint servers, event listeners, or chron jobs. They ask the dependency container for objects.
+The **apps packages** expose the functionality of the project. These are things that need to run, like endpoint servers, event listeners, or chron jobs. They ask the dependency container for objects.
 
 ## Getting Started
 
@@ -75,7 +75,7 @@ After docker has everything running, you should have access to the following ser
   - Hello world: http://localhost:3000/
   - Get authors: http://localhost:3000/authors
   - Get blog posts: http://localhost:3000/blogposts
-  - Several event endpoints (probably not as useful as the true event listener below)
+  - Several event endpoints (maybe not as useful as the true event listener below)
     - Create a queue to listen to new blog post events
       - Post to: http://localhost:3000/event/queue/new
       - with "name" as a query param or in the body (name=new.queue)
