@@ -4,7 +4,7 @@ This project was created with the Pinkyring project creator.
 Please check that documentation to create another project or to remove some pre-installed code from this project.
 https://github.com/CaseyHaralson/pinkyring
 
-This project comes with the following:
+This project comes with the following as a starting point:
 
 - Github Workflows
   - CodeQL Analysis
@@ -84,7 +84,7 @@ After docker has everything running, you should have access to the following ser
       - this is a post request because it changes the system
 - An event listener that is triggered from new blog post events
   - Open the running docker container and look at the logs to see the event action
-- A cron jobs service
+- A cron jobs service running maintenance jobs
   - Open the running docker container and look at the logs to see the action
 
 ## Development Mode
@@ -120,6 +120,37 @@ Note: you will need docker installed and running.
 
 ### Making Changes
 
+#### Core Services
+The BlogService in the core/services folder is an example of selecting and modifying data. The addBlogPost function also has an example of publishing an event.
+
+Everything in the project revolves around the core services so this is a good place to start for looking at how things connect.
+
+#### Security Principal
+The security principal object is defined in the core/interfaces folder. This is just a sketched in object for you to change to your situation.
+
+There is a security principal resolver in the infrastructure/util package. This package can be used to install external dependencies so you can resolve security objects that work with your system.
+
+#### Session
+The session is currently used as a way of passing data around for logging. The ISession interface in the core/interfaces folder defines what data is in the session. The SessionHandler in the infrastructure/util package is creating and serving out session data.
+
+#### Idempotent Requests
+The idempotent request helper will take a requestId from the client and save the result of the request. It will then return that same result if it receives that requestId again. The request is unique by a combination of principal, service, function, and requestId.
+
+#### Graphql
+The main Graphql files are in the core/graphql folder. The schema file defines the types and resolvers. The IContext file is used to load necessary services and objects into the resolvers. And, lastly, the IDataLoader can be used for data and batch loading objects.
+
+The graphql apps will need to reference the type/resolvers and load the IContext object. An example app is provided.
+
+#### Events
+Events are a way that the services can handle some things asynchronously. They are defined in the core/dtos folder. They are also a way that some external service can get access to what is happening in the project.
+
+## Published Package
+The project can publish several things to help other projects interface with it. The core/dtos folder and the infrastructure/data-validations packages can be published which will give access to:
+- the different object types the project is expecting
+- data validations for the different objects
+- the events that are published
+
+
 
 
 Notes for later:
@@ -130,49 +161,18 @@ Notes for later:
 - things internal to the project get their dependencies resolved by the di container, things external to the project can use one of the specialized functions defined by the di container
 -
 
-First time you run:
 
-- run "docker compose -f pre-start.yml up"
-- then run "docker compose up -d"
-
-To make code changes:
-
-- run "npm install"
-  - this can't be used from inside docker because the workspace node_modules packages need to be symlinked and that can't happen from inside docker
-  - will need node installed
-
-To watch test code changes, you will need to open two terminals:
-
-- run "npm run build:watch" in one
-- run "npm run test:unit:watch" in the other (this will only rerun tests after a test file changes)
 
 Installing new npm packages to a workspace package:
 
 - run "npm install _npm_package_ --save -w packages/_workspace_package_name_"
 
-For prisma:
-
-- need to make a .env file in the interface-implementations package
-- can copy the .env.example file and fill in the values
-
-Removing docker volumes created during docker compose:
-
-- docker compose -f **composefile.yml** up -d
-- docker compose -f **composefile.yml** down -v
-
-Rebuilding container with compose (build and recreate after the up):
-
-- docker compose up --build --force-recreate -d
 
 VS Code typescript intellisense isn't working after some change:
 
 - when you have a typescript file open, open the command palette (ctrl + shift + p)
 - TypeScript: Restart TS server
 
-To run the api package:
-
-- change directory to the api package project
-- run "npm run start"
 
 Apps can ask for services and utils exposed by the di-container.
 Anything internal can ask for things via their class constructor and the di-container will inject the correct thing at runtime.
