@@ -59,6 +59,7 @@ jobs:
         with:
           envkey_NODE_ENV: 'test'
           envkey_IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS: '24'
+          envkey_IDEMPOTENT_REQUESTS_TIMEDOUT_SECONDS: '60'
 
       - name: '📦 install dependencies'
         uses: bahmutov/npm-install@v1
