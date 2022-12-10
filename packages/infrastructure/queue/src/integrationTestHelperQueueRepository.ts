@@ -1,4 +1,4 @@
-import {connect, Connection} from 'amqplib';
+import {connect} from 'amqplib';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 
 const CONFIGKEYNAME_RABBITMQ_URL = 'RABBITMQ_URL';

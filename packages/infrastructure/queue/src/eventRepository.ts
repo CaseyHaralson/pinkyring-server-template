@@ -33,8 +33,8 @@ export default class EventRepository
       event.eventType,
       Buffer.from(JSON.stringify(event))
     );
-    //this.closeConnectionAfterTimeout(connection);
-    await this.closeConnection(connection);
+    this.closeConnectionAfterTimeout(connection);
+    //await this.closeConnection(connection);
   }
 
   async createQueue(
@@ -58,8 +58,8 @@ export default class EventRepository
       }
     }
 
-    //this.closeConnectionAfterTimeout(connection);
-    await this.closeConnection(connection);
+    this.closeConnectionAfterTimeout(connection);
+    //await this.closeConnection(connection);
   }
 
   async listenForEvents(
@@ -133,6 +133,6 @@ export default class EventRepository
   private closeConnectionAfterTimeout(connection: Connection) {
     setTimeout(async function () {
       await connection.close();
-    }, 500);
+    }, 50);
   }
 }

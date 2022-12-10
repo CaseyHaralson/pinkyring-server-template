@@ -1,7 +1,6 @@
 import {
   EVENT_BUS_NAME,
   EventType,
-  BaseEvent,
   BlogPostAddedEvent,
 } from '@pinkyring/core/dtos/events';
 import container from '@pinkyring/di-container/container';
@@ -102,20 +101,11 @@ describe('todo service integration tests', () => {
       expect(foundBlogPosts[0].text).toBe(blogPost.text);
     });
 
-    test('should trigger queue event listener', async () => {
+    test('should publish event', async () => {
       await eventHelper.createQueue(
         queueName,
         EVENT_BUS_NAME,
         EventType.BLOG_POST_ADDED
-      );
-
-      let eventFromQueue: BaseEvent | undefined = undefined;
-      const connection = await eventHelper.listenForEvents(
-        queueName,
-        (event: BaseEvent) => {
-          eventFromQueue = event;
-          return Promise.resolve(true);
-        }
       );
 
       const authors = await service.getAuthors(principal, {});
@@ -130,18 +120,7 @@ describe('todo service integration tests', () => {
         updatedAt: new Date(),
       });
 
-      // wait one tick for the event to get processed
-      // and another tick for the event listener return to resolve
-      //await new Promise(process.nextTick);
-      //await new Promise(process.nextTick);
-
-      for (let i = 0; i < 10; i++) {
-        if (eventFromQueue !== undefined) {
-          break;
-        } else {
-          await new Promise(process.nextTick);
-        }
-      }
+      const eventFromQueue = await eventHelper.getEventFromQueue(queueName);
 
       expect(eventFromQueue).not.toBe(null);
       expect(eventFromQueue).not.toBe(undefined);
@@ -151,8 +130,6 @@ describe('todo service integration tests', () => {
         expect(blogPostAddedEvent.eventData.authorId).toBe(blogPost.authorId);
         expect(blogPostAddedEvent.eventData.blogPostId).toBe(blogPost.id);
       }
-
-      await eventHelper.closeEventListenerConnection(connection);
     });
   });
 
