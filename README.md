@@ -42,7 +42,7 @@ These packages give access to repositories, logging frameworks, etc.
 External dependencies will probably be utilized in these packages.
 
 The **dependency container** ties the core and infrastructure packages together.
-This package knows everything about how things are tied together and can give different interface implementations based on environments or other rules.
+This package knows everything about how things are tied together and can give different interface implementations based on environments or other rules. It also exposes services and other helpers so the apps can have access to these objects.
 
 The **apps packages** expose the functionality of the project. These are things that need to run, like endpoint servers, event listeners, or chron jobs. They ask the dependency container for objects.
 
@@ -131,7 +131,7 @@ The security principal object is defined in the core/interfaces folder. This is 
 There is a security principal resolver in the infrastructure/util package. This package can be used to install external dependencies so you can resolve security objects that work with your system.
 
 #### Session
-The session is currently used as a way of passing data around for logging. The ISession interface in the core/interfaces folder defines what data is in the session. The SessionHandler in the infrastructure/util package is creating and serving out session data.
+The session is currently used as a way of passing data around for logging. The ISession interface in the core/interfaces folder defines what data is in the session. The SessionHandler in the infrastructure/util package creates and serves out session data.
 
 #### Idempotent Requests
 Idempotent requests are requests that need to only have an effect once, but will return the same result every time they are called. Making idempotent requests as small as possible can help with timeout and failure issues.
