@@ -3,7 +3,7 @@ service: pinkyring
 provider:
   name: aws
   region: us-east-1
-  stage: test
+  stage: qat  # environment type from core/util/configHelper
   stackName: ${self:provider.stage}-${self:service}
   timeout: 29
   vpc:
@@ -91,20 +91,6 @@ custom:
       - sqs: 
           arn: 
             Fn::GetAtt: [BlogPostAddedQueue, Arn]
-  
-  createBlogPostEvent:
-    handler: ./packages/infrastructure/aws/lambdas/build/events/createBlogPostEvent.handler
-    events:
-      - httpApi:
-          path: /events/createBlogPostEvent
-          method: GET
-  
-  getOneEventEvent:
-    handler: ./packages/infrastructure/aws/lambdas/build/events/getOneEvent.handler
-    events:
-      - httpApi:
-          path: /events/getOneEventEvent
-          method: GET
 
 resources:
   - ${file(serverless/resources/vpc.yml)}

@@ -24,6 +24,8 @@ This project comes with the following as a starting point:
 - Graphql Endpoint
 - Prisma Database Stuff
 - Winston Logging
+- Yup data validations
+- Jest tests
 - Cron maintenance jobs
 - Event bus/queue interactions
 

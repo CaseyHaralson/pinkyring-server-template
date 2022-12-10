@@ -28,8 +28,7 @@ jobs:
       
       # generate the prisma files that will be needed for db migration
       - name: '🔧 setup prisma - generate'
-        working-directory: ./packages/infrastructure/relationaldb
-        run: npx prisma generate
+        run: npm run prisma generate
         timeout-minutes: 1
       
       - name: '📦 install prune'
