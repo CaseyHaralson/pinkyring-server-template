@@ -1,6 +1,6 @@
 import Principal from '@pinkyring/core/interfaces/IPrincipal';
 import {v4 as uuidv4} from 'uuid';
-import BaseClass, {IBaseParams} from '@pinkyring/core/util/BaseClass';
+import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 
 /**
  * Resolves security principals based on the information defined in the resolve function.
