@@ -19,10 +19,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
       - Key: Name
-        Value: !Join
-                 - '_'
-                 - - ${self:provider.stackName}
-                   - 'Public_SubnetA'
+        Value: ${self:provider.stackName}-Public_SubnetA
       - Key: Reach
         Value: public
   
@@ -35,10 +32,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
       - Key: Name
-        Value: !Join
-                 - '_'
-                 - - ${self:provider.stackName}
-                   - 'Public_SubnetB'
+        Value: ${self:provider.stackName}-Public_SubnetB
       - Key: Reach
         Value: public
   
@@ -51,10 +45,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
       - Key: Name
-        Value: !Join
-                 - '_'
-                 - - ${self:provider.stackName}
-                   - 'Private_SubnetA'
+        Value: ${self:provider.stackName}-Private_SubnetA
       - Key: Reach
         Value: private
   
@@ -67,10 +58,7 @@ Resources:
       VpcId: !Ref VPC
       Tags:
       - Key: Name
-        Value: !Join
-                 - '_'
-                 - - ${self:provider.stackName}
-                   - 'Private_SubnetB'
+        Value: ${self:provider.stackName}-Private_SubnetB
       - Key: Reach
         Value: private
   
@@ -80,10 +68,7 @@ Resources:
       VpcId: !Ref VPC
       Tags: 
       - Key: Name
-        Value: !Join
-                  - '_'
-                  - - ${self:provider.stackName}
-                    - 'Private_Subnet_RouteTable'
+        Value: ${self:provider.stackName}-Private_Subnet_RouteTable
 
   SubnetAPrivateRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation

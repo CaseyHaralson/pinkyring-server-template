@@ -28,7 +28,6 @@ provider:
           - '?connection_limit=1'
           - '&pool_timeout=30'
     BLOGPOST_ADDED_TOPIC_ARN: !Ref BlogPostAddedTopic
-    MANUAL_PULL_QUEUE_URL: !Ref ManualPullQueue
     IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS: '24'
     IDEMPOTENT_REQUESTS_TIMEDOUT_SECONDS: '40'
   ecr:
@@ -43,12 +42,9 @@ provider:
         - Effect: Allow
           Action: SNS:Publish
           Resource: '*'
-        - Effect: Allow
-          Action: sqs:ReceiveMessage
-          Resource: '*'
-        - Effect: Allow
-          Action: sqs:GetQueueAttributes
-          Resource: '*'
+        # - Effect: Allow
+        #   Action: sqs:ReceiveMessage
+        #   Resource: '*'
 
 custom:
   # the following should come from a secrets store
