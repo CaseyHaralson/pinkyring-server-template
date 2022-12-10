@@ -11,7 +11,7 @@ export interface IKnownErrorConstructable {
 }
 
 /**
- * Catches errors of known types and instead throws errors of knownErrorConstructable.
+ * Catches errors of known types and instead throws errors of IKnownErrorConstructable.
  * Returns the value from the func if there are no errors.
  *
  * @param context graphql context object

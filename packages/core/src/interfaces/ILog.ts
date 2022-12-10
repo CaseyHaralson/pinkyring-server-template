@@ -7,7 +7,7 @@ export enum LogLevel {
   DEBUG = 3,
 }
 
-/** A class that want's to use the logger should implement this interface */
+/** A class that wants to use the logger should implement this interface */
 export interface ILoggableClass {
   className(): string;
 }

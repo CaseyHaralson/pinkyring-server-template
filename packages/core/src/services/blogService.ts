@@ -26,7 +26,7 @@ export default class BlogService extends BaseService {
   /**
    * Gets blog posts based on the filters.
    * @param principal the current security principal
-   * @param param1
+   * @param criteria search criteria when finding the blog posts
    * @returns a list of blog posts that match the filters
    */
   async getBlogPosts(principal: Principal, criteria: BlogPostSearchCriteria) {
@@ -42,7 +42,7 @@ export default class BlogService extends BaseService {
   /**
    * Gets blog authors based on the filters.
    * @param principal the current security principal
-   * @param param1
+   * @param criteria search criteria when finding the authors
    * @returns a list of authors that match the filters
    */
   async getAuthors(principal: Principal, criteria: AuthorSearchCriteria) {
@@ -78,7 +78,7 @@ export default class BlogService extends BaseService {
   }
 
   /**
-   * Add a blog post. Also publishes the event if any other services are interested.
+   * Add a blog post. Also publishes the event if the blog post is created.
    * @param principal the current security principal
    * @param requestId an id to make sure the request is handled idempotently
    * @param blogPost the blog post data

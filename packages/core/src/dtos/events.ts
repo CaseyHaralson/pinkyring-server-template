@@ -1,5 +1,7 @@
+/** The event bus to listen to if you want to listen for events from the project */
 export const EVENT_BUS_NAME = 'PINKYRING';
 
+/** Different events that can be emitted from the project */
 export enum EventType {
   BLOG_POST_ADDED = 'blogpost.added',
 }
