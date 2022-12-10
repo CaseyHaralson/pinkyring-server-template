@@ -1,7 +1,6 @@
 import IEventRepository from '@pinkyring/core/interfaces/IEventRepository';
 import {BaseEvent, EventType} from '@pinkyring/core/dtos/events';
 import {SNS} from '@aws-sdk/client-sns';
-import {SQS} from '@aws-sdk/client-sqs';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 
 const CONFIGKEYNAME_AWS_REGION = 'AWS_REGION'; // env variable set by AWS

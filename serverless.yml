@@ -81,12 +81,17 @@ custom:
     image:
       name: db-migration-runner
   
-  blogPostAddedEvent:
+  blogPostAddedEventHandler:
     handler: ./packages/infrastructure/aws/lambdas/build/events/blogPostAdded.handler
     events:
       - sqs: 
           arn: 
             Fn::GetAtt: [BlogPostAddedQueue, Arn]
+  
+  maintenance_CleanOldIdempotentRequests:
+    handler: ./packages/infrastructure/aws/lambdas/build/maintenance/cleanOldIdempotentRequests.handler
+    events:
+      - schedule: cron(0 1 * * ? *)
 
 resources:
   - ${file(serverless/resources/vpc.yml)}
