@@ -3,6 +3,7 @@ import {object, string} from 'yup';
 import {DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
 import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
 import BaseDataValidator from './baseDataValidator';
+import {AUTHOR_NAME_LENGTH_MAX} from './messages';
 
 export default class AuthorDataValidator
   extends BaseDataValidator
@@ -21,9 +22,7 @@ export default class AuthorDataValidator
   getSchema(action?: DATA_ACTION) {
     const def = {
       id: string().optional(),
-      name: string()
-        .max(191, 'the author name must be shorter than 192 characters')
-        .optional(),
+      name: string().max(191, AUTHOR_NAME_LENGTH_MAX).optional(),
     };
 
     if (action === DATA_ACTION.CREATE) {
