@@ -64,6 +64,8 @@ custom:
         - 'cluster'
         - !Ref AuroraDBCluster
 
+# function names are built like <project name>-<environment>-<function>
+# the function name can be a max of 64 chars
 functions:
   graphql:
     handler: ./packages/infrastructure/aws/lambdas/build/graphql/server.graphqlHandler
