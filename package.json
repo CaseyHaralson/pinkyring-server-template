@@ -18,7 +18,8 @@
     "test:unit": "npm run build && npx jest --config packages/tests/jest.config.unit.js",
     "test:unit:watch": "npx jest --config packages/tests/jest.config.unit.ts.js --watch",
     "test:it": "npm run build && npx jest --detectOpenHandles --config packages/tests/jest.config.it.js",
-    "prisma": "cd packages/infrastructure/relationaldb/prisma && node ./run-prisma-command.js"
+    "prisma": "cd packages/infrastructure/relationaldb/prisma && node ./run-prisma-command.js",
+    "clean": "npm run build:clean && rimraf **/.env && rimraf **/node_modules"
   },
   "workspaces": [
     "packages/**/*"

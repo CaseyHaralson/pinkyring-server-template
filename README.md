@@ -176,6 +176,9 @@ The unit and integration tests are all in the tests package.
 #### Helpful Rule
 - Things internal to the main project (non-apps) can get their dependencies injected via their class constructor by the di container. External facing packages (apps) can ask the di container for things that have been specifically exposed.
 
+#### Local Infrastructure Passwords
+The passwords are generated and kept in the .env file. If this file gets deleted then the local infrastructure will probably need to be deleted and recreated with a new .env file (or your own passwords).
+
 #### Installing New npm Packages to a Workspace Package
 `npm install <npm package> --save -w packages/<project package path>`
 
