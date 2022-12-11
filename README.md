@@ -68,7 +68,7 @@ Note: you will need docker installed and running.
 
 ### Exploring Everything
 
-After docker has everything running, you should have access to the following services:
+After docker has everything running (several of the containers will wait until the prisma service stops before they themselves run), you should have access to the following services:
 
 - Graphql Server: http://localhost:4000/graphql
   - queries and mutations
