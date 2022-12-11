@@ -1,17 +1,17 @@
-import BlogService from '@pinkyring/core/services/blogService';
-import IBlogRepository from '@pinkyring/core/interfaces/IBlogRepository';
+import BlogService from '@pinkyring-server-template/core/services/blogService';
+import IBlogRepository from '@pinkyring-server-template/core/interfaces/IBlogRepository';
 import {mock, mockReset} from 'jest-mock-extended';
-import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
-import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
-import Logger from '@pinkyring/core/util/logger';
-import EventHelper from '@pinkyring/core/util/eventHelper';
-import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
-import ConfigHelper from '@pinkyring/core/util/configHelper';
-import Principal from '@pinkyring/core/interfaces/IPrincipal';
-import ISessionHandler from '@pinkyring/core/interfaces/ISession';
-import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
-import {Author, BlogPost} from '@pinkyring/core/dtos/blogPost';
-import {DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
+import IdempotentRequestHelper from '@pinkyring-server-template/core/util/idempotentRequestHelper';
+import IIdempotentRequestRepository from '@pinkyring-server-template/core/interfaces/IIdempotentRequestRepository';
+import Logger from '@pinkyring-server-template/core/util/logger';
+import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
+import {IBaseServiceParams} from '@pinkyring-server-template/core/services/baseService';
+import ConfigHelper from '@pinkyring-server-template/core/util/configHelper';
+import Principal from '@pinkyring-server-template/core/interfaces/IPrincipal';
+import ISessionHandler from '@pinkyring-server-template/core/interfaces/ISession';
+import {IDataValidator} from '@pinkyring-server-template/core/interfaces/IDataValidator';
+import {Author, BlogPost} from '@pinkyring-server-template/core/dtos/blogPost';
+import {DATA_ACTION} from '@pinkyring-server-template/core/dtos/dataActions';
 import 'jest-extended';
 
 describe('blog service unit tests', () => {

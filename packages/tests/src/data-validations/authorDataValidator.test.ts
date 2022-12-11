@@ -1,8 +1,8 @@
-import {Author} from '@pinkyring/core/dtos/blogPost';
-import {DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
-import {DataValidationError} from '@pinkyring/core/dtos/dataValidationError';
-import AuthorDataValidator from '@pinkyring/infrastructure_data-validations/authorDataValidator';
-import {AUTHOR_NAME_LENGTH_MAX} from '@pinkyring/infrastructure_data-validations/messages';
+import {Author} from '@pinkyring-server-template/core/dtos/blogPost';
+import {DATA_ACTION} from '@pinkyring-server-template/core/dtos/dataActions';
+import {DataValidationError} from '@pinkyring-server-template/core/dtos/dataValidationError';
+import AuthorDataValidator from '@pinkyring-server-template/infrastructure_data-validations/authorDataValidator';
+import {AUTHOR_NAME_LENGTH_MAX} from '@pinkyring-server-template/infrastructure_data-validations/messages';
 import {generateRandomString} from '../util/dataGenerator';
 
 describe('author data validator unit tests', () => {

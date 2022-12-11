@@ -10,7 +10,7 @@ on:
   workflow_call:
 
 env:
-  MYSQL_DATABASE: pinkyring
+  MYSQL_DATABASE: pinkyring-server-template
   MYSQL_USER: root
   MYSQL_ROOT_PASSWORD: example
   RABBITMQ_DEFAULT_USER: guest

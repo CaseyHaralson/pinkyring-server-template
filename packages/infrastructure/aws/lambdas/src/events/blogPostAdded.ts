@@ -2,9 +2,9 @@ import {
   BaseEvent,
   BlogPostAddedEvent,
   EventType,
-} from '@pinkyring/core/dtos/events';
+} from '@pinkyring-server-template/core/dtos/events';
 import {SQSEvent} from 'aws-lambda';
-import Container from '@pinkyring/di-container/container';
+import Container from '@pinkyring-server-template/di-container/container';
 
 const mockService = Container.resolveSubscriptionService();
 const principal = Container.resolvePrincipalResolver().resolveMachinePrincipal(

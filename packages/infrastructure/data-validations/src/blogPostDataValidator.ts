@@ -1,6 +1,6 @@
-import {BlogPost} from '@pinkyring/core/dtos/blogPost';
-import {DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
-import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
+import {BlogPost} from '@pinkyring-server-template/core/dtos/blogPost';
+import {DATA_ACTION} from '@pinkyring-server-template/core/dtos/dataActions';
+import {IDataValidator} from '@pinkyring-server-template/core/interfaces/IDataValidator';
 import {object, string} from 'yup';
 import BaseDataValidator from './baseDataValidator';
 import {BLOG_POST_TITLE_LENGTH_MAX} from './messages';

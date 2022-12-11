@@ -1,10 +1,10 @@
-import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
-import Logger from '@pinkyring/core/util/logger';
-import EventHelper from '@pinkyring/core/util/eventHelper';
+import {IBaseServiceParams} from '@pinkyring-server-template/core/services/baseService';
+import Logger from '@pinkyring-server-template/core/util/logger';
+import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
 import {mock, mockReset} from 'jest-mock-extended';
-import ConfigHelper from '@pinkyring/core/util/configHelper';
-import IEventRepository from '@pinkyring/core/interfaces/IEventRepository';
-import {BaseEvent} from '@pinkyring/core/dtos/events';
+import ConfigHelper from '@pinkyring-server-template/core/util/configHelper';
+import IEventRepository from '@pinkyring-server-template/core/interfaces/IEventRepository';
+import {BaseEvent} from '@pinkyring-server-template/core/dtos/events';
 
 describe('event helper unit tests', () => {
   const baseParams = mock<IBaseServiceParams>();

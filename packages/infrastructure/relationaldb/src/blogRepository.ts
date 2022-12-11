@@ -1,12 +1,12 @@
-import IBlogRepository from '@pinkyring/core/interfaces/IBlogRepository';
-import {BlogPost, Author} from '@pinkyring/core/dtos/blogPost';
+import IBlogRepository from '@pinkyring-server-template/core/interfaces/IBlogRepository';
+import {BlogPost, Author} from '@pinkyring-server-template/core/dtos/blogPost';
 import {PrismaClient} from '@prisma/client';
-import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
+import BaseClass, {IBaseParams} from '@pinkyring-server-template/core/util/baseClass';
 import {throwDataValidationErrors} from './util/prismaErrors';
 import {
   AuthorSearchCriteria,
   BlogPostSearchCriteria,
-} from '@pinkyring/core/services/blogService';
+} from '@pinkyring-server-template/core/services/blogService';
 
 /** Blog repository using prisma */
 export default class BlogRepository
