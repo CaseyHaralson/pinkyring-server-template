@@ -3,8 +3,8 @@ import {
   BlogPostAddedEvent,
   EventType,
   EVENT_BUS_NAME,
-} from '@pinkyring/core/dtos/events';
-import Container from '@pinkyring/di-container/container';
+} from '@pinkyring-server-template/core/dtos/events';
+import Container from '@pinkyring-server-template/di-container/container';
 
 const eventHelper = Container.resolveEventHelper();
 const principal = Container.resolvePrincipalResolver().resolveMachinePrincipal(

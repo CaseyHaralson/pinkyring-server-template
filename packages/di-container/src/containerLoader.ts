@@ -1,26 +1,28 @@
 import {asClass, asFunction, asValue, AwilixContainer} from 'awilix';
-import ConfigHelper, {Environment} from '@pinkyring/core/util/configHelper';
-import ConfigFileReader from '@pinkyring/infrastructure_util/configFileReader';
-import LocalEventRepository from '@pinkyring/infrastructure_queue/eventRepository';
-import ServerEventRepository from '@pinkyring/infrastructure_aws_snqs/eventRepository';
-import Logger from '@pinkyring/core/util/logger';
-import LogHandler from '@pinkyring/infrastructure_util/logHandler';
-import {IBaseParams} from '@pinkyring/core/util/baseClass';
-import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
-import IdempotentRequestRepository from '@pinkyring/infrastructure_relationaldb/idempotentRequestRepository';
-import EventHelper from '@pinkyring/core/util/eventHelper';
-import {IBaseServiceParams} from '@pinkyring/core/services/baseService';
-import BlogService from '@pinkyring/core/services/blogService';
-import BlogRepository from '@pinkyring/infrastructure_relationaldb/blogRepository';
-import MaintenanceService from '@pinkyring/core/services/maintenanceService';
-import PrismaClientFactory from '@pinkyring/infrastructure_relationaldb/util/prismaClientFactory';
-import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
-import SessionHandler from '@pinkyring/infrastructure_util/sessionHandler';
-import SubscriptionService from '@pinkyring/core/services/subscriptionService';
-import AuthorDataValidator from '@pinkyring/infrastructure_data-validations/authorDataValidator';
-import BlogPostDataValidator from '@pinkyring/infrastructure_data-validations/blogPostDataValidator';
-import IntegrationTestHelperDbRepository from '@pinkyring/infrastructure_relationaldb/integrationTestHelperDbRepository';
-import IntegrationTestHelperQueueRepository from '@pinkyring/infrastructure_queue/integrationTestHelperQueueRepository';
+import ConfigHelper, {
+  Environment,
+} from '@pinkyring-server-template/core/util/configHelper';
+import ConfigFileReader from '@pinkyring-server-template/infrastructure_util/configFileReader';
+import LocalEventRepository from '@pinkyring-server-template/infrastructure_queue/eventRepository';
+import ServerEventRepository from '@pinkyring-server-template/infrastructure_aws_snqs/eventRepository';
+import Logger from '@pinkyring-server-template/core/util/logger';
+import LogHandler from '@pinkyring-server-template/infrastructure_util/logHandler';
+import {IBaseParams} from '@pinkyring-server-template/core/util/baseClass';
+import IdempotentRequestHelper from '@pinkyring-server-template/core/util/idempotentRequestHelper';
+import IdempotentRequestRepository from '@pinkyring-server-template/infrastructure_relationaldb/idempotentRequestRepository';
+import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
+import {IBaseServiceParams} from '@pinkyring-server-template/core/services/baseService';
+import BlogService from '@pinkyring-server-template/core/services/blogService';
+import BlogRepository from '@pinkyring-server-template/infrastructure_relationaldb/blogRepository';
+import MaintenanceService from '@pinkyring-server-template/core/services/maintenanceService';
+import PrismaClientFactory from '@pinkyring-server-template/infrastructure_relationaldb/util/prismaClientFactory';
+import PrincipalResolver from '@pinkyring-server-template/infrastructure_util/principalResolver';
+import SessionHandler from '@pinkyring-server-template/infrastructure_util/sessionHandler';
+import SubscriptionService from '@pinkyring-server-template/core/services/subscriptionService';
+import AuthorDataValidator from '@pinkyring-server-template/infrastructure_data-validations/authorDataValidator';
+import BlogPostDataValidator from '@pinkyring-server-template/infrastructure_data-validations/blogPostDataValidator';
+import IntegrationTestHelperDbRepository from '@pinkyring-server-template/infrastructure_relationaldb/integrationTestHelperDbRepository';
+import IntegrationTestHelperQueueRepository from '@pinkyring-server-template/infrastructure_queue/integrationTestHelperQueueRepository';
 
 export default function loadContainer(container: AwilixContainer) {
   loadConfigHelper(container);

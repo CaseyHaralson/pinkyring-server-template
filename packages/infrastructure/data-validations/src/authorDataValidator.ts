@@ -1,7 +1,7 @@
-import {Author} from '@pinkyring/core/dtos/blogPost';
+import {Author} from '@pinkyring-server-template/core/dtos/blogPost';
 import {object, string} from 'yup';
-import {DATA_ACTION} from '@pinkyring/core/dtos/dataActions';
-import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
+import {DATA_ACTION} from '@pinkyring-server-template/core/dtos/dataActions';
+import {IDataValidator} from '@pinkyring-server-template/core/interfaces/IDataValidator';
 import BaseDataValidator from './baseDataValidator';
 import {AUTHOR_NAME_LENGTH_MAX} from './messages';
 

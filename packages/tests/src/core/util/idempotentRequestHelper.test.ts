@@ -1,9 +1,9 @@
-import IIdempotentRequestRepository from '@pinkyring/core/interfaces/IIdempotentRequestRepository';
-import Logger from '@pinkyring/core/util/logger';
-import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
+import IIdempotentRequestRepository from '@pinkyring-server-template/core/interfaces/IIdempotentRequestRepository';
+import Logger from '@pinkyring-server-template/core/util/logger';
+import IdempotentRequestHelper from '@pinkyring-server-template/core/util/idempotentRequestHelper';
 import {mock, mockReset} from 'jest-mock-extended';
-import ConfigHelper from '@pinkyring/core/util/configHelper';
-import Principal from '@pinkyring/core/interfaces/IPrincipal';
+import ConfigHelper from '@pinkyring-server-template/core/util/configHelper';
+import Principal from '@pinkyring-server-template/core/interfaces/IPrincipal';
 
 describe('idempotent request helper unit tests', () => {
   const repo = mock<IIdempotentRequestRepository>();

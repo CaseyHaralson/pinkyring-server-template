@@ -1,13 +1,15 @@
 import {createContainer, AwilixContainer} from 'awilix';
-import BlogService from '@pinkyring/core/services/blogService';
-import EventHelper from '@pinkyring/core/util/eventHelper';
-import ConfigHelper, {Environment} from '@pinkyring/core/util/configHelper';
-import MaintenanceService from '@pinkyring/core/services/maintenanceService';
+import BlogService from '@pinkyring-server-template/core/services/blogService';
+import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
+import ConfigHelper, {
+  Environment,
+} from '@pinkyring-server-template/core/util/configHelper';
+import MaintenanceService from '@pinkyring-server-template/core/services/maintenanceService';
 import loadContainer from './containerLoader';
-import PrincipalResolver from '@pinkyring/infrastructure_util/principalResolver';
-import SubscriptionService from '@pinkyring/core/services/subscriptionService';
-import IntegrationTestHelperDbRepository from '@pinkyring/infrastructure_relationaldb/integrationTestHelperDbRepository';
-import IntegrationTestHelperQueueRepository from '@pinkyring/infrastructure_queue/integrationTestHelperQueueRepository';
+import PrincipalResolver from '@pinkyring-server-template/infrastructure_util/principalResolver';
+import SubscriptionService from '@pinkyring-server-template/core/services/subscriptionService';
+import IntegrationTestHelperDbRepository from '@pinkyring-server-template/infrastructure_relationaldb/integrationTestHelperDbRepository';
+import IntegrationTestHelperQueueRepository from '@pinkyring-server-template/infrastructure_queue/integrationTestHelperQueueRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 

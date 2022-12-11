@@ -1,10 +1,13 @@
 import {createSchema, createYoga} from 'graphql-yoga';
 import {createServer} from 'node:http';
-import {typeDefs, resolvers} from '@pinkyring/core/graphql/schema';
-import container from '@pinkyring/di-container/container';
+import {
+  typeDefs,
+  resolvers,
+} from '@pinkyring-server-template/core/graphql/schema';
+import container from '@pinkyring-server-template/di-container/container';
 import DataLoader from 'dataloader';
 import {GraphQLError} from 'graphql';
-import {IContext} from '@pinkyring/core/graphql/IContext';
+import {IContext} from '@pinkyring-server-template/core/graphql/IContext';
 
 // ======================================
 // Get configurations

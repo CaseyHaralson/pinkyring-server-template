@@ -1,5 +1,5 @@
 {
-  "name": "pinkyring",
+  "name": "pinkyring-server-template",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -24,21 +24,21 @@
     "packages/**/*"
   ],
   "dependencies": {
-    "@pinkyring/apps_api-graphql": "*",
-    "@pinkyring/apps_api-rest": "*",
-    "@pinkyring/apps_cron-jobs": "*",
-    "@pinkyring/apps_event-handlers": "*",
-    "@pinkyring/core": "*",
-    "@pinkyring/di-container": "*",
-    "@pinkyring/infrastructure_aws_lambdas": "*",
-    "@pinkyring/infrastructure_aws_snqs": "*",
-    "@pinkyring/infrastructure_data-validations": "*",
-    "@pinkyring/infrastructure_queue": "*",
-    "@pinkyring/infrastructure_relationaldb": "*",
-    "@pinkyring/infrastructure_util": "*"
+    "@pinkyring-server-template/apps_api-graphql": "*",
+    "@pinkyring-server-template/apps_api-rest": "*",
+    "@pinkyring-server-template/apps_cron-jobs": "*",
+    "@pinkyring-server-template/apps_event-handlers": "*",
+    "@pinkyring-server-template/core": "*",
+    "@pinkyring-server-template/di-container": "*",
+    "@pinkyring-server-template/infrastructure_aws_lambdas": "*",
+    "@pinkyring-server-template/infrastructure_aws_snqs": "*",
+    "@pinkyring-server-template/infrastructure_data-validations": "*",
+    "@pinkyring-server-template/infrastructure_queue": "*",
+    "@pinkyring-server-template/infrastructure_relationaldb": "*",
+    "@pinkyring-server-template/infrastructure_util": "*"
   },
   "devDependencies": {
-    "@pinkyring/tests": "*",
+    "@pinkyring-server-template/tests": "*",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "eslint": "^8.26.0",
     "prettier": "2.7.1",

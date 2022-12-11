@@ -1,7 +1,12 @@
-import IEventRepository from '@pinkyring/core/interfaces/IEventRepository';
-import {BaseEvent, EVENT_BUS_NAME} from '@pinkyring/core/dtos/events';
+import IEventRepository from '@pinkyring-server-template/core/interfaces/IEventRepository';
+import {
+  BaseEvent,
+  EVENT_BUS_NAME,
+} from '@pinkyring-server-template/core/dtos/events';
 import {connect, Connection} from 'amqplib';
-import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
+import BaseClass, {
+  IBaseParams,
+} from '@pinkyring-server-template/core/util/baseClass';
 
 const DURABLE = false;
 

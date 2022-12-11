@@ -2,8 +2,8 @@ import {
   EVENT_BUS_NAME,
   EventType,
   BlogPostAddedEvent,
-} from '@pinkyring/core/dtos/events';
-import container from '@pinkyring/di-container/container';
+} from '@pinkyring-server-template/core/dtos/events';
+import container from '@pinkyring-server-template/di-container/container';
 import {v4 as uuidv4} from 'uuid';
 
 describe('todo service integration tests', () => {
