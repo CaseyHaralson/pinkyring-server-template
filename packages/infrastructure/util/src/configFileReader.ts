@@ -4,6 +4,7 @@ import dotenv, {DotenvParseOutput} from 'dotenv';
 import fs from 'fs';
 import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '@pinkyring/core/interfaces/IConfig';
 
+/** Config file reader using multiple tools to find and read files */
 // can't extend the BaseClass because one of the the base class parameters needs this as a parameter
 export default class ConfigFileReader implements IConfigFileReader {
   private _envProps;

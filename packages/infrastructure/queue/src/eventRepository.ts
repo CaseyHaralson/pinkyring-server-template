@@ -7,6 +7,7 @@ const DURABLE = false;
 
 const CONFIGKEYNAME_RABBITMQ_URL = 'RABBITMQ_URL';
 
+/** Event repository using RabbitMQ and amqplib */
 export default class EventRepository
   extends BaseClass
   implements IEventRepository

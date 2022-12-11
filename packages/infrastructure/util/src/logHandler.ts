@@ -13,6 +13,7 @@ const CONFIGKEYNAME_PROJECT_VERSION = `${CONFIGKEYNAME_PROJECTDATA_PREFIX}VERSIO
 const CONFIGKEYNAME_PACKAGE_NAME = 'npm_package_name';
 const CONFIGKEYNAME_PACKAGE_VERSION = 'npm_package_version';
 
+/** Log handler using winston */
 export default class LogHandler extends BaseClass implements ILogHandler {
   private _realLogger;
   constructor(baseParams: IBaseParams) {

@@ -6,6 +6,7 @@ import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 const CONFIGKEYNAME_AWS_REGION = 'AWS_REGION'; // env variable set by AWS
 const CONFIGKEYNAME_BLOGPOST_ADDED_TOPIC_ARN = 'BLOGPOST_ADDED_TOPIC_ARN';
 
+/** Event repository using AWS SNS */
 export default class EventRepository
   extends BaseClass
   implements IEventRepository
