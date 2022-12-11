@@ -6,6 +6,9 @@ Resources:
       SubnetIds:
         - !Ref SubnetAPrivate
         - !Ref SubnetBPrivate
+      Tags:
+      - Key: Name
+        Value: ${self:provider.stackName}-DBSubnetGroup
 
   DBClusterSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -38,3 +41,6 @@ Resources:
         AutoPause: ${self:custom.DB_AUTOPAUSE}
         MinCapacity: ${self:custom.DB_CAPACITY_MIN}
         MaxCapacity: ${self:custom.DB_CAPACITY_MAX}
+      Tags:
+      - Key: Name
+        Value: ${self:provider.stackName}-AuroraDBCluster

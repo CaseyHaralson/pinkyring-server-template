@@ -12,11 +12,11 @@ This project comes with the following as a starting point:
   - CI with unit and integration tests, and style/linting checks
 - Serverless Framework
   - Configuration to deploy the following to AWS:
-    - REST Lambdas
     - GraphQL Lambda
     - DB Migration Dockerfile/Lambda with Prisma
     - Mysql Serverless Aurora RDS
-    - SNS Topic to automatic and manual pull SQS Queue
+    - SNS Topic to SQS Queue which triggers lambda
+    - Cron schedule triggers lambda
 - Code Style Rules
   - ESLint
   - Prettier
@@ -24,6 +24,8 @@ This project comes with the following as a starting point:
 - Graphql Endpoint
 - Prisma Database Stuff
 - Winston Logging
+- Yup data validations
+- Jest tests
 - Cron maintenance jobs
 - Event bus/queue interactions
 
@@ -183,3 +185,17 @@ The project can publish several things to help other projects interface with it.
 - the events that are published
 - expected errors the project can throw
 
+## Serverless Deploy
+There is a github action that is setup to allow manual triggering of the deployment and teardown process.
+
+### Github Setup
+You will need to create an AWS access key with permissions to create items in your AWS account. Save the access key in the github project -> Settings tab -> Secrets -> Actions as new repository secrets with the following keys: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.
+
+After this, you can go to to the github project -> Actions tab and trigger deployments or teardown the deployments manually.
+
+### Serverless Setup
+The serverless config file is in the root directory. The AWS lambdas and event repository implementations are in the packages/infrastructure/aws folder. The different resources that are deployed along with the lambdas are in the serverless folder.
+
+There is a database migration lambda that is packaged as a docker image in the serverless/dbmigration folder. This is deployed in the serverless deploy and the github action is setup to call the lambda after deployment so the database can be created/migrated.
+
+The database username and password are set in the main serverless file. These should ultimately come from a secrets store, but are just mocked in for the template.

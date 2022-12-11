@@ -1,5 +1,15 @@
-import {BaseEvent} from '@pinkyring/core/dtos/events';
+import {
+  BaseEvent,
+  BlogPostAddedEvent,
+  EventType,
+} from '@pinkyring/core/dtos/events';
 import {SQSEvent} from 'aws-lambda';
+import Container from '@pinkyring/di-container/container';
+
+const mockService = Container.resolveSubscriptionService();
+const principal = Container.resolvePrincipalResolver().resolveMachinePrincipal(
+  'AWS BlogPost Added Event Handler'
+);
 
 export const handler = async (event: SQSEvent) => {
   console.log(`The blog post added event handler has been entered...`);
@@ -18,7 +28,18 @@ export const handler = async (event: SQSEvent) => {
       console.log(
         `Parsed event data from record: ${JSON.stringify(message.eventData)}`
       );
-      console.log(`...pretending to handle message...`);
+
+      if (message.eventType === EventType.BLOG_POST_ADDED) {
+        console.log(
+          'going to call the mock subscription service with the event data'
+        );
+        const eventData = (message as BlogPostAddedEvent).eventData;
+        mockService.notifySubscribersOfNewBlogPost(
+          principal,
+          eventData.authorId,
+          eventData.blogPostId
+        );
+      }
     } else {
       console.log(`Couldn't get the event from the record...`);
     }

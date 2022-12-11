@@ -1,3 +1,5 @@
+# https://github.com/aws-samples/prisma-lambda-cdk
+
 # FROM node:16-alpine as build
 FROM public.ecr.aws/lambda/nodejs:18 as build
 WORKDIR /build

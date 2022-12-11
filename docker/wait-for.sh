@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# https://github.com/eficode/wait-for
+
 # The MIT License (MIT)
 #
 # Copyright (c) 2017 Eficode Oy

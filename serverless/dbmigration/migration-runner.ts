@@ -2,6 +2,8 @@ import {Handler} from 'aws-lambda';
 import {execFile} from 'child_process';
 import path from 'path';
 
+// https://github.com/aws-samples/prisma-lambda-cdk
+
 export const handler: Handler = async (event) => {
   // Available commands are:
   //   deploy: create new database if absent and apply all migrations to the existing database.

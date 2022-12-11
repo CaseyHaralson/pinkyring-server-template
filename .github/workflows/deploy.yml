@@ -26,12 +26,6 @@ jobs:
         run: npm run build
         timeout-minutes: 1
       
-      # generate the prisma files that will be needed for db migration
-      - name: '🔧 setup prisma - generate'
-        working-directory: ./packages/infrastructure/relationaldb
-        run: npx prisma generate
-        timeout-minutes: 1
-      
       - name: '📦 install prune'
         run: 'curl -sf https://gobinaries.com/tj/node-prune | sh'
         timeout-minutes: 1
@@ -46,6 +40,11 @@ jobs:
 
       - name: '🔧 setup serverless'
         run: serverless config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        timeout-minutes: 1
+
+      # generate the prisma files that will be needed for db migration
+      - name: '🔧 setup prisma - generate'
+        run: npm run prisma generate
         timeout-minutes: 1
 
       # copy the prisma files that were generated in an earlier step

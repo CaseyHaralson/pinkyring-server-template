@@ -3,7 +3,7 @@ service: pinkyring
 provider:
   name: aws
   region: us-east-1
-  stage: test
+  stage: qat  # environment type from core/util/configHelper
   stackName: ${self:provider.stage}-${self:service}
   timeout: 29
   vpc:
@@ -28,7 +28,6 @@ provider:
           - '?connection_limit=1'
           - '&pool_timeout=30'
     BLOGPOST_ADDED_TOPIC_ARN: !Ref BlogPostAddedTopic
-    MANUAL_PULL_QUEUE_URL: !Ref ManualPullQueue
     IDEMPOTENT_REQUESTS_CLEAN_OLDERTHAN_HOURS: '24'
     IDEMPOTENT_REQUESTS_TIMEDOUT_SECONDS: '40'
   ecr:
@@ -42,12 +41,6 @@ provider:
       statements:
         - Effect: Allow
           Action: SNS:Publish
-          Resource: '*'
-        - Effect: Allow
-          Action: sqs:ReceiveMessage
-          Resource: '*'
-        - Effect: Allow
-          Action: sqs:GetQueueAttributes
           Resource: '*'
 
 custom:
@@ -70,7 +63,8 @@ custom:
         - Ref: 'AWS::AccountId'
         - 'cluster'
         - !Ref AuroraDBCluster
-  
+
+functions:
   graphql:
     handler: ./packages/infrastructure/aws/lambdas/build/graphql/server.graphqlHandler
     events:
@@ -85,26 +79,17 @@ custom:
     image:
       name: db-migration-runner
   
-  blogPostAddedEvent:
+  blogPostAddedEventHandler:
     handler: ./packages/infrastructure/aws/lambdas/build/events/blogPostAdded.handler
     events:
       - sqs: 
           arn: 
             Fn::GetAtt: [BlogPostAddedQueue, Arn]
   
-  createBlogPostEvent:
-    handler: ./packages/infrastructure/aws/lambdas/build/events/createBlogPostEvent.handler
+  maintenance_CleanOldIdempotentRequests:
+    handler: ./packages/infrastructure/aws/lambdas/build/maintenance/cleanOldIdempotentRequests.handler
     events:
-      - httpApi:
-          path: /events/createBlogPostEvent
-          method: GET
-  
-  getOneEventEvent:
-    handler: ./packages/infrastructure/aws/lambdas/build/events/getOneEvent.handler
-    events:
-      - httpApi:
-          path: /events/getOneEventEvent
-          method: GET
+      - schedule: cron(0 1 * * ? *)
 
 resources:
   - ${file(serverless/resources/vpc.yml)}

@@ -14,7 +14,7 @@ import {cleanOldIdempotentRequests} from './maintenanceTasks';
 // clean old idempotent requests
 // runs at 1am every day
 console.log('scheduling the idempotent request cleanup job');
-cron.schedule('* 1 * * *', async () => {
+cron.schedule('0 1 * * *', async () => {
   await cleanOldIdempotentRequests();
 });
 
