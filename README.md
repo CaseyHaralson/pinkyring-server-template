@@ -180,7 +180,11 @@ The unit and integration tests are all in the tests package.
 The passwords are generated and kept in the .env file. If this file gets deleted then the local infrastructure will probably need to be deleted and recreated with a new .env file (or your own passwords).
 
 #### Installing New npm Packages to a Workspace Package
-`npm install <npm package> --save -w packages/<project package path>`
+`npm install <npm package> --save -w packages/<project package.json path>`
+
+Example (save some package to infrastructure util package):
+
+`npm install <npm package> --save -w packages/infrastructure/util`
 
 #### Prisma Commands
 You can run prisma commands from the root project with the following command. There is a script that handles these commands and will also try to take care of keeping a local .env file in sync with the parent .env file.
