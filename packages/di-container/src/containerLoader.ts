@@ -4,7 +4,7 @@ import ConfigFileReader from '@pinkyring/infrastructure_util/configFileReader';
 import LocalEventRepository from '@pinkyring/infrastructure_queue/eventRepository';
 import ServerEventRepository from '@pinkyring/infrastructure_aws_snqs/eventRepository';
 import Logger from '@pinkyring/core/util/logger';
-import WinstonLogger from '@pinkyring/infrastructure_logging/winstonLogger';
+import LogHandler from '@pinkyring/infrastructure_util/logHandler';
 import {IBaseParams} from '@pinkyring/core/util/baseClass';
 import IdempotentRequestHelper from '@pinkyring/core/util/idempotentRequestHelper';
 import IdempotentRequestRepository from '@pinkyring/infrastructure_relationaldb/idempotentRequestRepository';
@@ -96,7 +96,7 @@ const loadGenericItems = function (container: AwilixContainer) {
   container.register({
     logger: asClass(Logger),
     logHandler: asFunction(() => {
-      const logger = new WinstonLogger({
+      const logger = new LogHandler({
         logger: null as unknown as Logger, // can't include a logger in Winston because that creates a circular dependency, because Winston IS the logger
         configHelper: container.cradle.configHelper as ConfigHelper,
       } as IBaseParams);

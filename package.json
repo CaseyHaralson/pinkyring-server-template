@@ -33,7 +33,6 @@
     "@pinkyring/infrastructure_aws_lambdas": "*",
     "@pinkyring/infrastructure_aws_snqs": "*",
     "@pinkyring/infrastructure_data-validations": "*",
-    "@pinkyring/infrastructure_logging": "*",
     "@pinkyring/infrastructure_queue": "*",
     "@pinkyring/infrastructure_relationaldb": "*",
     "@pinkyring/infrastructure_util": "*"

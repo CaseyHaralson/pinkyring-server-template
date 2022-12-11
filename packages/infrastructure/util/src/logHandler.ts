@@ -13,64 +13,10 @@ const CONFIGKEYNAME_PROJECT_VERSION = `${CONFIGKEYNAME_PROJECTDATA_PREFIX}VERSIO
 const CONFIGKEYNAME_PACKAGE_NAME = 'npm_package_name';
 const CONFIGKEYNAME_PACKAGE_VERSION = 'npm_package_version';
 
-// when changing the log format
-// make sure that whatever is parsing the logs can handle the new format
-
-const logFormat = format.printf((info) => {
-  let s = '';
-  s = `${info.timestamp}`;
-  s += ' ';
-  s += `${info.metadata.env}`;
-  s += ' ';
-  s += `${info.level}`;
-  s += ' ';
-
-  if (info.metadata.projectName) {
-    s += `[${info.metadata.projectName}`;
-    s += info.metadata.projectVersion
-      ? `:${info.metadata.projectVersion}]`
-      : ']';
-  } else {
-    s += '[]';
-  }
-
-  if (info.metadata.packageName) {
-    s += `[${info.metadata.packageName}`;
-    s += info.metadata.packageVersion ? `:${info.metadata.packageVersion}` : ``;
-    s += '.';
-  } else {
-    s += `[Unknown Package.`;
-  }
-
-  s += info.metadata.context?.currentObj
-    ? `${info.metadata.context.currentObj.className()}]`
-    : `Unknown Class]`;
-
-  if (info.metadata.context?.sessionId) {
-    s += `[Session:${info.metadata.context.sessionId}]`;
-    s += ': ';
-  } else {
-    s += '[]: ';
-  }
-
-  if (info.metadata.context?.subject) {
-    s += `${info.metadata.context.subject} - `;
-  }
-
-  s += `${info.message}`;
-  s += ' ... ';
-
-  if (info.metadata.context?.principal) {
-    s += `Principal: ${JSON.stringify(info.metadata.context?.principal)}`;
-  }
-
-  return s;
-});
-
-export default class WinstonLogger extends BaseClass implements ILogHandler {
+export default class LogHandler extends BaseClass implements ILogHandler {
   private _realLogger;
   constructor(baseParams: IBaseParams) {
-    super(baseParams, 'WinstonLogger', [
+    super(baseParams, 'LogHandler', [
       {
         name: CONFIGKEYNAME_PROJECT_NAME,
       },
@@ -130,3 +76,57 @@ export default class WinstonLogger extends BaseClass implements ILogHandler {
     else if (level == LogLevel.DEBUG) this._realLogger.debug(message, meta);
   }
 }
+
+// when changing the log format
+// make sure that whatever is parsing the logs can handle the new format
+
+const logFormat = format.printf((info) => {
+  let s = '';
+  s = `${info.timestamp}`;
+  s += ' ';
+  s += `${info.metadata.env}`;
+  s += ' ';
+  s += `${info.level}`;
+  s += ' ';
+
+  if (info.metadata.projectName) {
+    s += `[${info.metadata.projectName}`;
+    s += info.metadata.projectVersion
+      ? `:${info.metadata.projectVersion}]`
+      : ']';
+  } else {
+    s += '[]';
+  }
+
+  if (info.metadata.packageName) {
+    s += `[${info.metadata.packageName}`;
+    s += info.metadata.packageVersion ? `:${info.metadata.packageVersion}` : ``;
+    s += '.';
+  } else {
+    s += `[Unknown Package.`;
+  }
+
+  s += info.metadata.context?.currentObj
+    ? `${info.metadata.context.currentObj.className()}]`
+    : `Unknown Class]`;
+
+  if (info.metadata.context?.sessionId) {
+    s += `[Session:${info.metadata.context.sessionId}]`;
+    s += ': ';
+  } else {
+    s += '[]: ';
+  }
+
+  if (info.metadata.context?.subject) {
+    s += `${info.metadata.context.subject} - `;
+  }
+
+  s += `${info.message}`;
+  s += ' ... ';
+
+  if (info.metadata.context?.principal) {
+    s += `Principal: ${JSON.stringify(info.metadata.context?.principal)}`;
+  }
+
+  return s;
+});
