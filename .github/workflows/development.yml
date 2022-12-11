@@ -1,4 +1,4 @@
-name: Development
+name: Continuous Integration Checks
 
 on:
   pull_request:

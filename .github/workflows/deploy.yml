@@ -1,11 +1,11 @@
-name: Deploy
+name: Deploy Serverless
 
 on:
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Deploy
+    name: Deploy Serverless
     runs-on: ubuntu-latest
     steps:
       - name: '☁️ checkout repository'
