@@ -16,6 +16,7 @@ This project comes with the following as a starting point:
     - DB Migration Dockerfile/Lambda with Prisma
     - Mysql Serverless Aurora RDS
     - SNS Topic to SQS Queue which triggers lambda
+    - Cron schedule triggers lambda
 - Code Style Rules
   - ESLint
   - Prettier
@@ -196,3 +197,5 @@ After this, you can go to to the github project -> Actions tab and trigger deplo
 The serverless config file is in the root directory. The AWS lambdas and event repository implementations are in the packages/infrastructure/aws folder. The different resources that are deployed along with the lambdas are in the serverless folder.
 
 There is a database migration lambda that is packaged as a docker image in the serverless/dbmigration folder. This is deployed in the serverless deploy and the github action is setup to call the lambda after deployment so the database can be created/migrated.
+
+The database username and password are set in the main serverless file. These should ultimately come from a secrets store, but are just mocked in for the template.

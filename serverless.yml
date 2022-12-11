@@ -90,7 +90,6 @@ functions:
     handler: ./packages/infrastructure/aws/lambdas/build/maintenance/cleanOldIdempotentRequests.handler
     events:
       - schedule: cron(0 1 * * ? *)
-      - schedule: rate(10 minutes)
 
 resources:
   - ${file(serverless/resources/vpc.yml)}
