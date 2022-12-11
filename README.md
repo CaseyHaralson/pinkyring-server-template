@@ -1,38 +1,10 @@
 # <%= projectName %>
 
+## Introduction
 This project was created with the Pinkyring project creator.
 Please check that documentation to create another project or to remove some pre-installed code from this project.
 https://github.com/CaseyHaralson/pinkyring
 
-- [\<%= projectName %\>](#-projectname-)
-  - [Introduction](#introduction)
-  - [Project Structure](#project-structure)
-  - [Getting Started](#getting-started)
-    - [Run Everything Locally](#run-everything-locally)
-    - [Exploring Everything](#exploring-everything)
-  - [Development Mode](#development-mode)
-    - [Setup](#setup)
-    - [Making Changes](#making-changes)
-      - [Core Services](#core-services)
-      - [Security Principal](#security-principal)
-      - [Session](#session)
-      - [Idempotent Requests](#idempotent-requests)
-      - [Graphql](#graphql)
-      - [Events](#events)
-      - [Data Validations](#data-validations)
-      - [Configurations](#configurations)
-      - [Tests](#tests)
-    - [Notes](#notes)
-      - [Helpful Rule](#helpful-rule)
-      - [Installing New npm Packages to a Workspace Package](#installing-new-npm-packages-to-a-workspace-package)
-      - [Prisma Commands](#prisma-commands)
-      - [VS Code Typescript Intellisense](#vs-code-typescript-intellisense)
-  - [Published Package](#published-package)
-  - [Serverless Deploy](#serverless-deploy)
-    - [Github Setup](#github-setup)
-    - [Serverless Setup](#serverless-setup)
-
-## Introduction
 This project comes with the following as a starting point:
 
 - Github Workflows
