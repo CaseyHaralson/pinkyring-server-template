@@ -86,7 +86,7 @@ functions:
           arn: 
             Fn::GetAtt: [BlogPostAddedQueue, Arn]
   
-  maintenance_CleanOldIdempotentRequests:
+  cleanOldIdempotentRequests:
     handler: ./packages/infrastructure/aws/lambdas/build/maintenance/cleanOldIdempotentRequests.handler
     events:
       - schedule: cron(0 1 * * ? *)
