@@ -1,11 +1,11 @@
-name: Deploy Serverless - Teardown
+name: Serverless Deploy - Teardown
 
 on:
   workflow_dispatch:
 
 jobs:
   deploy-teardown:
-    name: Deploy Serverless - Teardown
+    name: Serverless Deploy - Teardown
     runs-on: ubuntu-latest
     steps:
       - name: '☁️ checkout repository'

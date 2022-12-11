@@ -120,6 +120,10 @@ Note: you will need docker installed and running.
 
 `npm run start`
 
+7. Stop the infrastructure when you are done:
+
+`npm run infra:stop`
+
 ### Making Changes
 
 #### Core Services
@@ -157,6 +161,15 @@ There are also some data validations done at the database level. These validatio
 There is a central configuration helper that will help get configurations for the project. It tries to get configurations from the environment first, then from a .env file. 
 
 The configuration helper also allows settings to be set as "secret" which will only be able to come from a secret repository. The project template doesn't come with a secret repo so it is set as null in the di container loader. To load secrets, a file that implements the secret repository interface (from the core/interfaces/IConfig file) will need to be created and set in the di container loading function.
+
+#### Tests
+The unit and integration tests are all in the tests package.
+
+- Run unit tests: `npm run test:unit`
+- Watch unit tests: `npm run test:unit:watch`
+- Run integration tests:
+  - make sure the infrastructure is running: `npm run infra`
+  - run tests: `npm run test:it`
 
 ### Notes
 

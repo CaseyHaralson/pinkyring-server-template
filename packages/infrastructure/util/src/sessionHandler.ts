@@ -8,6 +8,7 @@ import {v4 as uuidv4} from 'uuid';
 const NAMESPACE_NAME = 'pinkyring.session';
 const SESSION_DATA = 'session.data';
 
+/** Session handler using cls-hooked */
 // can't extend the BaseClass because one of the the base class parameters needs this as a parameter
 export default class SessionHandler implements ISessionHandler {
   newSessionIfNotExists<T>(

@@ -8,6 +8,7 @@ import {
   BlogPostSearchCriteria,
 } from '@pinkyring/core/services/blogService';
 
+/** Blog repository using prisma */
 export default class BlogRepository
   extends BaseClass
   implements IBlogRepository

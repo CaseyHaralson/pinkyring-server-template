@@ -3,6 +3,7 @@ import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 
 const CONFIGKEYNAME_RABBITMQ_URL = 'RABBITMQ_URL';
 
+/** Integration test helper class to expose functionality that shouldn't be generally available */
 export default class IntegrationTestHelperQueueRepository extends BaseClass {
   constructor(baseParams: IBaseParams) {
     super(baseParams, 'EventRepository', [

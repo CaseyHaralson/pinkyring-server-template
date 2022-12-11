@@ -5,6 +5,7 @@ import {object, string} from 'yup';
 import BaseDataValidator from './baseDataValidator';
 import {BLOG_POST_TITLE_LENGTH_MAX} from './messages';
 
+/** Blog post data validator using yup */
 export default class BlogPostDataValidator
   extends BaseDataValidator
   implements IDataValidator<BlogPost>
@@ -19,6 +20,7 @@ export default class BlogPostDataValidator
     });
   }
 
+  /** expose the schema in case something wants to use it */
   getSchema(action?: DATA_ACTION) {
     const def = {
       id: string().optional(),

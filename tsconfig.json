@@ -40,9 +40,6 @@
       "path": "./packages/infrastructure/data-validations"
     },
     {
-      "path": "./packages/infrastructure/logging"
-    },
-    {
       "path": "./packages/infrastructure/queue"
     },
     {

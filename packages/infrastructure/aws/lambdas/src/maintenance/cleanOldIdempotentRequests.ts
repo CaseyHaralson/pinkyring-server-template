@@ -5,6 +5,7 @@ const principal = container
   .resolvePrincipalResolver()
   .resolveMachinePrincipal('AWS Clean Old Idempotent Requests Handler');
 
+/** lambda handler function */
 export const handler = async () => {
   await service.cleanOldIdempotentRequests(principal);
 };

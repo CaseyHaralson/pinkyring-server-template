@@ -15,7 +15,8 @@
     "cls-hooked": "^4.2.2",
     "dotenv": "^16.0.3",
     "find-up": "^5.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "winston": "^3.8.2"
   },
   "devDependencies": {
     "@types/cls-hooked": "^4.3.3",

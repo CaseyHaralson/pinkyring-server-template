@@ -4,6 +4,7 @@ const os = require('os');
 
 // if .env file doesn't exist
 // read .env.example
+
 // for each ${generated_*_number} generate a *
 // then write each line to a .env file
 

@@ -11,6 +11,7 @@ const server = new ApolloServer<IContext>({
   resolvers,
 });
 
+/** lambda handler function */
 export const graphqlHandler = startServerAndCreateLambdaHandler(server, {
   context: async () => {
     // can resolve principal with header or something here

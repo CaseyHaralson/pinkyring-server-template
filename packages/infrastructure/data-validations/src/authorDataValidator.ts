@@ -5,6 +5,7 @@ import {IDataValidator} from '@pinkyring/core/interfaces/IDataValidator';
 import BaseDataValidator from './baseDataValidator';
 import {AUTHOR_NAME_LENGTH_MAX} from './messages';
 
+/** Author data validator using yup */
 export default class AuthorDataValidator
   extends BaseDataValidator
   implements IDataValidator<Author>
@@ -19,6 +20,7 @@ export default class AuthorDataValidator
     });
   }
 
+  /** expose the schema in case something wants to use it */
   getSchema(action?: DATA_ACTION) {
     const def = {
       id: string().optional(),
