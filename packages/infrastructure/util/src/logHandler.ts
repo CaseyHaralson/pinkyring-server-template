@@ -33,11 +33,13 @@ export default class LogHandler extends BaseClass implements ILogHandler {
       },
     ]);
 
+    // add color to the console logs if in development
     let consoleFormat = format.combine(logFormat);
     if (this.getEnvironment() === Environment.DEVELOPMENT) {
       consoleFormat = format.combine(format.colorize(), logFormat);
     }
 
+    // create a winston logger
     this._realLogger = winston.createLogger({
       level:
         this.getEnvironment() === Environment.PRODUCTION
@@ -60,6 +62,7 @@ export default class LogHandler extends BaseClass implements ILogHandler {
     });
   }
 
+  /** Convert the log method in the interface into calling the real logger */
   log(level: LogLevel, context: LogContext, message: string): void {
     const meta = {
       env: this.getEnvironment(),

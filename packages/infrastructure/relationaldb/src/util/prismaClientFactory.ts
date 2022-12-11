@@ -4,6 +4,12 @@ import {Environment} from '@pinkyring/core/util/configHelper';
 
 const CONFIGKEYNAME_MYSQL_DATABASE_URL = 'MYSQL_DATABASE_URL';
 
+/**
+ * Creates the prisma client.
+ *
+ * Makes sure the database url is configured and accessible,
+ * and sets any client configurations based on environment.
+ */
 export default class PrismaClientFactory extends BaseClass {
   constructor(baseParams: IBaseParams) {
     super(baseParams, 'PrismaClientFactory', [

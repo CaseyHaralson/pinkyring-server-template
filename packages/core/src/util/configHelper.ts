@@ -146,6 +146,7 @@ export default class ConfigHelper {
     return env as Environment;
   }
 
+  /** Registers the environment as a needed config so each class doesn't need to do it. */
   private registerEnvironmentAsNeededConfig() {
     if (this._registeredKeys.get(CONFIGKEYNAME_ENVIRONMENT) === undefined) {
       this._registeredKeys.set(CONFIGKEYNAME_ENVIRONMENT, {

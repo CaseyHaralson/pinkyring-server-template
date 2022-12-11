@@ -24,6 +24,11 @@ export default class IdempotentRequestRepository
       return true;
     } catch (e) {
       if (e instanceof PrismaClientKnownRequestError) {
+        // don't throw an error here
+        // because we know duplicate requests can come in
+        // and the database constraints are such to MAKE SURE
+        // that the request can only be made once
+        // so, return false because this isn't the first request
         if (e.code === ERROR_CODE.UNIQUE_CONSTRAINT) return false;
       }
       throw e;

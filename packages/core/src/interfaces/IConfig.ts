@@ -24,7 +24,9 @@ export interface ISecretRepository {
 
 /** A configuration file reader */
 export interface IConfigFileReader {
+  /** get the value, if it exists, from one of the configuration files */
   getValue(key: string): string | undefined;
+  /** add the value to the environment if it doesn't already exist */
   addValueToEnv(key: string): void;
 }
 

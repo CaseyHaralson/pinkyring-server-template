@@ -1,5 +1,17 @@
 var shell = require('shelljs');
 
+// script to help run prisma commands from the parent package
+// used like "npm run prisma <command>"
+
+// there are some commands that need a "local" .env file
+// so the script will copy the parent file down locally
+// and then remove the local .env file after the command is finished running
+
+// the env file copying is handled in the package.json file
+// one level above this folder
+// that way this file should be more "stable"
+// while the package can be moved around or used in different project structures
+
 const args = process.argv;
 // console.log(args);
 

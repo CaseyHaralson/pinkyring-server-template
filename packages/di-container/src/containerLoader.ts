@@ -97,7 +97,7 @@ const loadGenericItems = function (container: AwilixContainer) {
     logger: asClass(Logger),
     logHandler: asFunction(() => {
       const logger = new LogHandler({
-        logger: null as unknown as Logger, // can't include a logger in Winston because that creates a circular dependency, because Winston IS the logger
+        logger: null as unknown as Logger, // can't include a logger in the log handler because that creates a circular dependency, because the log handler IS the underlying logger
         configHelper: container.cradle.configHelper as ConfigHelper,
       } as IBaseParams);
       return logger;
