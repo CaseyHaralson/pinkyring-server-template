@@ -153,7 +153,7 @@ The graphql apps will need to reference the type/resolvers and load the IContext
 Events are a way that the services can handle some things asynchronously. They are defined in the core/dtos folder. They are also a way that some external service can get access to what is happening in the project.
 
 #### Data Validations
-There is a specific package for basic data validations in the infrastructure/data-validations package. These can do validations before hitting the database and it's possible to publish this package so UI packages can run data validations before sending data to the server.
+There is a specific package for basic data validations in the infrastructure/data-validations package. These can do validations before hitting the database and it's possible to publish this package so UI projects can run data validations before sending data to the server.
 
 There are also some data validations done at the database level. These validations can be seen in the infrastructure/relationaldb/util folder in the prismaErrors file.
 
@@ -171,6 +171,15 @@ The unit and integration tests are all in the tests package.
   - make sure the infrastructure is running: `npm run infra`
   - run tests: `npm run test:it`
 
+#### Adding New Project Packages
+1. Create the package folder
+2. Copy a package.json and tsconfig.json file from one of the other packages
+3. Edit the name, dependencies, and dev dependencies in the package.json and the references in the tsconfig.json
+4. Create a src folder in the new package
+5. Add the new package references to the root package.json and tsconfig.json files
+6. Add the new package references to any other packages that will need the reference (di-container, etc)
+7. Adding external npm dependencies can be done from the root by using the command outlined in the Notes section
+
 ### Notes
 
 #### Helpful Rule
@@ -180,6 +189,8 @@ The unit and integration tests are all in the tests package.
 The passwords are generated and kept in the .env file. If this file gets deleted then the local infrastructure will probably need to be deleted and recreated with a new .env file (or your own passwords).
 
 #### Installing New npm Packages to a Workspace Package
+From the project root:
+
 `npm install <npm package> --save -w packages/<project package.json path>`
 
 Example (save some package to infrastructure util package):
