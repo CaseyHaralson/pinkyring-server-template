@@ -4,6 +4,7 @@ import {PrismaClientKnownRequestError} from '@prisma/client/runtime';
 import BaseClass, {IBaseParams} from '@pinkyring/core/util/baseClass';
 import {ERROR_CODE} from './util/prismaErrors';
 
+/** Idempotent request repository using prisma */
 export default class IdempotentRequestRepository
   extends BaseClass
   implements IIdempotentRequestRepository
