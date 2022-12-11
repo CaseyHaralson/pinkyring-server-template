@@ -2,7 +2,9 @@ import {
   IConfigFileReader,
   ISecretRepository,
 } from '@pinkyring-server-template/core/interfaces/IConfig';
-import ConfigHelper, {Environment} from '@pinkyring-server-template/core/util/configHelper';
+import ConfigHelper, {
+  Environment,
+} from '@pinkyring-server-template/core/util/configHelper';
 import {mock, mockReset} from 'jest-mock-extended';
 
 describe('config helper unit tests', () => {

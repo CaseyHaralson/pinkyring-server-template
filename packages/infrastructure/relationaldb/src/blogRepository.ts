@@ -1,7 +1,9 @@
 import IBlogRepository from '@pinkyring-server-template/core/interfaces/IBlogRepository';
 import {BlogPost, Author} from '@pinkyring-server-template/core/dtos/blogPost';
 import {PrismaClient} from '@prisma/client';
-import BaseClass, {IBaseParams} from '@pinkyring-server-template/core/util/baseClass';
+import BaseClass, {
+  IBaseParams,
+} from '@pinkyring-server-template/core/util/baseClass';
 import {throwDataValidationErrors} from './util/prismaErrors';
 import {
   AuthorSearchCriteria,

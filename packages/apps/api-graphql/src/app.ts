@@ -1,6 +1,9 @@
 import {createSchema, createYoga} from 'graphql-yoga';
 import {createServer} from 'node:http';
-import {typeDefs, resolvers} from '@pinkyring-server-template/core/graphql/schema';
+import {
+  typeDefs,
+  resolvers,
+} from '@pinkyring-server-template/core/graphql/schema';
 import container from '@pinkyring-server-template/di-container/container';
 import DataLoader from 'dataloader';
 import {GraphQLError} from 'graphql';

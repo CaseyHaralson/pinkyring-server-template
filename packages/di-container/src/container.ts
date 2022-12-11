@@ -1,7 +1,9 @@
 import {createContainer, AwilixContainer} from 'awilix';
 import BlogService from '@pinkyring-server-template/core/services/blogService';
 import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
-import ConfigHelper, {Environment} from '@pinkyring-server-template/core/util/configHelper';
+import ConfigHelper, {
+  Environment,
+} from '@pinkyring-server-template/core/util/configHelper';
 import MaintenanceService from '@pinkyring-server-template/core/services/maintenanceService';
 import loadContainer from './containerLoader';
 import PrincipalResolver from '@pinkyring-server-template/infrastructure_util/principalResolver';

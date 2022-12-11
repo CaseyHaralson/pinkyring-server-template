@@ -4,7 +4,9 @@ import {
   LogContext,
   LogLevel,
 } from '@pinkyring-server-template/core/interfaces/ILog';
-import BaseClass, {IBaseParams} from '@pinkyring-server-template/core/util/baseClass';
+import BaseClass, {
+  IBaseParams,
+} from '@pinkyring-server-template/core/util/baseClass';
 import {CONFIGKEYNAME_PROJECTDATA_PREFIX} from '@pinkyring-server-template/core/interfaces/IConfig';
 import {Environment} from '@pinkyring-server-template/core/util/configHelper';
 

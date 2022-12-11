@@ -1,6 +1,9 @@
 import express, {NextFunction, Response, Request} from 'express';
 import container from '@pinkyring-server-template/di-container/container';
-import {EventType, EVENT_BUS_NAME} from '@pinkyring-server-template/core/dtos/events';
+import {
+  EventType,
+  EVENT_BUS_NAME,
+} from '@pinkyring-server-template/core/dtos/events';
 import {DataValidationError} from '@pinkyring-server-template/core/dtos/dataValidationError';
 
 // ======================================
