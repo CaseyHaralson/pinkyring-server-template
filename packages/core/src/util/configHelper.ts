@@ -47,7 +47,11 @@ export default class ConfigHelper {
         this._registeredKeys.set(key.name, key);
       }
 
-      if (this.getPossiblyUndefinedConfigValue(key.name) === undefined) {
+      const mustBeDefined = !(key.canBeUndefined === true);
+      if (
+        mustBeDefined &&
+        this.getPossiblyUndefinedConfigValue(key.name) === undefined
+      ) {
         missingConfigurations.push(key.name);
       }
 
@@ -94,7 +98,7 @@ export default class ConfigHelper {
    * Else, the value is retrieved from the environment first, then from the .env file.
    *
    * @param keyName the key that needs to retrieved
-   * @returns the value found in the configuration source
+   * @returns the value found in the configuration source or blank if the value was undefined
    */
   getConfigValue(keyName: string): string {
     const value = this.getPossiblyUndefinedConfigValue(keyName);

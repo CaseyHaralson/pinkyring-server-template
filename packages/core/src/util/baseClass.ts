@@ -56,7 +56,7 @@ export default abstract class BaseClass implements ILoggableClass {
   /**
    * Gets the config value for a key.
    * @param keyName the key that needs to be retrieved
-   * @returns the configured value
+   * @returns the configured value (can be blank if the config key allows undefined and the value was undefined)
    */
   protected getConfigValue(keyName: string) {
     return this._baseParams.configHelper.getConfigValue(keyName);

@@ -56,6 +56,20 @@ describe('config helper unit tests', () => {
         expect((e as Error).message).toContain(`configurations weren't found`);
       }
     });
+
+    test('should allow missing configurations if canBeUndefined is set', () => {
+      try {
+        configHelper.registerNeededConfigurations([
+          {
+            name: 'somekey',
+            canBeUndefined: true,
+          },
+        ]);
+        expect('Should get here').toBe('Should get here');
+      } catch (e) {
+        expect('Should never get here').toBe('Got here...');
+      }
+    });
   });
 
   describe('get config value function', () => {
@@ -138,6 +152,18 @@ describe('config helper unit tests', () => {
 
       expect(configFileReader.getValue).toBeCalled();
       expect(result).toBe('some value');
+    });
+
+    test('should return blank if config value cant be found', () => {
+      configHelper.registerNeededConfigurations([
+        {
+          name: 'somekey',
+          canBeUndefined: true,
+        },
+      ]);
+      const result = configHelper.getConfigValue('somekey');
+
+      expect(result).toBe('');
     });
   });
 

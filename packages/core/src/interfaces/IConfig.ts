@@ -9,6 +9,12 @@ export interface ConfigKey {
    * (probably don't need to set this except for very specific circumstances)
    */
   loadIntoEnv?: boolean;
+  /**
+   * can the value be undefined?
+   * (this could mean the value wasn't configured or was configured incorrectly, so be careful)
+   * (no errors will be thrown if the value can't be found)
+   */
+  canBeUndefined?: boolean;
 }
 
 /** A repository where secret configurations can be retrieved */
