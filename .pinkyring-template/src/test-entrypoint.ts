@@ -6,8 +6,6 @@ import {v4 as uuidv4} from 'uuid';
 // create test project off template
 // then run editTemplate
 
-//editTemplate('dir');
-
 const templateRootPath = path.join(__dirname, '..', '..');
 const newProjectName = 'pinkyring-server-template_' + uuidv4();
 const newProjectRootPath = path.join(templateRootPath, '..', newProjectName);
@@ -59,3 +57,4 @@ function copyPinkyringFile() {
 }
 
 createNewProjectFromTemplate();
+editTemplate(newProjectRootPath);
