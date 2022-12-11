@@ -10,6 +10,8 @@ import {Environment} from '@pinkyring/core/util/configHelper';
 
 const CONFIGKEYNAME_PROJECT_NAME = `${CONFIGKEYNAME_PROJECTDATA_PREFIX}NAME`;
 const CONFIGKEYNAME_PROJECT_VERSION = `${CONFIGKEYNAME_PROJECTDATA_PREFIX}VERSION`;
+const CONFIGKEYNAME_PACKAGE_NAME = 'npm_package_name';
+const CONFIGKEYNAME_PACKAGE_VERSION = 'npm_package_version';
 
 // when changing the log format
 // make sure that whatever is parsing the logs can handle the new format
@@ -75,6 +77,14 @@ export default class WinstonLogger extends BaseClass implements ILogHandler {
       {
         name: CONFIGKEYNAME_PROJECT_VERSION,
       },
+      {
+        name: CONFIGKEYNAME_PACKAGE_NAME,
+        canBeUndefined: true,
+      },
+      {
+        name: CONFIGKEYNAME_PACKAGE_VERSION,
+        canBeUndefined: true,
+      },
     ]);
 
     let consoleFormat = format.combine(logFormat);
@@ -100,29 +110,6 @@ export default class WinstonLogger extends BaseClass implements ILogHandler {
         new transports.Console({
           format: consoleFormat,
         }),
-        // new transports.File({
-        //   filename: 'session-log.txt',
-        //   level: 'debug',
-        //   format: format.combine(
-        //     format.printf((info) => {
-        //       let s = '';
-        //       s = `${info.timestamp}`;
-        //       s += ' ';
-        //       if (info.metadata.context?.sessionId) {
-        //         s += `[Session:${info.metadata.context.sessionId}]`;
-        //         s += ': ';
-        //       } else {
-        //         s += '[]: ';
-        //       }
-        //       if (info.metadata.context?.principal) {
-        //         s += `Principal Identity Id: ${JSON.stringify(
-        //           info.metadata.context?.principal.identity.id
-        //         )}`;
-        //       }
-        //       return s;
-        //     })
-        //   ),
-        // }),
       ],
     });
   }
@@ -132,8 +119,8 @@ export default class WinstonLogger extends BaseClass implements ILogHandler {
       env: this.getEnvironment(),
       projectName: this.getConfigValue(CONFIGKEYNAME_PROJECT_NAME),
       projectVersion: this.getConfigValue(CONFIGKEYNAME_PROJECT_VERSION),
-      packageName: process.env.npm_package_name,
-      packageVersion: process.env.npm_package_version,
+      packageName: this.getConfigValue(CONFIGKEYNAME_PACKAGE_NAME),
+      packageVersion: this.getConfigValue(CONFIGKEYNAME_PACKAGE_VERSION),
       context: context,
     };
 
