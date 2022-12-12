@@ -57,3 +57,27 @@ function buildRemovalChoices() {
 
   return allChoices;
 }
+
+// need a list of complete files/directories to remove
+// and a pattern of comments to remove
+
+/*
+
+SERVERLESS
+folders: ["serverless", "packages/infrastructure/aws"]
+files: ["serverless.yml", ".github/serverless.*"]
+pattern: ".PR=SERVERLESS"
+
+// .PR_SERVERLESS
+some serverless content
+// .PR_SERVERLESS END
+
+replacement content?
+
+// .PR=SERVERLESS
+stuff to remove
+/* .PR=SERVERLESS END
+replacement stuff
+*/ // .PR=SERVERLESS .PR=SERVERLESS END
+
+//*/
