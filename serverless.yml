@@ -39,9 +39,11 @@ provider:
   iam:
     role:
       statements:
+        # .pinkyring=EVENT_SYSTEM
         - Effect: Allow
           Action: SNS:Publish
           Resource: '*'
+        # .pinkyring=EVENT_SYSTEM.end
 
 custom:
   # the following should come from a secrets store
@@ -83,12 +85,14 @@ functions:
     image:
       name: db-migration-runner
   
+  # .pinkyring=EVENT_SYSTEM
   blogPostAddedEventHandler:
     handler: ./packages/infrastructure/aws/lambdas/build/events/blogPostAdded.handler
     events:
       - sqs: 
           arn: 
             Fn::GetAtt: [BlogPostAddedQueue, Arn]
+  # .pinkyring=EVENT_SYSTEM.end
   
   # .pinkyring=CRON_JOBS
   cleanOldIdempotentRequests:
@@ -100,7 +104,9 @@ functions:
 resources:
   - ${file(serverless/resources/vpc.yml)}
   - ${file(serverless/resources/rds.yml)}
+  # .pinkyring=EVENT_SYSTEM
   - ${file(serverless/resources/queue.yml)}
+  # .pinkyring=EVENT_SYSTEM.end
 
 package:
   patterns:

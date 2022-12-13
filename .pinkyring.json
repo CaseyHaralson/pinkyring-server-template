@@ -52,6 +52,28 @@
       "typescriptReferences": ["apps/api-graphql"],
       "packageNames": ["@pinkyring-server-template/apps_api-graphql"],
       "contentPattern": ".pinkyring=GRAPHQL"
+    },
+    {
+      "label": "EVENT SYSTEM",
+      "globPatterns": [
+        "packages/apps/event-handlers",
+        "packages/infrastructure/aws/lambdas/src/events",
+        "packages/infrastructure/aws/snqs",
+        "packages/infrastructure/queue",
+        "serverless/resources/queue.yml",
+        "packages/core/src/dtos/events.ts",
+        "packages/core/src/interfaces/IEventRepository.ts",
+        "packages/core/src/util/eventHelper.ts"
+      ],
+      "typescriptReferences": [
+        "apps/event-handlers",
+        "infrastructure/aws/snqs"
+      ],
+      "packageNames": [
+        "@pinkyring-server-template/apps_event-handlers",
+        "@pinkyring-server-template/infrastructure_aws_snqs"
+      ],
+      "contentPattern": ".pinkyring=EVENT_SYSTEM"
     }
   ]
 }
