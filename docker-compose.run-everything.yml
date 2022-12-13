@@ -51,6 +51,7 @@ services:
     environment:
       MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL_DOCKER}
   
+  # .pinkyring=GRAPHQL
   app-api-graphql:
     container_name: app.api-graphql
     depends_on:
@@ -71,6 +72,7 @@ services:
     environment:
       MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL_DOCKER}
       RABBITMQ_URL: ${RABBITMQ_URL_DOCKER}
+  # .pinkyring=GRAPHQL.end
   
   # .pinkyring=REST_ENDPOINTS
   app-api-rest:
