@@ -72,6 +72,7 @@ services:
       MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL_DOCKER}
       RABBITMQ_URL: ${RABBITMQ_URL_DOCKER}
   
+  # .pinkyring=REST_ENDPOINTS
   app-api-rest:
     container_name: app.api-rest
     depends_on:
@@ -92,7 +93,9 @@ services:
     environment:
       MYSQL_DATABASE_URL: ${MYSQL_DATABASE_URL_DOCKER}
       RABBITMQ_URL: ${RABBITMQ_URL_DOCKER}
+  # .pinkyring=REST_ENDPOINTS.end
   
+  # .pinkyring=CRON_JOBS
   app-cron-jobs:
     container_name: app.cron-jobs
     depends_on:
@@ -113,6 +116,7 @@ services:
       RABBITMQ_URL: ${RABBITMQ_URL_DOCKER}
     # can start immediately, so needs to wait on mysql to startup before running
     command: ../../../docker/wait-for.sh mysql:3306 -t 120 -- npm run start
+  # .pinkyring=CRON_JOBS.end
 
   app-event-handlers:
     container_name: app.event-handlers
