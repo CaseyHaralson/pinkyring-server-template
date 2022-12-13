@@ -16,8 +16,8 @@
         "infrastructure/aws/snqs"
       ],
       "packageNames": [
-        "@test/infrastructure_aws_lambdas",
-        "@test/infrastructure_aws_snqs"
+        "@pinkyring-server-template/infrastructure_aws_lambdas",
+        "@pinkyring-server-template/infrastructure_aws_snqs"
       ]
     },
     {
@@ -29,14 +29,14 @@
       "label": "REST ENDPOINTS",
       "globPatterns": ["packages/apps/api-rest"],
       "typescriptReferences": ["apps/api-rest"],
-      "packageNames": ["@test/apps_api-rest"],
+      "packageNames": ["@pinkyring-server-template/apps_api-rest"],
       "contentPattern": ".pinkyring=REST_ENDPOINTS"
     },
     {
       "label": "CRON JOBS",
       "globPatterns": ["packages/apps/cron-jobs"],
       "typescriptReferences": ["apps/cron-jobs"],
-      "packageNames": ["@test/apps_cron-jobs"],
+      "packageNames": ["@pinkyring-server-template/apps_cron-jobs"],
       "contentPattern": ".pinkyring=CRON_JOBS"
     }
   ]
