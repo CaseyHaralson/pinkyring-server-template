@@ -41,6 +41,17 @@
       "typescriptReferences": ["apps/cron-jobs"],
       "packageNames": ["@pinkyring-server-template/apps_cron-jobs"],
       "contentPattern": ".pinkyring=CRON_JOBS"
+    },
+    {
+      "label": "GRAPHQL",
+      "globPatterns": [
+        "packages/apps/api-graphql",
+        "packages/infrastructure/aws/lambdas/src/graphql",
+        "packages/core/src/graphql"
+      ],
+      "typescriptReferences": ["apps/api-graphql"],
+      "packageNames": ["@pinkyring-server-template/apps_api-graphql"],
+      "contentPattern": ".pinkyring=GRAPHQL"
     }
   ]
 }

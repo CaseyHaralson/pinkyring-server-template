@@ -67,6 +67,7 @@ custom:
 # function names are built like <project name>-<environment>-<function>
 # the function name can be a max of 64 chars
 functions:
+  # .pinkyring=GRAPHQL
   graphql:
     handler: ./packages/infrastructure/aws/lambdas/build/graphql/server.graphqlHandler
     events:
@@ -76,6 +77,7 @@ functions:
       - httpApi:
           path: /graphql
           method: POST
+  # .pinkyring=GRAPHQL.end
   
   DBMigration:
     image:
