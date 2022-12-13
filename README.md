@@ -6,11 +6,14 @@ https://github.com/CaseyHaralson/pinkyring
 
 This project comes with the following as a starting point:
 
+[//]: # (.pinkyring=GITHUB_WORKFLOWS)
+
 - Github Workflows
   - CodeQL Analysis
   - Serverless Framework Deploy and Teardown into AWS
   - CI with unit and integration tests, and style/linting checks
-
+  - 
+[//]: # (.pinkyring=GITHUB_WORKFLOWS.end)
 [//]: # (.pinkyring=SERVERLESS)
 
 - Serverless Framework
@@ -26,13 +29,25 @@ This project comes with the following as a starting point:
 - Code Style Rules
   - ESLint
   - Prettier
+
+[//]: # (.pinkyring=REST_ENDPOINTS)
+
 - REST Endpoints
+
+[//]: # (.pinkyring=REST_ENDPOINTS.end)
+
 - Graphql Endpoint
 - Prisma Database Stuff
 - Winston Logging
 - Yup data validations
 - Jest tests
+
+[//]: # (.pinkyring=CRON_JOBS)
+
 - Cron maintenance jobs
+
+[//]: # (.pinkyring=CRON_JOBS.end)
+
 - Event bus/queue interactions
 
 ## Project Structure
@@ -79,6 +94,9 @@ After docker has everything running (several of the containers will wait until t
 - Graphql Server: http://localhost:4000/graphql
   - queries and mutations
   - note: create a new blog post here to trigger events
+
+[//]: # (.pinkyring=REST_ENDPOINTS)
+
 - Rest Server:
   - Hello world: http://localhost:3000/
   - Get authors: http://localhost:3000/authors
@@ -90,10 +108,18 @@ After docker has everything running (several of the containers will wait until t
     - Pick up an event from the queue you just created
       - Post to: http://localhost:3000/event/:queuename/grab
       - this is a post request because it changes the system
+
+[//]: # (.pinkyring=REST_ENDPOINTS.end)
+
 - An event listener that is triggered from new blog post events
   - Open the running docker container and look at the logs to see the event action
+
+[//]: # (.pinkyring=CRON_JOBS)
+
 - A cron jobs service running maintenance jobs
   - Open the running docker container and look at the logs to see the action
+
+[//]: # (.pinkyring=CRON_JOBS.end)
 
 ## Development Mode
 
@@ -222,6 +248,8 @@ The project can publish several things to help other projects interface with it.
 - the events that are published
 - expected errors the project can throw
 
+[//]: # (.pinkyring=SERVERLESS)
+
 ## Serverless Deploy
 There is a github action that is setup to allow manual triggering of the deployment and teardown process.
 
@@ -236,3 +264,5 @@ The serverless config file is in the root directory. The AWS lambdas and event r
 There is a database migration lambda that is packaged as a docker image in the serverless/dbmigration folder. This is deployed in the serverless deploy and the github action is setup to call the lambda after deployment so the database can be created/migrated automatically.
 
 The database username and password are set in the main serverless file. These should ultimately come from a secrets store, but are just mocked in for the template.
+
+[//]: # (.pinkyring=SERVERLESS.end)
