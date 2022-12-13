@@ -61,9 +61,10 @@
         "packages/infrastructure/aws/snqs",
         "packages/infrastructure/queue",
         "serverless/resources/queue.yml",
-        "packages/core/src/dtos/events.ts",
-        "packages/core/src/interfaces/IEventRepository.ts",
-        "packages/core/src/util/eventHelper.ts"
+        "packages/core/src/dtos/events.*",
+        "packages/core/src/interfaces/IEventRepository.*",
+        "packages/core/src/util/eventHelper.*",
+        "packages/tests/src/core/util/eventHelper.*"
       ],
       "typescriptReferences": [
         "apps/event-handlers",

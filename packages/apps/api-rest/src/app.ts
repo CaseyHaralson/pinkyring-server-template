@@ -1,9 +1,11 @@
 import express, {NextFunction, Response, Request} from 'express';
 import container from '@pinkyring-server-template/di-container/container';
+// .pinkyring=EVENT_SYSTEM
 import {
   EventType,
   EVENT_BUS_NAME,
 } from '@pinkyring-server-template/core/dtos/events';
+// .pinkyring=EVENT_SYSTEM.end
 import {DataValidationError} from '@pinkyring-server-template/core/dtos/dataValidationError';
 
 // ======================================
@@ -47,6 +49,7 @@ app.get('/blogposts', async (req, res, next) => {
     .catch((e) => next(e));
 });
 
+// .pinkyring=EVENT_SYSTEM
 app.post('/event/queue/new', async (req, res) => {
   const newQueueName = req.body.name || req.query.name;
   if (newQueueName === undefined) {
@@ -82,6 +85,7 @@ app.post('/event/:queuename/grab', async (req, res) => {
     event: event,
   });
 });
+// .pinkyring=EVENT_SYSTEM.end
 
 /** Handle DataValidationErrors and mark the status as 400 before sending the error back to the client */
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
