@@ -88,10 +88,12 @@ functions:
           arn: 
             Fn::GetAtt: [BlogPostAddedQueue, Arn]
   
+  # .pinkyring=CRON_JOBS
   cleanOldIdempotentRequests:
     handler: ./packages/infrastructure/aws/lambdas/build/maintenance/cleanOldIdempotentRequests.handler
     events:
       - schedule: cron(0 1 * * ? *)
+  # .pinkyring=CRON_JOBS.end
 
 resources:
   - ${file(serverless/resources/vpc.yml)}
