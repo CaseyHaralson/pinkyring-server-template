@@ -4,7 +4,9 @@ import ConfigHelper, {
 } from '@pinkyring-server-template/core/util/configHelper';
 import ConfigFileReader from '@pinkyring-server-template/infrastructure_util/configFileReader';
 import LocalEventRepository from '@pinkyring-server-template/infrastructure_queue/eventRepository';
+// .pinkyring=SERVERLESS
 import ServerEventRepository from '@pinkyring-server-template/infrastructure_aws_snqs/eventRepository';
+// .pinkyring=SERVERLESS.end
 import Logger from '@pinkyring-server-template/core/util/logger';
 import LogHandler from '@pinkyring-server-template/infrastructure_util/logHandler';
 import {IBaseParams} from '@pinkyring-server-template/core/util/baseClass';
@@ -84,7 +86,9 @@ const loadTestItems = function (container: AwilixContainer) {
 
 const loadServerItems = function (container: AwilixContainer) {
   container.register({
+    // .pinkyring=SERVERLESS
     eventRepository: asClass(ServerEventRepository),
+    // .pinkyring=SERVERLESS.end
   });
 };
 
