@@ -1,4 +1,4 @@
-# <%= projectName %>
+# pinkyring-server-template
 
 This project was created with the Pinkyring project creator.
 Please check that documentation to create another project or to remove some pre-installed code from this project.
@@ -10,6 +10,9 @@ This project comes with the following as a starting point:
   - CodeQL Analysis
   - Serverless Framework Deploy and Teardown into AWS
   - CI with unit and integration tests, and style/linting checks
+
+[//]: # (.pinkyring=SERVERLESS)
+
 - Serverless Framework
   - Configuration to deploy the following to AWS:
     - GraphQL Lambda
@@ -17,6 +20,9 @@ This project comes with the following as a starting point:
     - Mysql Serverless Aurora RDS
     - SNS Topic to SQS Queue which triggers lambda
     - Cron schedule triggers lambda
+
+[//]: # (.pinkyring=SERVERLESS.end)
+
 - Code Style Rules
   - ESLint
   - Prettier
