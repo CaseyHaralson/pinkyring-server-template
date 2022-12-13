@@ -2,6 +2,7 @@ import {createContainer, AwilixContainer} from 'awilix';
 import BlogService from '@pinkyring-server-template/core/services/blogService';
 // .pinkyring=EVENT_SYSTEM
 import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
+import IntegrationTestHelperQueueRepository from '@pinkyring-server-template/infrastructure_queue/integrationTestHelperQueueRepository';
 // .pinkyring=EVENT_SYSTEM.end
 import ConfigHelper, {
   Environment,
@@ -11,7 +12,6 @@ import loadContainer from './containerLoader';
 import PrincipalResolver from '@pinkyring-server-template/infrastructure_util/principalResolver';
 import SubscriptionService from '@pinkyring-server-template/core/services/subscriptionService';
 import IntegrationTestHelperDbRepository from '@pinkyring-server-template/infrastructure_relationaldb/integrationTestHelperDbRepository';
-import IntegrationTestHelperQueueRepository from '@pinkyring-server-template/infrastructure_queue/integrationTestHelperQueueRepository';
 
 const awilix_container = createContainer({injectionMode: 'CLASSIC'});
 
@@ -81,6 +81,7 @@ class Container {
       .integrationTestHelperDbRepository as IntegrationTestHelperDbRepository;
   }
 
+  // .pinkyring=EVENT_SYSTEM
   /** Test environment only: Resolves the configured IntegrationTestHelperQueueRepository. */
   resolveIntegrationTestHelperQueueRepository() {
     if (this.resolveConfigHelper().getEnvironment() !== Environment.TEST) {
@@ -91,6 +92,7 @@ class Container {
     return this._container.cradle
       .integrationTestHelperQueueRepository as IntegrationTestHelperQueueRepository;
   }
+  // .pinkyring=EVENT_SYSTEM.end
 
   // ==================================================
 }

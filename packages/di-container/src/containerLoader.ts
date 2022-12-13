@@ -6,6 +6,7 @@ import ConfigFileReader from '@pinkyring-server-template/infrastructure_util/con
 // .pinkyring=EVENT_SYSTEM
 import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
 import LocalEventRepository from '@pinkyring-server-template/infrastructure_queue/eventRepository';
+import IntegrationTestHelperQueueRepository from '@pinkyring-server-template/infrastructure_queue/integrationTestHelperQueueRepository';
 // .pinkyring=SERVERLESS
 import ServerEventRepository from '@pinkyring-server-template/infrastructure_aws_snqs/eventRepository';
 // .pinkyring=SERVERLESS.end
@@ -26,7 +27,6 @@ import SubscriptionService from '@pinkyring-server-template/core/services/subscr
 import AuthorDataValidator from '@pinkyring-server-template/infrastructure_data-validations/authorDataValidator';
 import BlogPostDataValidator from '@pinkyring-server-template/infrastructure_data-validations/blogPostDataValidator';
 import IntegrationTestHelperDbRepository from '@pinkyring-server-template/infrastructure_relationaldb/integrationTestHelperDbRepository';
-import IntegrationTestHelperQueueRepository from '@pinkyring-server-template/infrastructure_queue/integrationTestHelperQueueRepository';
 
 export default function loadContainer(container: AwilixContainer) {
   loadConfigHelper(container);
@@ -77,9 +77,11 @@ const loadTestItems = function (container: AwilixContainer) {
     integrationTestHelperDbRepository: asClass(
       IntegrationTestHelperDbRepository
     ),
+    // .pinkyring=EVENT_SYSTEM
     integrationTestHelperQueueRepository: asClass(
       IntegrationTestHelperQueueRepository
     ),
+    // .pinkyring=EVENT_SYSTEM.end
   });
 };
 
