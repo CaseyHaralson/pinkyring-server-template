@@ -12,7 +12,7 @@ This project comes with the following as a starting point:
   - CodeQL Analysis
   - Serverless Framework Deploy and Teardown into AWS
   - CI with unit and integration tests, and style/linting checks
-  - 
+
 [//]: # (.pinkyring=GITHUB_WORKFLOWS.end)
 [//]: # (.pinkyring=SERVERLESS)
 
