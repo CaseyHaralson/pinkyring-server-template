@@ -35,8 +35,12 @@ This project comes with the following as a starting point:
 - REST Endpoints
 
 [//]: # (.pinkyring=REST_ENDPOINTS.end)
+[//]: # (.pinkyring=GRAPHQL)
 
 - Graphql Endpoint
+
+[//]: # (.pinkyring=GRAPHQL.end)
+
 - Prisma Database Stuff
 - Winston Logging
 - Yup data validations
@@ -91,10 +95,13 @@ Note: you will need docker installed and running.
 
 After docker has everything running (several of the containers will wait until the prisma service stops before they themselves run), you should have access to the following services:
 
+[//]: # (.pinkyring=GRAPHQL)
+
 - Graphql Server: http://localhost:4000/graphql
   - queries and mutations
   - note: create a new blog post here to trigger events
 
+[//]: # (.pinkyring=GRAPHQL.end)
 [//]: # (.pinkyring=REST_ENDPOINTS)
 
 - Rest Server:
@@ -176,10 +183,14 @@ Idempotent requests are requests that need to only have an effect once, but will
 
 The idempotent request helper will take a requestId from the client and save the result of the request. It will then return that same result if it receives that requestId again. The request is unique by a combination of principal, service, function, and requestId.
 
+[//]: # (.pinkyring=GRAPHQL)
+
 #### Graphql
 The main Graphql files are in the core/graphql folder. The schema file defines the types and resolvers. The IContext file is used to load necessary services and objects into the resolvers. And, lastly, the IDataLoader can be used for data and batch loading objects.
 
 The graphql apps will need to reference the type/resolvers and load the IContext object. An example app is provided.
+
+[//]: # (.pinkyring=GRAPHQL.end)
 
 #### Events
 Events are a way that the services can handle some things asynchronously. They are defined in the core/dtos folder. They are also a way that some external service can get access to what is happening in the project.
