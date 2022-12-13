@@ -1,6 +1,8 @@
 import {createContainer, AwilixContainer} from 'awilix';
 import BlogService from '@pinkyring-server-template/core/services/blogService';
+// .pinkyring=EVENT_SYSTEM
 import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
+// .pinkyring=EVENT_SYSTEM.end
 import ConfigHelper, {
   Environment,
 } from '@pinkyring-server-template/core/util/configHelper';
@@ -54,6 +56,7 @@ class Container {
     return this._container.cradle.configHelper as ConfigHelper;
   }
 
+  // .pinkyring=EVENT_SYSTEM
   /**
    * Resolves the configured EventHelper object.
    * This is exposed so an event listener app can interact with the underlying event system.
@@ -62,6 +65,7 @@ class Container {
   resolveEventHelper() {
     return this._container.cradle.eventHelper as EventHelper;
   }
+  // .pinkyring=EVENT_SYSTEM.end
 
   // ==================================================
   //             TEST ENVIRONMENT ONLY

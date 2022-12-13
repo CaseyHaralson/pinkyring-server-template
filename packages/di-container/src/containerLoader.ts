@@ -3,16 +3,18 @@ import ConfigHelper, {
   Environment,
 } from '@pinkyring-server-template/core/util/configHelper';
 import ConfigFileReader from '@pinkyring-server-template/infrastructure_util/configFileReader';
+// .pinkyring=EVENT_SYSTEM
+import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
 import LocalEventRepository from '@pinkyring-server-template/infrastructure_queue/eventRepository';
 // .pinkyring=SERVERLESS
 import ServerEventRepository from '@pinkyring-server-template/infrastructure_aws_snqs/eventRepository';
 // .pinkyring=SERVERLESS.end
+// .pinkyring=EVENT_SYSTEM.end
 import Logger from '@pinkyring-server-template/core/util/logger';
 import LogHandler from '@pinkyring-server-template/infrastructure_util/logHandler';
 import {IBaseParams} from '@pinkyring-server-template/core/util/baseClass';
 import IdempotentRequestHelper from '@pinkyring-server-template/core/util/idempotentRequestHelper';
 import IdempotentRequestRepository from '@pinkyring-server-template/infrastructure_relationaldb/idempotentRequestRepository';
-import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
 import {IBaseServiceParams} from '@pinkyring-server-template/core/services/baseService';
 import BlogService from '@pinkyring-server-template/core/services/blogService';
 import BlogRepository from '@pinkyring-server-template/infrastructure_relationaldb/blogRepository';
@@ -59,7 +61,9 @@ const loadConfigHelper = function (container: AwilixContainer) {
 
 const loadLocalItems = function (container: AwilixContainer) {
   container.register({
+    // .pinkyring=EVENT_SYSTEM
     eventRepository: asClass(LocalEventRepository),
+    // .pinkyring=EVENT_SYSTEM.end
   });
 };
 
@@ -86,9 +90,11 @@ const loadTestItems = function (container: AwilixContainer) {
 
 const loadServerItems = function (container: AwilixContainer) {
   container.register({
+    // .pinkyring=EVENT_SYSTEM
     // .pinkyring=SERVERLESS
     eventRepository: asClass(ServerEventRepository),
     // .pinkyring=SERVERLESS.end
+    // .pinkyring=EVENT_SYSTEM.end
   });
 };
 
@@ -116,7 +122,9 @@ const loadGenericItems = function (container: AwilixContainer) {
     }),
     idempotentRequestHelper: asClass(IdempotentRequestHelper),
     idempotentRequestRepository: asClass(IdempotentRequestRepository),
+    // .pinkyring=EVENT_SYSTEM
     eventHelper: asClass(EventHelper),
+    // .pinkyring=EVENT_SYSTEM.end
     sessionHandler: asClass(SessionHandler),
     baseServiceParams: asFunction(() => {
       return {
