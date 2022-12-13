@@ -1,8 +1,8 @@
-import {BaseEvent} from '../dtos/events';
 import Principal from '../interfaces/IPrincipal';
 import {ConfigKey} from '../interfaces/IConfig';
 import BaseClass, {IBaseParams} from '../util/baseClass';
 // .pinkyring=EVENT_SYSTEM
+import {BaseEvent} from '../dtos/events';
 import EventHelper from '../util/eventHelper';
 // .pinkyring=EVENT_SYSTEM.end
 import IdempotentRequestHelper from '../util/idempotentRequestHelper';

@@ -67,11 +67,13 @@
       ],
       "typescriptReferences": [
         "apps/event-handlers",
-        "infrastructure/aws/snqs"
+        "infrastructure/aws/snqs",
+        "infrastructure/queue"
       ],
       "packageNames": [
         "@pinkyring-server-template/apps_event-handlers",
-        "@pinkyring-server-template/infrastructure_aws_snqs"
+        "@pinkyring-server-template/infrastructure_aws_snqs",
+        "@pinkyring-server-template/infrastructure_queue"
       ],
       "contentPattern": ".pinkyring=EVENT_SYSTEM"
     }
