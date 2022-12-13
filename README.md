@@ -251,12 +251,17 @@ The project can publish several things to help other projects interface with it.
 [//]: # (.pinkyring=SERVERLESS)
 
 ## Serverless Deploy
+
+[//]: # (.pinkyring=GITHUB_WORKFLOWS)
+
 There is a github action that is setup to allow manual triggering of the deployment and teardown process.
 
 ### Github Setup
 You will need to create an AWS access key with permissions to create items in your AWS account. Save the access key in the github project -> Settings tab -> Secrets -> Actions as new repository secrets with the following keys: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.
 
 After this, you can go to to the github project -> Actions tab and trigger deployments or teardown the deployments manually.
+
+[//]: # (.pinkyring=GITHUB_WORKFLOWS.end)
 
 ### Serverless Setup
 The serverless config file is in the root directory. The AWS lambdas and event repository implementations are in the packages/infrastructure/aws folder. The different resources that are deployed along with the lambdas are in the serverless folder.
