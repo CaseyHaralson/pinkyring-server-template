@@ -133,7 +133,9 @@ const loadGenericItems = function (container: AwilixContainer) {
         logger: container.cradle.logger,
         configHelper: container.cradle.configHelper,
         idempotentRequestHelper: container.cradle.idempotentRequestHelper,
+        // .pinkyring=EVENT_SYSTEM
         eventHelper: container.cradle.eventHelper,
+        // .pinkyring=EVENT_SYSTEM.end
         sessionHandler: container.cradle.sessionHandler,
       } as IBaseServiceParams;
     }),

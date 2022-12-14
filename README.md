@@ -51,8 +51,11 @@ This project comes with the following as a starting point:
 - Cron maintenance jobs
 
 [//]: # (.pinkyring=CRON_JOBS.end)
+[//]: # (.pinkyring=EVENT_SYSTEM)
 
 - Event bus/queue interactions
+
+[//]: # (.pinkyring=EVENT_SYSTEM.end)
 
 ## Project Structure
 
@@ -191,9 +194,12 @@ The main Graphql files are in the core/graphql folder. The schema file defines t
 The graphql apps will need to reference the type/resolvers and load the IContext object. An example app is provided.
 
 [//]: # (.pinkyring=GRAPHQL.end)
+[//]: # (.pinkyring=EVENT_SYSTEM)
 
 #### Events
 Events are a way that the services can handle some things asynchronously. They are defined in the core/dtos folder. They are also a way that some external service can get access to what is happening in the project.
+
+[//]: # (.pinkyring=EVENT_SYSTEM.end)
 
 #### Data Validations
 There is a specific package for basic data validations in the infrastructure/data-validations package. These can do validations before hitting the database and it's possible to publish this package so UI projects can run data validations before sending data to the server.
