@@ -53,7 +53,7 @@ This project comes with the following as a starting point:
 [//]: # (.pinkyring=CRON_JOBS.end)
 [//]: # (.pinkyring=EVENT_SYSTEM)
 
-- Event bus/queue interactions
+- Event bus/queue interactions with RabbitMQ
 
 [//]: # (.pinkyring=EVENT_SYSTEM.end)
 
@@ -120,10 +120,12 @@ After docker has everything running (several of the containers will wait until t
       - this is a post request because it changes the system
 
 [//]: # (.pinkyring=REST_ENDPOINTS.end)
+[//]: # (.pinkyring=EVENT_SYSTEM)
 
 - An event listener that is triggered from new blog post events
   - Open the running docker container and look at the logs to see the event action
 
+[//]: # (.pinkyring=EVENT_SYSTEM.end)
 [//]: # (.pinkyring=CRON_JOBS)
 
 - A cron jobs service running maintenance jobs
@@ -207,7 +209,7 @@ There is a specific package for basic data validations in the infrastructure/dat
 There are also some data validations done at the database level. These validations can be seen in the infrastructure/relationaldb/util folder in the prismaErrors file.
 
 #### Configurations
-There is a central configuration helper that will help get configurations for the project. It tries to get configurations from the environment first, then from a .env file. 
+There is a central configuration helper that will help get configurations for the project. It tries to get configurations from the environment first, then from an .env file. 
 
 The configuration helper also allows settings to be set as "secret" which will only be able to come from a secret repository. The project template doesn't come with a secret repo so it is set as null in the di container loader. To load secrets, a file that implements the secret repository interface (from the core/interfaces/IConfig file) will need to be created and set in the di container loading function.
 
