@@ -4,7 +4,9 @@ import {mock, mockReset} from 'jest-mock-extended';
 import IdempotentRequestHelper from '@pinkyring-server-template/core/util/idempotentRequestHelper';
 import IIdempotentRequestRepository from '@pinkyring-server-template/core/interfaces/IIdempotentRequestRepository';
 import Logger from '@pinkyring-server-template/core/util/logger';
+// .pinkyring=EVENT_SYSTEM
 import EventHelper from '@pinkyring-server-template/core/util/eventHelper';
+// .pinkyring=EVENT_SYSTEM.end
 import {IBaseServiceParams} from '@pinkyring-server-template/core/services/baseService';
 import ConfigHelper from '@pinkyring-server-template/core/util/configHelper';
 import Principal from '@pinkyring-server-template/core/interfaces/IPrincipal';
@@ -24,7 +26,9 @@ describe('blog service unit tests', () => {
   );
   baseParams.sessionHandler = mock<ISessionHandler>();
   baseParams.idempotentRequestHelper = idempotentRequestHelper;
+  // .pinkyring=EVENT_SYSTEM
   baseParams.eventHelper = mock<EventHelper>();
+  // .pinkyring=EVENT_SYSTEM.end
   const blogRepoMock = mock<IBlogRepository>();
   const authorDataValidator = mock<IDataValidator<Author>>();
   const blogPostDataValidator = mock<IDataValidator<BlogPost>>();
@@ -56,7 +60,9 @@ describe('blog service unit tests', () => {
         return requestFunc();
       }
     );
+    // .pinkyring=EVENT_SYSTEM
     mockReset(baseParams.eventHelper);
+    // .pinkyring=EVENT_SYSTEM.end
     mockReset(blogRepoMock);
     mockReset(authorDataValidator);
     mockReset(blogPostDataValidator);
@@ -240,6 +246,7 @@ describe('blog service unit tests', () => {
       );
     });
 
+    // .pinkyring=EVENT_SYSTEM
     test('should publish a blog post added event', async () => {
       const requestId = 'test_request_1234';
       const blogPost = {
@@ -254,6 +261,7 @@ describe('blog service unit tests', () => {
 
       expect(baseParams.eventHelper.publishEvent).toBeCalledTimes(1);
     });
+    // .pinkyring=EVENT_SYSTEM.end
   });
 
   describe('update blog post function', () => {

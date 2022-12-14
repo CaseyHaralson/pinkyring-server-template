@@ -35,8 +35,12 @@ This project comes with the following as a starting point:
 - REST Endpoints
 
 [//]: # (.pinkyring=REST_ENDPOINTS.end)
+[//]: # (.pinkyring=GRAPHQL)
 
 - Graphql Endpoint
+
+[//]: # (.pinkyring=GRAPHQL.end)
+
 - Prisma Database Stuff
 - Winston Logging
 - Yup data validations
@@ -47,8 +51,11 @@ This project comes with the following as a starting point:
 - Cron maintenance jobs
 
 [//]: # (.pinkyring=CRON_JOBS.end)
+[//]: # (.pinkyring=EVENT_SYSTEM)
 
-- Event bus/queue interactions
+- Event bus/queue interactions with RabbitMQ
+
+[//]: # (.pinkyring=EVENT_SYSTEM.end)
 
 ## Project Structure
 
@@ -91,10 +98,13 @@ Note: you will need docker installed and running.
 
 After docker has everything running (several of the containers will wait until the prisma service stops before they themselves run), you should have access to the following services:
 
+[//]: # (.pinkyring=GRAPHQL)
+
 - Graphql Server: http://localhost:4000/graphql
   - queries and mutations
   - note: create a new blog post here to trigger events
 
+[//]: # (.pinkyring=GRAPHQL.end)
 [//]: # (.pinkyring=REST_ENDPOINTS)
 
 - Rest Server:
@@ -110,10 +120,12 @@ After docker has everything running (several of the containers will wait until t
       - this is a post request because it changes the system
 
 [//]: # (.pinkyring=REST_ENDPOINTS.end)
+[//]: # (.pinkyring=EVENT_SYSTEM)
 
 - An event listener that is triggered from new blog post events
   - Open the running docker container and look at the logs to see the event action
 
+[//]: # (.pinkyring=EVENT_SYSTEM.end)
 [//]: # (.pinkyring=CRON_JOBS)
 
 - A cron jobs service running maintenance jobs
@@ -176,13 +188,20 @@ Idempotent requests are requests that need to only have an effect once, but will
 
 The idempotent request helper will take a requestId from the client and save the result of the request. It will then return that same result if it receives that requestId again. The request is unique by a combination of principal, service, function, and requestId.
 
+[//]: # (.pinkyring=GRAPHQL)
+
 #### Graphql
 The main Graphql files are in the core/graphql folder. The schema file defines the types and resolvers. The IContext file is used to load necessary services and objects into the resolvers. And, lastly, the IDataLoader can be used for data and batch loading objects.
 
 The graphql apps will need to reference the type/resolvers and load the IContext object. An example app is provided.
 
+[//]: # (.pinkyring=GRAPHQL.end)
+[//]: # (.pinkyring=EVENT_SYSTEM)
+
 #### Events
 Events are a way that the services can handle some things asynchronously. They are defined in the core/dtos folder. They are also a way that some external service can get access to what is happening in the project.
+
+[//]: # (.pinkyring=EVENT_SYSTEM.end)
 
 #### Data Validations
 There is a specific package for basic data validations in the infrastructure/data-validations package. These can do validations before hitting the database and it's possible to publish this package so UI projects can run data validations before sending data to the server.
@@ -190,7 +209,7 @@ There is a specific package for basic data validations in the infrastructure/dat
 There are also some data validations done at the database level. These validations can be seen in the infrastructure/relationaldb/util folder in the prismaErrors file.
 
 #### Configurations
-There is a central configuration helper that will help get configurations for the project. It tries to get configurations from the environment first, then from a .env file. 
+There is a central configuration helper that will help get configurations for the project. It tries to get configurations from the environment first, then from an .env file. 
 
 The configuration helper also allows settings to be set as "secret" which will only be able to come from a secret repository. The project template doesn't come with a secret repo so it is set as null in the di container loader. To load secrets, a file that implements the secret repository interface (from the core/interfaces/IConfig file) will need to be created and set in the di container loading function.
 
@@ -251,12 +270,17 @@ The project can publish several things to help other projects interface with it.
 [//]: # (.pinkyring=SERVERLESS)
 
 ## Serverless Deploy
+
+[//]: # (.pinkyring=GITHUB_WORKFLOWS)
+
 There is a github action that is setup to allow manual triggering of the deployment and teardown process.
 
 ### Github Setup
 You will need to create an AWS access key with permissions to create items in your AWS account. Save the access key in the github project -> Settings tab -> Secrets -> Actions as new repository secrets with the following keys: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.
 
 After this, you can go to to the github project -> Actions tab and trigger deployments or teardown the deployments manually.
+
+[//]: # (.pinkyring=GITHUB_WORKFLOWS.end)
 
 ### Serverless Setup
 The serverless config file is in the root directory. The AWS lambdas and event repository implementations are in the packages/infrastructure/aws folder. The different resources that are deployed along with the lambdas are in the serverless folder.
