@@ -250,17 +250,55 @@ Example (save some package to infrastructure util package):
 
 `npm install <npm package> --save -w packages/infrastructure/util`
 
-#### Prisma Commands
-You can run prisma commands from the root project with the following command. There is a script that handles these commands and will also try to take care of keeping a local .env file in sync with the parent .env file.
-
-`npm run prisma <prisma command>`
-
 #### VS Code Typescript Intellisense
 If VS Code intellisense isn't working after some change, the following steps can help:
 
 1. `npm run build:clean`
 2. `npm run build`
 3. With a typescript file open, open the command palette (maybe ctrl + shift + p), and then select Typescript: Restart TS server
+
+#### Prisma Commands
+You can run prisma commands from the root project with the following command. There is a script that handles these commands and will also try to take care of keeping a local .env file in sync with the parent .env file.
+
+`npm run prisma <prisma command>`
+
+#### Replacing Prisma
+Prisma can be switched out for some other database helper/ORM by changing the following:
+- the docker Dockerfile.prisma file
+- the docker compose run-everything file
+- the relationaldb package infrastructure project
+
+[//]: # (.pinkyring=GITHUB_WORKFLOWS)
+
+- the github ci-check workflow
+
+[//]: # (.pinkyring=SERVERLESS)
+
+- the github serverless.deploy workflow
+
+[//]: # (.pinkyring=SERVERLESS.end)
+[//]: # (.pinkyring=GITHUB_WORKFLOWS.end)
+[//]: # (.pinkyring=SERVERLESS)
+
+- the serverless.yml file and the serverless dbmigration files
+
+[//]: # (.pinkyring=SERVERLESS.end)
+
+#### Replacing MySQL
+MySQL can be switched out for some other database by changing the following:
+- the docker compose files
+- the prisma schema file and migrations
+
+[//]: # (.pinkyring=GITHUB_WORKFLOWS)
+
+- the github ci-check workflow
+
+[//]: # (.pinkyring=GITHUB_WORKFLOWS.end)
+[//]: # (.pinkyring=SERVERLESS)
+
+- the serverless.yml file and the serverless rds resource file
+
+[//]: # (.pinkyring=SERVERLESS.end)
 
 ## Published Package
 The project can publish several things to help other projects interface with it. The core/dtos folder and the infrastructure/data-validations packages can be published which will give access to:
