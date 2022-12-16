@@ -8,7 +8,7 @@ This project comes with the following as a starting point:
 
 [//]: # (.pinkyring=GITHUB_WORKFLOWS)
 
-- Github Workflows
+- Github Workflows [^1]
   - CodeQL Analysis
   - Serverless Framework Deploy and Teardown into AWS
   - CI with unit and integration tests, and style/linting checks
@@ -16,7 +16,7 @@ This project comes with the following as a starting point:
 [//]: # (.pinkyring=GITHUB_WORKFLOWS.end)
 [//]: # (.pinkyring=SERVERLESS)
 
-- Serverless Framework
+- Serverless Framework [^1]
   - Configuration to deploy the following to AWS:
     - GraphQL Lambda
     - DB Migration Dockerfile/Lambda with Prisma
@@ -32,12 +32,12 @@ This project comes with the following as a starting point:
 
 [//]: # (.pinkyring=REST_ENDPOINTS)
 
-- REST Endpoints
+- REST Endpoints [^1]
 
 [//]: # (.pinkyring=REST_ENDPOINTS.end)
 [//]: # (.pinkyring=GRAPHQL)
 
-- Graphql Endpoint
+- Graphql Endpoint [^1]
 
 [//]: # (.pinkyring=GRAPHQL.end)
 
@@ -48,14 +48,16 @@ This project comes with the following as a starting point:
 
 [//]: # (.pinkyring=CRON_JOBS)
 
-- Cron maintenance jobs
+- Cron maintenance jobs [^1]
 
 [//]: # (.pinkyring=CRON_JOBS.end)
 [//]: # (.pinkyring=EVENT_SYSTEM)
 
-- Event bus/queue interactions with RabbitMQ
+- Event bus/queue interactions with RabbitMQ [^1]
 
 [//]: # (.pinkyring=EVENT_SYSTEM.end)
+
+[^1]: Removable with pinkyring
 
 ## Project Structure
 
