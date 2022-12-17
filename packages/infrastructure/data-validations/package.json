@@ -18,6 +18,6 @@
     "build"
   ],
   "scripts": {
-    "pub": ""
+    "pub": "echo \"implement publish command in the data-validations package\""
   }
 }

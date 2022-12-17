@@ -15,6 +15,6 @@
     "build/interfaces"
   ],
   "scripts": {
-    "pub": ""
+    "pub": "echo \"implement publish command in the core package\""
   }
 }
