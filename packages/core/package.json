@@ -13,5 +13,8 @@
   "files": [
     "build/dtos",
     "build/interfaces"
-  ]
+  ],
+  "scripts": {
+    "pub": ""
+  }
 }

@@ -23,6 +23,8 @@ function getProjectVersion() {
   }
 }
 
+// add the version in all sub packages with the passed in version
+// if the sub package doesn't already have a version set
 function copyVersionToAllSubPackages(folderPath, version) {
   const files = fs.readdirSync(folderPath);
   files.forEach((file) => {
@@ -34,16 +36,19 @@ function copyVersionToAllSubPackages(folderPath, version) {
       if (file === 'package.json') {
         const fileContents = fs.readFileSync(filePath, 'utf8');
         const json = JSON.parse(fileContents);
-        json['version'] = version;
 
-        // recreate the file
-        fs.writeFileSync(filePath, '', 'utf8');
+        if (!Object.prototype.hasOwnProperty.call(json, 'version')) {
+          json['version'] = version;
 
-        const newFileContents = JSON.stringify(json, null, 2);
-        const newFileLines = newFileContents.split(/\r?\n/);
-        newFileLines.forEach((line) => {
-          fs.appendFileSync(filePath, line + os.EOL, 'utf8');
-        });
+          // recreate the file
+          fs.writeFileSync(filePath, '', 'utf8');
+
+          const newFileContents = JSON.stringify(json, null, 2);
+          const newFileLines = newFileContents.split(/\r?\n/);
+          newFileLines.forEach((line) => {
+            fs.appendFileSync(filePath, line + os.EOL, 'utf8');
+          });
+        }
       }
     } else if (fileStats.isDirectory()) {
       // recursively go through each directory
