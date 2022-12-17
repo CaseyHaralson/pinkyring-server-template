@@ -9,5 +9,9 @@
         "build/*"
       ]
     }
-  }
+  },
+  "files": [
+    "build/dtos",
+    "build/interfaces"
+  ]
 }

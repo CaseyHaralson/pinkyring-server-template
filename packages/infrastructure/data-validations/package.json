@@ -13,5 +13,8 @@
   "dependencies": {
     "@pinkyring-server-template/core": "*",
     "yup": "^1.0.0-beta.8"
-  }
+  },
+  "files": [
+    "build"
+  ]
 }
