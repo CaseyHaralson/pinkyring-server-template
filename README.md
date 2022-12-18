@@ -300,12 +300,36 @@ MySQL can be switched out for some other database by changing the following:
 
 [//]: # (.pinkyring=SERVERLESS.end)
 
-## Published Package
+## Published Packages
 The project can publish several things to help other projects interface with it. The core/dtos folder and the infrastructure/data-validations packages can be published which will give access to:
 - the different object types the project is expecting
 - data validations for the different objects
 - the events that are published
 - expected errors the project can throw
+
+Once you figure out a versioning scheme, and where you want to publish the packages, there is a npm script set up to help with publishing. Running `npm run pub` from the top level project will currently: 
+- build the project
+- copy the version from the main project.json file over to the different projects (if those projects don't have a version specified)
+- run the associated "pub" commands in the core and infrastructure/data-validations packages
+  - the "pub" commands in those packages will need to be filled out to handle publishing
+
+### Using the Published Packages in Local Development
+If you want to develop this project and another project (e.g. a UI project) simultaneously:
+
+#### Setup
+1. in this project, run `npm run dev-link` to build a global package link to this project
+2. in the other project (UI project), create a "dev-link" package.json script with the following:
+  - "npm link @pinkyring-server-template/core @pinkyring-server-template/infrastructure_data-validations"
+
+#### During Development
+1. in this project, run `npm run build:watch` to continually build changed files
+2. in the other project (UI project), run `npm run dev-link`
+  - this may need to be run any time `npm install` is run in the other project (UI project)
+
+#### Adding This Project as a Dependency
+Before adding a package.json dependency reference to one of these published packages, the packages must be published at least once. A dependency on a linked project won't work without one "real" publish. 
+
+You can always create the development links without a real publish, but you can't add the dependency reference until after publishing this project.
 
 [//]: # (.pinkyring=SERVERLESS)
 
