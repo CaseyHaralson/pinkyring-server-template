@@ -317,19 +317,19 @@ Once you figure out a versioning scheme, and where you want to publish the packa
 If you want to develop this project and another project (e.g. a UI project) simultaneously:
 
 #### Setup
-1. in this project, run `npm run dev-link` to build a global package link to this project
-2. in the other project (UI project), create a "dev-link" package.json script with the following:
+1. In this project, run `npm run dev-link` to build a global package link to this project
+2. In the other project (UI project), create a "dev-link" package.json script with the following:
   - "npm link @pinkyring-server-template/core @pinkyring-server-template/infrastructure_data-validations"
 
 #### During Development
-1. in this project, run `npm run build:watch` to continually build changed files
-2. in the other project (UI project), run `npm run dev-link`
+1. In this project, run `npm run build:watch` to continually build changed files
+2. In the other project (UI project), run `npm run dev-link`
   - this may need to be run any time `npm install` is run in the other project (UI project)
 
 #### Adding This Project as a Dependency
 Before adding a package.json dependency reference to one of these published packages, the packages must be published at least once. A dependency on a linked project won't work without one "real" publish. 
 
-You can always create the development links without a real publish, but you can't add the dependency reference until after publishing this project.
+You can always create the development links without a real publish, but you can't add the dependency reference until this project has been published once.
 
 [//]: # (.pinkyring=SERVERLESS)
 
